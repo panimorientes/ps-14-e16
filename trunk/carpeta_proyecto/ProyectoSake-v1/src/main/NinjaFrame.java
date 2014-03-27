@@ -1,0 +1,90 @@
+package main;
+
+import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.SQLException;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+
+import paginaPrincipal.SearchResultPage;
+
+import common.BotInfoPanel;
+import common.TopInfoPanel;
+import connection.ConnectionManager;
+
+public class NinjaFrame extends JFrame {
+	
+	private BotInfoPanel botP;
+	private TopInfoPanel topP;
+	private SearchResultPage sCenterP;
+	private Connection db;
+
+	private JButton prueba;
+	
+	public NinjaFrame(){
+		try{
+			
+			db=ConnectionManager.getConnection();
+			botP=new BotInfoPanel();
+			topP=new TopInfoPanel();
+			//Pasar x parametro CONEXION BD
+			sCenterP = new SearchResultPage(db);
+		}
+		catch(SQLException e){
+			System.out.println("error inicio");
+		}
+		
+		
+//		//CDIGO PRUEBA
+//		this.setVisible(true);
+//		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+//		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+//		
+//		prueba = new JButton("ESTE BOTON ES DE PRUEBA; LA APLICACION TENDRA PANTALLA INICIAL!!");
+//		this.add(prueba);
+//		
+//		prueba.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e){
+//			
+//				iniciateFrame();
+//
+//			}
+//		});
+//		
+//		//FIN CODIGO PRUEBA
+		iniciateFrame();
+	}
+	
+	/**
+	 * Método que inicia el JFrame.
+	 */
+	private void iniciateFrame(){
+		
+//		this.remove(prueba);
+		this.setSize(1366,720);
+		this.setResizable(false);
+		this.setLocationRelativeTo(null);
+		this.setIconImage((new ImageIcon("coctailsImgs/logoMin.jpg").getImage()));
+		this.setTitle("SOFTWARE NINJAS");
+		this.setLayout(new BorderLayout());
+		this.add(botP,BorderLayout.SOUTH);
+		this.add(topP,BorderLayout.NORTH);
+		this.add(sCenterP,BorderLayout.CENTER);
+		
+		this.setVisible(true);
+		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		this.validate();
+		this.repaint();
+	}
+	
+	public static void main(String[] args){
+		
+		new NinjaFrame();
+		
+	}
+}
