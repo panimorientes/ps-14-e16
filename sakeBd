@@ -1,0 +1,107 @@
+CREATE DATABASE  IF NOT EXISTS `sakedb` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `sakedb`;
+-- MySQL dump 10.13  Distrib 5.6.11, for Win64 (x86_64)
+--
+-- Host: localhost    Database: sakedb
+-- ------------------------------------------------------
+-- Server version	5.6.11-enterprise-commercial-advanced
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `coctail`
+--
+
+DROP TABLE IF EXISTS `coctail`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `coctail` (
+  `nombre` varchar(45) NOT NULL DEFAULT '1',
+  `precio` double DEFAULT NULL,
+  `Descripcion` blob,
+  `PathImg` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`nombre`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `coctail`
+--
+
+LOCK TABLES `coctail` WRITE;
+/*!40000 ALTER TABLE `coctail` DISABLE KEYS */;
+INSERT INTO `coctail` VALUES ('4 reyes',2,'EL rey de los chupitos, un solo trago y la noche solo podra mejorar.','coctailsImgs/chupito.jpg'),('Black Velvet',4,'Una especial combinación de dos licores que son altamente espumoso, y burbujeante. La sensacion de boca es especial por lo dicho anteriormente.','coctailsImgs/blackvelvet.jpg'),('Bloody Mary',6.5,'El mito indica que este trago es ideal para superar una noche de juerga, Lo picante del tabasco debería recuperar el cuerpo, pero cuidado el sabor de esta particular combinación no es del agrado de todo el mundo.','coctailsImgs/bloodymary.jpg'),('Enano Rojo',4.5,'Este trago es perfecto para tomarlo cuando quieres leer un buen libro o ver una buena pelicula. Esto porque su sabor relajante te puede ayudar a concentrarte y a relajarte.','coctailsImgs/enanorojo.jpg'),('Garibaldi',4.5,'Uno de los tragos mas tradicionales es tambien muy refrescate y no muy fuerte. Esto lo hace ideal para que las mujeres disfruten de una agradable bebida en las noches de verano.','coctailsImgs/garibaldi.jpg'),('Irish Car Bomb',3.5,'Este delicioso trago 100% irlandés es en realidad una bomba, una mezcla que no es muy comun pero sabe muy bien. ','coctailsImgs/irishcarbomb.jpg'),('Kalimotxo',2,'Su frescor y sabor te transportara al cielo. Este coctail producira en ti una sensacion de felicidad que te hara olvidar todo. Solo te encontraras tu y el kalimotxo, nada mas importara.','coctailsImgs/kalimotxo.jpg'),('Mai Tai',5,'Un delicioso trago para compatir con un grupo de amigos. Refrescante por la presencia de frutas tropicales y el ron, que a pesar de ser una bebida fuerte logra ser muy delicioso y fresco para las noches de verano.','coctailsImgs/maitai.jpg'),('Orgasmo Multiple',5,'Un sueve y cremoso trago, que como su nombre lo indica puede resultar muy placentero. La combinacion de licores lo convierten en una excelente bebida para disfrutar en cualquier estacion.','coctailsImgs/orgasmomultiple.png'),('tgv',2,'Coctail de chupito para los mas valientes, si no eres de los que se atreve a tirarte sin paracaidas desde la cima del everest no vales para este chupito. Un solo trago y todo sera maravilloso.','coctailsImgs/chupito.jpg');
+/*!40000 ALTER TABLE `coctail` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `ingrediente`
+--
+
+DROP TABLE IF EXISTS `ingrediente`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ingrediente` (
+  `nombreI` varchar(45) NOT NULL DEFAULT '1',
+  `descripcionI` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`nombreI`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `ingrediente`
+--
+
+LOCK TABLES `ingrediente` WRITE;
+/*!40000 ALTER TABLE `ingrediente` DISABLE KEYS */;
+INSERT INTO `ingrediente` VALUES ('amareto',NULL),('anis',NULL),('baileys',NULL),('campari',NULL),('cava',NULL),('cerveza negra',NULL),('champagne',NULL),('cocacola',NULL),('frangelico',NULL),('ginebra',NULL),('granadina',NULL),('hielo',NULL),('kahlua',NULL),('licor de cafe',NULL),('rodaja naranja',NULL),('ron blanco',NULL),('ron rubio',NULL),('salsa inglesa',NULL),('tabasco',NULL),('tequila',NULL),('vino blanco',NULL),('vino dulce',NULL),('vino rosado',NULL),('vino tinto',NULL),('vodka',NULL),('whisky',NULL),('zumo limon',NULL),('zumo naranja',NULL),('zumo piÃ±a',NULL),('zumo tomate',NULL);
+/*!40000 ALTER TABLE `ingrediente` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `pertenece`
+--
+
+DROP TABLE IF EXISTS `pertenece`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `pertenece` (
+  `Coctail_nombre` varchar(45) NOT NULL,
+  `Ingrediente_nombreI` varchar(45) NOT NULL,
+  PRIMARY KEY (`Coctail_nombre`,`Ingrediente_nombreI`),
+  KEY `fk_Coctail_has_Ingrediente_Ingrediente1_idx` (`Ingrediente_nombreI`),
+  KEY `fk_Coctail_has_Ingrediente_Coctail_idx` (`Coctail_nombre`),
+  CONSTRAINT `fk_Coctail_has_Ingrediente_Coctail` FOREIGN KEY (`Coctail_nombre`) REFERENCES `coctail` (`nombre`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Coctail_has_Ingrediente_Ingrediente1` FOREIGN KEY (`Ingrediente_nombreI`) REFERENCES `ingrediente` (`nombreI`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `pertenece`
+--
+
+LOCK TABLES `pertenece` WRITE;
+/*!40000 ALTER TABLE `pertenece` DISABLE KEYS */;
+INSERT INTO `pertenece` VALUES ('Enano Rojo','amareto'),('Mai Tai','amareto'),('Orgasmo Multiple','amareto'),('Bloody Mary','anis'),('Irish Car Bomb','baileys'),('Orgasmo Multiple','baileys'),('Garibaldi','campari'),('Black Velvet','cerveza negra'),('Irish Car Bomb','cerveza negra'),('Black Velvet','champagne'),('Kalimotxo','cocacola'),('Orgasmo Multiple','frangelico'),('4 reyes','ginebra'),('tgv','ginebra'),('Mai Tai','granadina'),('Orgasmo Multiple','kahlua'),('Irish Car Bomb','licor de cafe'),('Garibaldi','rodaja naranja'),('Mai Tai','ron blanco'),('4 reyes','ron rubio'),('Mai Tai','ron rubio'),('Bloody Mary','salsa inglesa'),('Bloody Mary','tabasco'),('tgv','tequila'),('Kalimotxo','vino tinto'),('4 reyes','vodka'),('Bloody Mary','vodka'),('Orgasmo Multiple','vodka'),('tgv','vodka'),('4 reyes','whisky'),('Enano Rojo','whisky'),('Irish Car Bomb','whisky'),('Bloody Mary','zumo limon'),('Garibaldi','zumo naranja'),('Mai Tai','zumo naranja'),('Mai Tai','zumo piÃ±a'),('Bloody Mary','zumo tomate');
+/*!40000 ALTER TABLE `pertenece` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2014-03-27 13:25:44
