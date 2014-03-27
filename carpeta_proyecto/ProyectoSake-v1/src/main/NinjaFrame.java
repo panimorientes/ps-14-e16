@@ -1,5 +1,7 @@
 package main;
 
+import homePage.SearchResultPage;
+
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,7 +12,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
-import paginaPrincipal.SearchResultPage;
 
 import common.BotInfoPanel;
 import common.TopInfoPanel;
