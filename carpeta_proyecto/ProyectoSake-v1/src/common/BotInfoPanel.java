@@ -27,7 +27,7 @@ public class BotInfoPanel extends JPanel {
 		JLabel cpRight = new JLabel("SoftWare Ninja @2014");
 		p1.add(cpRight);
 		
-		contact = new JLabel("Contact");
+		contact = new JLabel("Contactar");
 		faq = new JLabel("FAQ");
 		p2.add(contact);
 		p2.add(faq);
