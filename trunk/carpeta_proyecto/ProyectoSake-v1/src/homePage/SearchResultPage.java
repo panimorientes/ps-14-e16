@@ -11,6 +11,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import profilePage.ProfileCenterPage;
+
 import common.ShopPagePanel;
 
 public class SearchResultPage extends JPanel{
@@ -21,10 +23,12 @@ public class SearchResultPage extends JPanel{
 	private SearchFieldPanel fieldP;
 	private int nCoc;
 	private ShopPagePanel shopP;
+	private ProfileCenterPage profile;
 	
 	
 	public SearchResultPage(Connection myDB){
 		
+		this.profile=new ProfileCenterPage();
 		this.myDB=myDB;
 		this.myCenterPanel = new CenterPagePanel(1,myDB);
 		this.setLayout(new BorderLayout());
@@ -76,5 +80,7 @@ public class SearchResultPage extends JPanel{
 	public int getPag(){
 		return pagNum;
 	}
+	
+	
 	
 }
