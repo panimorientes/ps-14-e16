@@ -1,11 +1,8 @@
 package profilePage;
 
-import java.awt.Component;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
-import java.awt.LayoutManager;
 
-import javax.swing.Box;
+import java.awt.FlowLayout;
+import java.awt.LayoutManager;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -88,6 +85,7 @@ public class ProfileInfo extends JPanel{
 	}
 	
 	private void fillInfo(){
+		
 		
 		nombreF.setText("Bart");
 		ap1F.setText("Simpson");

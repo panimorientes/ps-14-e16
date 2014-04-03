@@ -27,12 +27,12 @@ public class NinjaFrame extends JFrame {
 	private ProfileCenterPage profile;
 	private Connection db;
 
-	private JButton prueba;
+//	private JButton prueba;
 	
 	public NinjaFrame(){
 		try{
-			profile = new ProfileCenterPage();
 			db=ConnectionManager.getConnection();
+			profile = new ProfileCenterPage();
 			botP=new BotInfoPanel();
 			
 			//Pasar x parametro CONEXION BD

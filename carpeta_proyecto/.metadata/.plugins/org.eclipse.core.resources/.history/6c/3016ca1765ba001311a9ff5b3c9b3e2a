@@ -1,0 +1,20 @@
+package profilePage;
+
+import java.awt.BorderLayout;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+
+public class ProfileCenterPage extends JPanel{
+	
+	private ProfileInfo info;
+	
+	public ProfileCenterPage(){
+		this.setLayout(new BorderLayout());
+		info = new ProfileInfo();
+		this.add(info,BorderLayout.CENTER);
+	}
+	
+
+}

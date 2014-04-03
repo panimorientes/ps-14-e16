@@ -1,0 +1,26 @@
+package profilePage;
+
+import java.awt.BorderLayout;
+
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+import common.BotInfoPanel;
+import common.TopInfoPanel;
+
+public class ProfileCenterPage extends JPanel{
+	
+	private String img,nombre,ap1,ap2,dir,mail,ciudad,fnac;
+	private int tlf,codPost;
+	private JTextField nombreF,ap1F,ap2F,dirF,mailF,ciudadF,fnacF,tlfF,codPostF;
+	
+	
+	public ProfileCenterPage(){
+		
+		this.setLayout(new BorderLayout());
+		this.add(new BotInfoPanel(), BorderLayout.SOUTH);
+		this.add(new TopInfoPanel(), BorderLayout.NORTH);
+		
+	}
+
+}

@@ -1,0 +1,9 @@
+package profilePage;
+
+public class dataManager {
+	
+	private final String configPath ="pofile/profile.txt";
+	
+	
+
+}

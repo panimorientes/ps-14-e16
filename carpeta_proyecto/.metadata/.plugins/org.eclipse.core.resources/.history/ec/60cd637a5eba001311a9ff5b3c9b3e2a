@@ -1,0 +1,19 @@
+package profilePage;
+
+import java.awt.BorderLayout;
+import java.awt.GridLayout;
+
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+import common.BotInfoPanel;
+import common.TopInfoPanel;
+
+public class ProfileCenterPage extends JPanel{
+	
+
+
+}

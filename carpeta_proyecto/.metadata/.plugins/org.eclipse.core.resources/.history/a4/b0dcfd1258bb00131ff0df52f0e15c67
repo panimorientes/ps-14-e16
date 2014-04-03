@@ -1,0 +1,52 @@
+package profilePage;
+
+import java.io.File;
+import java.util.Scanner;
+
+public class dataManager {
+	
+	private final String configPath ="profile/profile.txt";
+	
+	public boolean isInstalled(){
+		try{
+			Scanner sc = new Scanner(new File(configPath));
+			String isInstalled = sc.nextLine();
+			if(isInstalled.contains("true")){
+				return true;
+			}
+			else{
+				return false;
+			}
+		}
+		catch(Exception e){System.out.println("error is installerd"); return false;}
+		
+	}
+	
+	public String[] getData(){
+		try{
+			String[] data = new String[9];
+			Scanner sc = new Scanner(new File(configPath));
+			sc.nextLine();
+			sc.useDelimiter("");
+			int i=0;
+			while(sc.hasNextLine()){
+				sc.next();
+				data[i]=sc.next();
+				i++;
+			}
+			return data;
+		}
+		catch(Exception e){System.out.println("error getData"); return null;}
+	}
+		
+		public static void main(String[] args){
+			dataManager d = new dataManager();
+			String[] dd = d.getData();
+			for(int i =0; i<9;i++){
+				System.out.println(i+" "+dd[i]);
+				
+		}
+	}
+	
+
+}

@@ -1,0 +1,87 @@
+package profilePage;
+
+import java.awt.BorderLayout;
+
+import javax.swing.BoxLayout;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+import common.BotInfoPanel;
+import common.TopInfoPanel;
+
+public class ProfileCenterPage extends JPanel{
+	
+	private String img,nombre,ap1,ap2,dir,mail,ciudad,fnac;
+	private int tlf,codPost;
+	private JTextField nombreF,ap1F,ap2F,dirF,mailF,ciudadF,fnacF,tlfF,codPostF;
+
+	
+	
+	public ProfileCenterPage(){
+		
+		
+		this.setLayout(new BorderLayout());
+		
+		
+		JPanel center = new JPanel();
+		
+		center.setLayout(new BoxLayout(center,BoxLayout.Y_AXIS));
+		
+		JPanel nP = new JPanel();
+		nP.add(new JLabel("Nombre: "));
+		nombreF = new JTextField();
+		nP.add(nombreF);
+		center.add(nP,BoxLayout.Y_AXIS);
+		
+		JPanel ap1P = new JPanel();
+		nP.add(new JLabel("Primer Apellido: "));
+		ap1F = new JTextField();
+		nP.add(ap1F);
+		center.add(ap1P);
+		
+		JPanel ap2P = new JPanel();
+		nP.add(new JLabel("Segundo Apellido: "));
+		ap2F = new JTextField();
+		nP.add(ap2F);
+		center.add(ap2P);
+		
+		JPanel fnacP = new JPanel();
+		nP.add(new JLabel("Fecha Nacimiento: "));
+		fnacF = new JTextField();
+		nP.add(fnacF);
+		center.add(fnacP);
+		
+		JPanel dirP = new JPanel();
+		nP.add(new JLabel("Direccion: "));
+		dirF = new JTextField();
+		nP.add(dirF);
+		center.add(dirP);
+		
+		JPanel cP = new JPanel();
+		nP.add(new JLabel("Ciudad: "));
+		ciudadF = new JTextField();
+		nP.add(ciudadF);
+		center.add(cP);
+		
+		JPanel cpP = new JPanel();
+		nP.add(new JLabel("Codigo Postar: "));
+		codPostF = new JTextField();
+		nP.add(codPostF);
+		center.add(cpP);
+		
+		JPanel mP = new JPanel();
+		nP.add(new JLabel("e-mail: "));
+		mailF = new JTextField();
+		nP.add(mailF);
+		center.add(mP);
+		
+		JPanel tlfP = new JPanel();
+		nP.add(new JLabel("Telefono: "));
+		tlfF = new JTextField();
+		nP.add(tlfF);
+		center.add(tlfP);
+		this.add(center, BorderLayout.CENTER);
+	}
+
+}
