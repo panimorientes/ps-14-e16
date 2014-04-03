@@ -1,0 +1,17 @@
+package profilePage;
+
+import javax.swing.JPanel;
+
+
+public class ProfileCenterPage extends JPanel{
+	
+	private ProfileInfo info;
+	
+	public ProfileCenterPage(){
+		info = new ProfileInfo();
+		this.add(info);
+	}
+	
+
+
+}

@@ -1,0 +1,112 @@
+package profilePage;
+
+import java.awt.Component;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
+import java.awt.LayoutManager;
+
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+public class ProfileInfo extends JPanel{
+	private String img,nombre,ap1,ap2,dir,mail,ciudad,fnac;
+	private int tlf,codPost;
+	private JTextField nombreF,ap1F,ap2F,dirF,mailF,ciudadF,fnacF,tlfF,codPostF;
+
+	
+	
+	public ProfileInfo(){
+		
+		
+//		this.setLayout(new BorderLayout());
+//		this.setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
+		
+//		JPanel center = new JPanel();
+		Box center = Box.createVerticalBox();
+//		center.setLayout(new BoxLayout(center,BoxLayout.Y_AXIS));
+//		center.setLayout(new GridLayout(0,1));
+		this.setLayout(new GridLayout(0,1));
+		
+		JPanel nP = new JPanel((LayoutManager) new FlowLayout());
+		nP.add(new JLabel("Nombre: "),FlowLayout.LEFT);
+		nombreF = new JTextField();
+		nombreF.setColumns(20);
+		nP.add(nombreF,FlowLayout.CENTER);
+		this.add(nP);
+		
+		JPanel ap1P = new JPanel((LayoutManager) new FlowLayout(FlowLayout.LEFT));
+		ap1P.add(new JLabel("Primer Apellido: "));
+		ap1F = new JTextField();
+		ap1F.setColumns(20);
+		ap1P.add(ap1F);
+		this.add(ap1P);
+		
+		JPanel ap2P = new JPanel((LayoutManager) new FlowLayout(FlowLayout.LEFT));
+		ap2P.add(new JLabel("Segundo Apellido: "));
+		ap2F = new JTextField();
+		ap2F.setColumns(20);
+		ap2P.add(ap2F);
+		this.add(ap2P);
+		
+		JPanel fnacP = new JPanel((LayoutManager) new FlowLayout(FlowLayout.LEFT));
+		fnacP.add(new JLabel("Fecha Nacimiento: "));
+		fnacF = new JTextField();
+		fnacF.setColumns(20);
+		fnacP.add(fnacF);
+		this.add(fnacP);
+		
+		JPanel dirP = new JPanel((LayoutManager) new FlowLayout(FlowLayout.LEFT));
+		dirP.add(new JLabel("Direccion: "));
+		dirF = new JTextField();
+		dirF.setColumns(20);
+		dirP.add(dirF);
+		this.add(dirP);
+		
+		JPanel cP = new JPanel((LayoutManager) new FlowLayout(FlowLayout.LEFT));
+		cP.add(new JLabel("Ciudad: "));
+		ciudadF = new JTextField();
+		ciudadF.setColumns(20);
+		cP.add(ciudadF);
+		this.add(cP);
+		
+		JPanel cpP = new JPanel((LayoutManager) new FlowLayout(FlowLayout.LEFT));
+		cpP.add(new JLabel("Codigo Postar: "));
+		codPostF = new JTextField();
+		codPostF.setColumns(20);
+		cpP.add(codPostF);
+		this.add(cpP);
+		
+		JPanel mP = new JPanel((LayoutManager) new FlowLayout(FlowLayout.LEFT));
+		mP.add(new JLabel("e-mail: "));
+		mailF = new JTextField();
+		mailF.setColumns(20);
+		mP.add(mailF);
+		this.add(mP);
+		
+		JPanel tlfP = new JPanel((LayoutManager) new FlowLayout(FlowLayout.LEFT));
+		tlfP.add(new JLabel("Telefono: "));
+		tlfF = new JTextField();
+		tlfF.setColumns(20);
+		tlfP.add(tlfF);
+		this.add(tlfP);
+
+		fillInfo();
+	}
+	
+	private void fillInfo(){
+		
+		nombreF.setText("Bart");
+		ap1F.setText("Simpson");
+		ap2F.setText("Boubier");
+		dirF.setText("Calle Sin numero 123");
+		mailF.setText("theBarto@theSimpsons.com");
+		ciudadF.setText("Springfield");
+		fnacF.setText("25/8/1990");
+		tlfF.setText("555-555-666");
+		codPostF.setText("12345");
+	}
+
+}

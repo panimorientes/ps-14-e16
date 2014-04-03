@@ -1,5 +1,10 @@
 installed:=true
 name:=Bart
 ap1:=Simpson
-ap2:=Buobier
-dir:=
+ap2:=Boubier
+fnac:=25/8/1990
+dir:=Calle falsa 123
+ciudad:=Springfield
+codP:=12345
+tlf:=555-555-555
+e-mail:=theBarto@simpsons.com
