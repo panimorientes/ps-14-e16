@@ -1,5 +1,7 @@
 package common;
 
+import homePage.SearchResultPage;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
@@ -11,12 +13,17 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import main.NinjaFrame;
+
+import profilePage.ProfileCenterPage;
+
 public class TopInfoPanel extends JPanel{
 	
 	private JLabel logo, user;
+	private NinjaFrame frame;
 	
-	
-	public TopInfoPanel(){
+	public TopInfoPanel(NinjaFrame sp){
+		this.frame=sp;
 		
 		this.setLayout(new BorderLayout());
 		
@@ -50,7 +57,7 @@ public class TopInfoPanel extends JPanel{
 			
 			   public void mouseClicked(MouseEvent arg0) {
 				   
-				   JOptionPane.showMessageDialog(null,"AQUI HAREMOS ALGO?¿");
+				   frame.showHome();
 				   
 			   }
 
@@ -86,7 +93,7 @@ public class TopInfoPanel extends JPanel{
 			
 			   public void mouseClicked(MouseEvent arg0) {
 				   
-				   JOptionPane.showMessageDialog(null,"AQUI VAMOS AL PERFIL");
+				  frame.showProfile();
 				   
 			   }
 
@@ -119,6 +126,10 @@ public class TopInfoPanel extends JPanel{
 		});
 		
 		
+	}
+	
+	private TopInfoPanel getMyself(){
+		return this;
 	}
 
 }

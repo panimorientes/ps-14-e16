@@ -12,6 +12,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
+import profilePage.ProfileCenterPage;
+
 
 import common.BotInfoPanel;
 import common.TopInfoPanel;
@@ -22,18 +24,20 @@ public class NinjaFrame extends JFrame {
 	private BotInfoPanel botP;
 	private TopInfoPanel topP;
 	private SearchResultPage sCenterP;
+	private ProfileCenterPage profile;
 	private Connection db;
 
 	private JButton prueba;
 	
 	public NinjaFrame(){
 		try{
-			
+			profile = new ProfileCenterPage();
 			db=ConnectionManager.getConnection();
 			botP=new BotInfoPanel();
-			topP=new TopInfoPanel();
+			
 			//Pasar x parametro CONEXION BD
 			sCenterP = new SearchResultPage(db);
+			topP=new TopInfoPanel(this);
 		}
 		catch(SQLException e){
 			System.out.println("error inicio");
@@ -87,5 +91,18 @@ public class NinjaFrame extends JFrame {
 		
 		new NinjaFrame();
 		
+	}
+	
+	public void showProfile(){
+		
+		profile.setVisible(true);
+		
+	}
+	
+	public void showHome(){
+		this.remove(profile);
+		this.add(sCenterP,BorderLayout.CENTER);
+		this.validate();
+		this.repaint();
 	}
 }
