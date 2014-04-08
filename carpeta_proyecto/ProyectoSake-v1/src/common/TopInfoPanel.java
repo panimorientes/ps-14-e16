@@ -21,9 +21,11 @@ public class TopInfoPanel extends JPanel{
 	
 	private JLabel logo, user;
 	private NinjaFrame frame;
-	
-	public TopInfoPanel(NinjaFrame sp){
+	private SearchResultPage searchPage;
+	public TopInfoPanel(NinjaFrame sp, SearchResultPage searchPage){
+		
 		this.frame=sp;
+		this.searchPage=searchPage;
 		
 		this.setLayout(new BorderLayout());
 		
@@ -57,7 +59,7 @@ public class TopInfoPanel extends JPanel{
 			
 			   public void mouseClicked(MouseEvent arg0) {
 				   
-				   frame.showHome();
+				  	searchPage.goToHome();
 				   
 			   }
 
@@ -128,9 +130,6 @@ public class TopInfoPanel extends JPanel{
 		
 	}
 	
-	private TopInfoPanel getMyself(){
-		return this;
-	}
 
 }
 

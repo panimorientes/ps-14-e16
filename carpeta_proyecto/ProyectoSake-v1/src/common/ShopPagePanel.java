@@ -1,6 +1,8 @@
 package common;
 
 
+import homePage.SearchResultPage;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -25,9 +27,12 @@ public class ShopPagePanel extends JPanel{
 	private JPanel shopsPanel;
 	private Vector<OneShopPanel> shops;
 	private JButton accept; 
+	private SearchResultPage searchPage;
 	
-	public ShopPagePanel(){
-		total=10;
+	public ShopPagePanel(SearchResultPage sp){
+		
+		this.searchPage=sp;
+		total=0;
 		
 		this.setLayout(new BorderLayout());
 		shopsPanel=new JPanel();
@@ -54,7 +59,8 @@ public class ShopPagePanel extends JPanel{
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				 JOptionPane.showMessageDialog(null,"IR A CARRITO");
+				
+				 searchPage.goToShop();
 				   
 				
 			}
@@ -65,19 +71,20 @@ public class ShopPagePanel extends JPanel{
 
 		this.add(scroll,BorderLayout.CENTER);
 		this.add(p1,BorderLayout.SOUTH);
-		this.updateTotal();
+		this.updateTotal(0);
 		for(int i=0;i<10;i++){
 			addToShop("Irish"+i);
 		}
 	}
 	
-	public void updateTotal(){
+	public void updateTotal(double addToTotal){
+		total=total+addToTotal;
 		this.myShop.setText("Total de Compra: "+total);
 	}
 	
 	public void addToShop(String p){
 		
-		shopsPanel.add(new OneShopPanel(p,12));
+		shopsPanel.add(new OneShopPanel(p,12,this));
 		
 	}
 

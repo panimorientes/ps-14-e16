@@ -1,45 +1,47 @@
 package profilePage;
 
-import homePage.SearchResultPage;
-
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-
-public class ProfileCenterPage extends JPanel{
-	
+public class ProfileFrame extends JFrame {
 	private ProfileInfo info;
-	private JButton continueBuy, cancel, edit, save;
+	private JButton acept, cancel, edit, save;
 	private JPanel butP;
-	private SearchResultPage searchPage;
 	
-	public ProfileCenterPage(SearchResultPage sp){
+	public ProfileFrame(){
 		info = new ProfileInfo();
 		butP=new JPanel();
-		searchPage=sp;
+		this.setTitle("PERFIL DE USUARIO");
+		this.setIconImage((new ImageIcon("coctailsImgs/logoMin.jpg").getImage()));
 		this.setLayout(new BorderLayout());
 		this.add(info,BorderLayout.CENTER);
-
+		this.setVisible(false);
+		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
+		this.setSize(500,700);
+		this.setLocationRelativeTo(null);
+		this.setResizable(false);
 		putButtons();
 		butP.add(edit);
-		butP.add(continueBuy);
+		butP.add(acept);
 		this.add(butP,BorderLayout.SOUTH);
 		
 		
 	}
 	
 	private void putButtons(){
-		continueBuy = new JButton("Continuar Comprando");
-		continueBuy.addActionListener(new ActionListener(){
+		acept = new JButton("Aceptar");
+		acept.addActionListener(new ActionListener(){
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				searchPage.goToHome();
+				hideMe();
 				
 			}
 			
@@ -51,7 +53,7 @@ public class ProfileCenterPage extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				
-				butP.remove(continueBuy);
+				butP.remove(acept);
 				butP.remove(edit);
 				butP.add(save);
 				butP.add(cancel);
@@ -79,7 +81,7 @@ public class ProfileCenterPage extends JPanel{
 				if(option==0){
 					butP.remove(save);
 					butP.remove(cancel);
-					butP.add(continueBuy);
+					butP.add(acept);
 					butP.add(edit);
 					info.setChanges(false);
 					info.setInfoNotEditable();
@@ -110,7 +112,7 @@ public class ProfileCenterPage extends JPanel{
 					
 					butP.remove(save);
 					butP.remove(cancel);
-					butP.add(continueBuy);
+					butP.add(acept);
 					butP.add(edit);
 					info.setChanges(true);
 					info.setInfoNotEditable();
@@ -127,10 +129,12 @@ public class ProfileCenterPage extends JPanel{
 		});
 	}
 	
+	private void hideMe(){
+		this.setVisible(false);
+	}
 	
 	private void validateAndrepaint(){
 		this.validate();
 		this.repaint();
 	}
-	
 }

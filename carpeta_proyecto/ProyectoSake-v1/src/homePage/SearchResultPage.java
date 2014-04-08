@@ -11,6 +11,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import coctailPage.CenterCoctailPanel;
+
 import profilePage.ProfileCenterPage;
 
 import common.ShopPagePanel;
@@ -23,23 +25,29 @@ public class SearchResultPage extends JPanel{
 	private SearchFieldPanel fieldP;
 	private int nCoc;
 	private ShopPagePanel shopP;
-	private ProfileCenterPage profile;
+	private PageNumberManager pageNumbers;
+	private CenterCoctailPanel showCoctailPage;
+	private ProfileCenterPage profilePage;
+
 	
 	
 	public SearchResultPage(Connection myDB){
 		
-		this.profile=new ProfileCenterPage();
+
 		this.myDB=myDB;
-		this.myCenterPanel = new CenterPagePanel(1,myDB);
+		this.myCenterPanel = new CenterPagePanel(1,myDB,this);
+		this.profilePage=new ProfileCenterPage(this);
+		
 		this.setLayout(new BorderLayout());
 		pagNum=1;
 		setNumberOfCoctails();
 		this.fieldP=new SearchFieldPanel();
-		this.shopP=new ShopPagePanel();
+		this.shopP=new ShopPagePanel(this);
 		
 		this.add(myCenterPanel, BorderLayout.CENTER);
 		this.add(fieldP,BorderLayout.NORTH);
-		this.add(new PageNumberManager(this),BorderLayout.SOUTH);
+		pageNumbers = (new PageNumberManager(this));
+		this.add(pageNumbers,BorderLayout.SOUTH);
 		this.add(shopP,BorderLayout.EAST);
 		
 	}
@@ -71,14 +79,49 @@ public class SearchResultPage extends JPanel{
 	
 	public void changePag(int n){
 		this.remove(myCenterPanel);
-		myCenterPanel=new CenterPagePanel(n,myDB);
-		this.add(myCenterPanel);
+		myCenterPanel=new CenterPagePanel(n,myDB,this);
+		this.add(myCenterPanel,BorderLayout.CENTER);
 		this.repaint();
 		this.validate();
+	
+		
 	}
 	
 	public int getPag(){
 		return pagNum;
+	}
+	
+	public void goToCoctail(String coctail){
+		this.remove(profilePage);
+		this.remove(myCenterPanel);
+		this.remove(pageNumbers);
+		showCoctailPage=(new CenterCoctailPanel(coctail));
+		this.add(showCoctailPage,BorderLayout.CENTER);
+		this.validate();
+		this.repaint();
+	}
+	
+	public void goToHome(){
+		this.remove(profilePage);
+		if(showCoctailPage!=null){
+			this.remove(showCoctailPage);
+		}
+		
+		this.add(myCenterPanel,BorderLayout.CENTER);
+		this.add(pageNumbers,BorderLayout.SOUTH);
+		this.validate();
+		this.repaint();
+	}
+	
+	public void goToShop(){
+		if(showCoctailPage!=null){
+			this.remove(showCoctailPage);
+		}
+		this.remove(myCenterPanel);
+		this.remove(pageNumbers);
+		this.add(profilePage,BorderLayout.CENTER);
+		this.validate();
+		this.repaint();
 	}
 	
 	

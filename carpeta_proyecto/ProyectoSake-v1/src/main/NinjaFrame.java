@@ -13,6 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 
 import profilePage.ProfileCenterPage;
+import profilePage.ProfileFrame;
 
 
 import common.BotInfoPanel;
@@ -24,7 +25,7 @@ public class NinjaFrame extends JFrame {
 	private BotInfoPanel botP;
 	private TopInfoPanel topP;
 	private SearchResultPage sCenterP;
-	private ProfileCenterPage profile;
+	private ProfileFrame profile;
 	private Connection db;
 
 //	private JButton prueba;
@@ -32,12 +33,12 @@ public class NinjaFrame extends JFrame {
 	public NinjaFrame(){
 		try{
 			db=ConnectionManager.getConnection();
-			profile = new ProfileCenterPage();
+			profile = new ProfileFrame();
 			botP=new BotInfoPanel();
 			
 			//Pasar x parametro CONEXION BD
 			sCenterP = new SearchResultPage(db);
-			topP=new TopInfoPanel(this);
+			topP=new TopInfoPanel(this,sCenterP);
 		}
 		catch(SQLException e){
 			System.out.println("error inicio");
@@ -99,10 +100,4 @@ public class NinjaFrame extends JFrame {
 		
 	}
 	
-	public void showHome(){
-		this.remove(profile);
-		this.add(sCenterP,BorderLayout.CENTER);
-		this.validate();
-		this.repaint();
-	}
 }

@@ -1,5 +1,6 @@
 installed:=true
-name:=Bart
+nif:=666666666
+name:=RUBIO
 ap1:=Simpson
 ap2:=Boubier
 fnac:=25/8/1990
