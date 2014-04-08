@@ -1,0 +1,35 @@
+package coctailPage;
+
+import java.awt.BorderLayout;
+import java.sql.Connection;
+import java.sql.SQLException;
+
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
+
+import connection.ConnectionManager;
+
+public class CenterCoctailPanel extends JPanel {
+	
+	private Connection db;
+	
+	public CenterCoctailPanel(String name){
+		
+		try{
+			db = ConnectionManager.getConnection();
+		}
+		catch(SQLException e){
+			System.out.println("SQLEXCEPION CONNECTION CENTERCOCTAILPANEL");
+		}
+		
+		this.setLayout(new BorderLayout());
+		String img ="coctailsImgs/maitai.jpg";
+		this.add(new JLabel(new ImageIcon(img)));
+		
+	}
+	
+	
+
+}

@@ -1,0 +1,24 @@
+package coctailPage;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+
+import javax.swing.JPanel;
+
+
+import connection.ConnectionManager;
+
+public class CenterCoctailPanel extends JPanel {
+	
+	private Connection db;
+	
+	public CenterCoctailPanel(String name){
+		try{
+			db = ConnectionManager.getConnection();
+		}
+		catch(SQLException e){
+			System.out.println("SQLEXCEPION CONNECTION CENTERCOCTAILPANEL");
+		}
+	}
+
+}

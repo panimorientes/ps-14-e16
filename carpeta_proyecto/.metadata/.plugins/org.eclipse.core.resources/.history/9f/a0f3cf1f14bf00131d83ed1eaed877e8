@@ -1,0 +1,59 @@
+package coctailPage;
+
+import java.awt.BorderLayout;
+
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+import main.NinjaFrame;
+
+import common.BotInfoPanel;
+import common.ShopPagePanel;
+import common.TopInfoPanel;
+
+public class CoctailCenterPanel extends JPanel{
+	
+	private ShopPagePanel shop;
+
+	
+	public CoctailCenterPanel(BotInfoPanel botI, TopInfoPanel topI, 
+								 ShopPagePanel shop){
+		
+
+		this.myFrame=myFrame;
+		this.shop=shop;
+		
+		this.setLayout(new BorderLayout());
+		
+		this.add(botI,BorderLayout.SOUTH);
+		this.add(topI,BorderLayout.NORTH);
+		this.add(this.shop,BorderLayout.EAST);
+		this.validate();
+		this.repaint();
+		
+	}
+
+
+
+public static void main(String[] args){
+	JFrame f = new JFrame();
+	CoctailCenterPanel c = new CoctailCenterPanel(new BotInfoPanel(),new TopInfoPanel(null), new ShopPagePanel());
+	
+	f.setSize(1366,720);
+	f.setResizable(false);
+	f.setLocationRelativeTo(null);
+	f.setIconImage((new ImageIcon("coctailsImgs/logoMin.jpg").getImage()));
+	f.setTitle("SOFTWARE NINJAS");
+//	f.setLayout(new BorderLayout());
+
+	
+	f.setVisible(true);
+	f.setExtendedState(JFrame.MAXIMIZED_BOTH);
+	f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	f.add(c);
+	f.validate();
+	f.repaint();
+}
+
+}

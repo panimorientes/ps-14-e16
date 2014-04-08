@@ -82,7 +82,7 @@ public class NinjaFrame extends JFrame {
 		
 		this.setVisible(true);
 		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
-		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.validate();
 		this.repaint();
 	}

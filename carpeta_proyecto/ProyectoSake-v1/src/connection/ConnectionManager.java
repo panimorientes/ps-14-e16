@@ -22,7 +22,6 @@ public class ConnectionManager {
 		}		
 	}
 
-	private ConnectionManager() {}
 	
 	public final static Connection getConnection() throws SQLException {
 		return DriverManager.getConnection(DRIVER_URL, USER, PASSWORD);

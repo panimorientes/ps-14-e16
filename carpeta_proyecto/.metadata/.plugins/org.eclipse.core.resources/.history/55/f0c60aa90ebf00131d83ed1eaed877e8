@@ -1,0 +1,69 @@
+package profilePage;
+
+
+import java.awt.FlowLayout;
+import java.awt.LayoutManager;
+import javax.swing.BoxLayout;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+public class ProfileInfo extends JPanel{
+	
+	//Vecto de JTextFields, 
+	// v[0]=nombre, v[1]=ap1, v[2]=ap2F, v[3]=fecha nacimiento, v[4]=dir,
+	// v[5]=ciudad, v[6]=codPostal, v[7]=tlf, v[8]=mail
+	
+	private JTextField[] textFieldVector;
+
+	
+	
+	public ProfileInfo(){
+		
+		textFieldVector = new JTextField[9];
+		this.setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
+		
+		for(int i=0;i<textFieldVector.length;i++){
+
+			JPanel panel = new JPanel((LayoutManager) new FlowLayout(FlowLayout.LEFT));
+			panel.add(new JLabel(VectorInfo.getOnedata(i)+": "));
+			textFieldVector[i] = new JTextField();
+			textFieldVector[i].setEditable(false);
+			panel.add(textFieldVector[i]);
+			this.add(panel);
+			
+		}
+
+		fillInfo();
+	}
+	
+	private void fillInfo(){
+		
+		DataManager myDataManager = new DataManager();
+		String[] myData;
+		myData = myDataManager.getData();
+		for(int i=0;i<textFieldVector.length;i++){
+			textFieldVector[i].setText(myData[i]);
+		}
+			
+	}
+	
+	public void setInfoEditable(){
+		
+		for(JTextField txt: textFieldVector){
+			txt.setEditable(true);
+			txt.setColumns(30);
+		}
+	}
+	
+	public void setInfoNotEditable(){
+		
+		for(JTextField txt: textFieldVector){
+			txt.setEditable(false);
+			txt.setColumns(txt.getText().length());
+		}
+		
+
+	}
+
+}
