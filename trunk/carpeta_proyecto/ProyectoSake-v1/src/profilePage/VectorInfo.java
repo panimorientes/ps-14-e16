@@ -2,7 +2,7 @@ package profilePage;
 
 public class VectorInfo {
 	
-	private static String[] data = {"Nombre","Primer Apellido","Segundo Apellido","Fecha Nacimiento",
+	private static String[] data = {"NIF","Nombre","Primer Apellido","Segundo Apellido","Fecha Nacimiento",
 			"Direccion","Ciudad","Codigo Postal","Telefono","E-mail"};
 	
 	

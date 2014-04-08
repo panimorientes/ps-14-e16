@@ -10,12 +10,7 @@ import javax.swing.JTextField;
 
 public class ProfileInfo extends JPanel{
 	
-	private String[] actualData;
-	
-	//Vecto de JTextFields, 
-	// v[0]=nombre, v[1]=ap1, v[2]=ap2F, v[3]=fecha nacimiento, v[4]=dir,
-	// v[5]=ciudad, v[6]=codPostal, v[7]=tlf, v[8]=mail
-	
+	private String[] actualData;	
 	private JTextField[] textFieldVector;
 
 	
@@ -52,9 +47,9 @@ public class ProfileInfo extends JPanel{
 	
 	public void setInfoEditable(){
 		
-		for(JTextField txt: textFieldVector){
-			txt.setEditable(true);
-			txt.setColumns(30);
+		for(int i=1;i<textFieldVector.length;i++){
+			textFieldVector[i].setEditable(true);
+			textFieldVector[i].setColumns(30);
 		}
 	}
 	

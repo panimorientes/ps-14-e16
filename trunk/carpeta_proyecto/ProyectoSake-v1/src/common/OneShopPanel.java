@@ -21,10 +21,11 @@ public class OneShopPanel extends JPanel {
 	
 	private JLabel priceLabel;
 	private JSpinner amount;
-
+	private ShopPagePanel allShops;
 	
-	public OneShopPanel(String name, final double price){
-
+	public OneShopPanel(String name, final double price, final ShopPagePanel allShops){
+		
+		this.allShops=allShops;
 		this.price=price;
 		this.totalPrice=price;
 		this.setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
@@ -33,9 +34,10 @@ public class OneShopPanel extends JPanel {
 		amount.addChangeListener(new ChangeListener() {
 			@Override
 			public void stateChanged(ChangeEvent e) {
-				//comprobar nuemro negativos etc
+				double oldTotal = totalPrice;
 				totalPrice = price*(int)amount.getValue();
 				priceLabel.setText("Total: "+totalPrice);
+				allShops.updateTotal(totalPrice-oldTotal);
 				
 			}
 		

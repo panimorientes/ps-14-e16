@@ -1,9 +1,12 @@
 package homePage;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -15,12 +18,16 @@ import javax.swing.JTextArea;
 
 public class CoctailDescriptionPanel extends JPanel {
 	
-	private String name, descr,img;
+	private String name,descr,img;
+	private JLabel imgLabel, titleLabel;
+	private SearchResultPage searchPage;
 	
-	public CoctailDescriptionPanel(String img, String name, String descr){
+	public CoctailDescriptionPanel(String img, String name, String descr, 
+			SearchResultPage searchPage){
 		
 		this.img=img;
 		this.name=name;
+		this.searchPage=searchPage;
 		
 		
 		//gestion de la descripcion
@@ -30,8 +37,8 @@ public class CoctailDescriptionPanel extends JPanel {
 		}
 		
 		this.addComponents();
-//		this.validate();
-//		this.repaint();
+		this.addListeners();
+
 	}
 	
 	private void addComponents(){
@@ -39,7 +46,7 @@ public class CoctailDescriptionPanel extends JPanel {
 		JPanel imgPanel = new JPanel();
 		this.add(imgPanel);
 		
-		JLabel imgLabel = new JLabel();
+		this.imgLabel = new JLabel();
 		imgLabel.setIcon(new ImageIcon(this.img));
 		imgPanel.add(imgLabel);
 		
@@ -67,12 +74,12 @@ public class CoctailDescriptionPanel extends JPanel {
 		
 		center.add(descr);
 		
-		JPanel titleLabel = new JPanel();
-		infoP.add(titleLabel,BorderLayout.NORTH);
+		JPanel titlePanel = new JPanel();
+		infoP.add(titlePanel,BorderLayout.NORTH);
 
-		JLabel nameLabel = new JLabel(this.name);
-		nameLabel.setFont(new Font("Arial", Font.BOLD, 18)); 
-		titleLabel.add(nameLabel);
+		titleLabel = new JLabel(this.name);
+		titleLabel.setFont(new Font("Arial", Font.BOLD, 18)); 
+		titlePanel.add(titleLabel);
 		
 		btn.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e){
@@ -81,5 +88,84 @@ public class CoctailDescriptionPanel extends JPanel {
 
 		}
 	});
+	}
+	
+	/**
+	 * Método privado que añade los listeners al JLabel de contacto y al JLabel de FAQ
+	 */
+	private void addListeners(){
+		
+		titleLabel.addMouseListener(new MouseListener() {
+			
+			   public void mouseClicked(MouseEvent arg0) {
+				   
+				   searchPage.goToCoctail(name);
+				   
+			   }
+
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				
+			
+				
+			}
+
+			@Override
+			public void mouseExited(MouseEvent arg0) {
+				
+				
+				
+			}
+
+			@Override
+			public void mousePressed(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+		});
+		
+		imgLabel.addMouseListener(new MouseListener() {
+			
+			   public void mouseClicked(MouseEvent arg0) {
+				   
+				   searchPage.goToCoctail(name);
+			   }
+
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				
+				
+				
+			}
+
+			@Override
+			public void mouseExited(MouseEvent arg0) {
+				
+			
+				
+			}
+
+			@Override
+			public void mousePressed(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+		});
+		
+		
 	}
 }

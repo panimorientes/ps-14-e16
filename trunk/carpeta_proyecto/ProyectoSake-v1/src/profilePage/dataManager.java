@@ -8,7 +8,7 @@ import java.util.Scanner;
 public class DataManager {
 	
 	private static final String configPath ="profile/profile.txt";
-	private static final String[] configInfo ={"name:=","ap1:=",
+	private static final String[] configInfo ={"nif:=","name:=","ap1:=",
 										"ap2:=","fnac:=","dir:=",
 										"ciudad:=","codP:=","tlf:=","e-mail:="};
 	public static boolean isInstalled(){
@@ -28,7 +28,7 @@ public class DataManager {
 	
 	public static String[] getData(){
 		try{
-			String[] data = new String[9];
+			String[] data = new String[configInfo.length];
 			Scanner sc = new Scanner(new File(configPath));
 			sc.nextLine();
 			sc.useDelimiter(":=");
@@ -69,15 +69,5 @@ public class DataManager {
         }
 	}
 		
-		public static void main(String[] args){
-			DataManager d = new DataManager();
-			String[] dd = d.getData();
-			for(int i =0; i<9;i++){
-				System.out.println(i+" "+dd[i]);
-			}
-			String[] ddd = {"Bart","Simpson","Boubier","25/8/1990","Calle falsa 123","Springfield","12345","555-555-555","theBarto@simpsons.com"};
-			d.updateData(ddd);
-	}
-	
 
 }
