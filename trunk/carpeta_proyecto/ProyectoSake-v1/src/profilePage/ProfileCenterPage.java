@@ -8,6 +8,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 
@@ -54,6 +55,7 @@ public class ProfileCenterPage extends JFrame{
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				
 				butP.remove(acept);
 				butP.remove(edit);
 				butP.add(save);
@@ -69,13 +71,26 @@ public class ProfileCenterPage extends JFrame{
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				butP.remove(save);
-				butP.remove(cancel);
-				butP.add(acept);
-				butP.add(edit);
-				info.setInfoNotEditable();
-				validateAndrepaint();
 				
+				int option = JOptionPane.showOptionDialog(
+						   null,
+						   "Estas seguro que deseas cancelar", 
+						   "Cancelar edicion",
+						   JOptionPane.YES_NO_OPTION,
+						   JOptionPane.QUESTION_MESSAGE,
+						   null, //icono
+						   new Object[] { "Si","No"},
+						   "Yes");
+				if(option==0){
+					butP.remove(save);
+					butP.remove(cancel);
+					butP.add(acept);
+					butP.add(edit);
+					info.setChanges(false);
+					info.setInfoNotEditable();
+					validateAndrepaint();
+				}
+								
 			}
 			
 		});
@@ -85,9 +100,34 @@ public class ProfileCenterPage extends JFrame{
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
 				
-			}
+				int option = JOptionPane.showOptionDialog(
+						   null,
+						   "Estas seguro que deseas guardas los cambios", 
+						   "Guardando cambios",
+						   JOptionPane.YES_NO_OPTION,
+						   JOptionPane.QUESTION_MESSAGE,
+						   null, //icono
+						   new Object[] { "Si","No"},
+						   "Yes");
+				
+				if(option==0){
+					
+					butP.remove(save);
+					butP.remove(cancel);
+					butP.add(acept);
+					butP.add(edit);
+					info.setChanges(true);
+					info.setInfoNotEditable();
+					validateAndrepaint();
+					
+					JOptionPane.showMessageDialog(
+							   null,
+							   "Nuevos Datos Guardados Correctamente");
+					
+				}
+								
+			}	
 			
 		});
 	}
@@ -101,8 +141,4 @@ public class ProfileCenterPage extends JFrame{
 		this.repaint();
 	}
 	
-	
-	
-	
-
 }

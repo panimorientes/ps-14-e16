@@ -1,0 +1,8 @@
+package profilePage;
+
+public class VectorInfo {
+	
+	private String[] data = {"Nombre","Primer Apellido","Segundo Apellido","Fecha Nacimiento",
+			"","","","",""};
+
+}

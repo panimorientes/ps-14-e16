@@ -1,0 +1,133 @@
+package profilePage;
+
+
+import java.awt.FlowLayout;
+import java.awt.LayoutManager;
+import javax.swing.BoxLayout;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+public class ProfileInfo extends JPanel{
+	private String img,nombre,ap1,ap2,dir,mail,ciudad,fnac,tlf,codPost;
+	//Vecto de JTextFields, 
+	// v[0]=nombre, v[1]=ap1, v[2]=apF, v[3]=fecha nacimiento, v[4]=dir,
+	// v[5]=ciudad, v[6]=codPostal, v[7]=tlf, v[8]=mail
+	
+	private JTextField[] textFieldVector;
+
+	
+	
+	public ProfileInfo(){
+		
+		textFieldVector = new JTextField[9];
+		this.setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
+		JPanel nP = new JPanel((LayoutManager) new FlowLayout(FlowLayout.LEFT));
+		nP.add(new JLabel("Nombre: "));
+		textFieldVector[0] = new JTextField();
+		textFieldVector[0].setEditable(false);
+		nP.add(textFieldVector[0]);
+		this.add(nP);
+		
+		JPanel ap1P = new JPanel((LayoutManager) new FlowLayout(FlowLayout.LEFT));
+		ap1P.add(new JLabel("Primer Apellido: "));
+		textFieldVector[1] = new JTextField();
+		textFieldVector[1].setEditable(false);
+		ap1P.add(textFieldVector[1]);
+		this.add(ap1P);
+		
+		JPanel ap2P = new JPanel((LayoutManager) new FlowLayout(FlowLayout.LEFT));
+		ap2P.add(new JLabel("Segundo Apellido: "));
+		textFieldVector[2] = new JTextField();
+		textFieldVector[2].setEditable(false);
+		ap2P.add(textFieldVector[2]);
+		this.add(ap2P);
+		
+		JPanel fnacP = new JPanel((LayoutManager) new FlowLayout(FlowLayout.LEFT));
+		fnacP.add(new JLabel("Fecha Nacimiento: "));
+		textFieldVector[3] = new JTextField();
+		textFieldVector[3].setEditable(false);
+		fnacP.add(textFieldVector[3]);
+		this.add(fnacP);
+		
+		JPanel dirP = new JPanel((LayoutManager) new FlowLayout(FlowLayout.LEFT));
+		dirP.add(new JLabel("Direccion: "));
+		textFieldVector[4] = new JTextField();
+		textFieldVector[4].setEditable(false);
+		dirP.add(textFieldVector[4]);
+		this.add(dirP);
+		
+		JPanel cP = new JPanel((LayoutManager) new FlowLayout(FlowLayout.LEFT));
+		cP.add(new JLabel("Ciudad: "));
+		textFieldVector[5] = new JTextField();
+		textFieldVector[5].setEditable(false);
+		cP.add(textFieldVector[5]);
+		this.add(cP);
+		
+		JPanel cpP = new JPanel((LayoutManager) new FlowLayout(FlowLayout.LEFT));
+		cpP.add(new JLabel("Codigo Postar: "));
+		textFieldVector[6] = new JTextField();
+		textFieldVector[6].setEditable(false);
+		cpP.add(textFieldVector[6]);
+		this.add(cpP);
+		
+		JPanel tlfP = new JPanel((LayoutManager) new FlowLayout(FlowLayout.LEFT));
+		tlfP.add(new JLabel("Telefono: "));
+		textFieldVector[7] = new JTextField();
+		textFieldVector[7].setEditable(false);
+		tlfP.add(textFieldVector[7]);
+		this.add(tlfP);
+		
+		JPanel mP = new JPanel((LayoutManager) new FlowLayout(FlowLayout.LEFT));
+		mP.add(new JLabel("E-mail: "));
+		textFieldVector[8] = new JTextField();
+		textFieldVector[8].setEditable(false);
+		mP.add(textFieldVector[8]);
+		this.add(mP);
+		
+		
+
+		fillInfo();
+	}
+	
+	private void fillInfo(){
+		
+		DataManager myDataManager = new DataManager();
+		String[] myData;
+		myData = myDataManager.getData();
+		for(int i=0;i<textFieldVector.length;i++){
+			textFieldVector[i].setText(myData[i]);
+		}
+			
+		// leer del fichero de configuracion.
+		
+		textFieldVector[0].setText("Bart");
+		textFieldVector[1].setText("Simpson");
+		textFieldVector[2].setText("Boubier");
+		textFieldVector[4].setText("Calle Falsa 123");
+		textFieldVector[8].setText("theBarto@theSimpsons.com");
+		textFieldVector[5].setText("Springfield");
+		textFieldVector[3].setText("25/8/1990");
+		textFieldVector[7].setText("555-555-555");
+		textFieldVector[6].setText("12345");
+	}
+	
+	public void setInfoEditable(){
+		
+		for(JTextField txt: textFieldVector){
+			txt.setEditable(true);
+			txt.setColumns(30);
+		}
+	}
+	
+	public void setInfoNotEditable(){
+		
+		for(JTextField txt: textFieldVector){
+			txt.setEditable(false);
+			txt.setColumns(txt.getText().length());
+		}
+		
+
+	}
+
+}

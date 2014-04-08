@@ -1,0 +1,11 @@
+package coctailPage;
+
+import javax.swing.JPanel;
+
+public class CenterCoctailPanel extends JPanel {
+	
+	public CenterCoctailPanel(String name){
+		
+	}
+
+}
