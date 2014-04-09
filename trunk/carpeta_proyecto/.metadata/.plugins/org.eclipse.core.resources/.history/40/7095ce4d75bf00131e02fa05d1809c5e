@@ -1,0 +1,81 @@
+package profilePage;
+
+import homePage.SearchResultPage;
+
+import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+
+
+public class ProfileCenterPage extends JPanel{
+	
+	private ProfileInfo info;
+	private JButton edit, continueBuy;
+	private JPanel butP;
+	private SearchResultPage searchPage;
+	
+	public ProfileCenterPage(SearchResultPage sp){
+		this.info = new ProfileInfo();
+		this.butP=new JPanel();
+		this.searchPage=sp;
+		this.setLayout(new BorderLayout());
+		this.add(info,BorderLayout.CENTER);
+
+		putButtons();
+		butP.add(edit);
+		butP.add(continueBuy);
+		this.add(butP,BorderLayout.SOUTH);
+		
+		
+	}
+	
+	private void putButtons(){
+
+		
+		edit = new JButton("Editar");
+		edit.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				
+				butP.remove(acept);
+				butP.remove(edit);
+				butP.add(save);
+				butP.add(cancel);
+				info.setInfoEditable();
+				validateAndrepaint();
+			}
+			
+		});
+		
+		
+		continueBuy = new JButton("Continuar Comprando");
+		continueBuy.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				
+				searchPage.goToHome();
+								
+			}	
+			
+		});
+	}
+	
+	private void hideMe(){
+		this.setVisible(false);
+	}
+	
+	private void validateAndrepaint(){
+		this.validate();
+		this.repaint();
+	}
+	
+}

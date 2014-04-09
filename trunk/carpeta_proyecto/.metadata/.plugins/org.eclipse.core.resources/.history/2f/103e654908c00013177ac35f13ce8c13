@@ -1,0 +1,125 @@
+package main;
+
+import homePage.SearchResultPage;
+
+import java.awt.BorderLayout;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+
+import profilePage.ProfileCenterPage;
+import profilePage.ProfileFrame;
+
+
+import common.BotInfoPanel;
+import common.TopInfoPanel;
+import connection.ConnectionManager;
+
+public class NinjaFrame extends JFrame {
+	
+	private BotInfoPanel botP;
+	private TopInfoPanel topP;
+	private SearchResultPage sCenterP;
+	private ProfileFrame profile;
+	private Connection db;
+//	private JButton prueba;
+
+	/**
+	 * Constructor method of the parent of my componetns
+	 */
+	public NinjaFrame(){
+		
+			
+			profile = new ProfileFrame();
+			botP=new BotInfoPanel();
+			sCenterP = new SearchResultPage();
+			topP=new TopInfoPanel(this,sCenterP);
+
+		
+		
+//		//TEST CODE TO GET A WELCOME PAGE ONLY A BUTTON
+//		this.setVisible(true);
+//		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+//		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+//		
+//		prueba = new JButton("ESTE BOTON ES DE PRUEBA; LA APLICACION TENDRA PANTALLA INICIAL!!");
+//		this.add(prueba);
+//		
+//		prueba.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e){
+//			
+//				iniciateFrame();
+//
+//			}
+//		});
+//		
+//		//END CODE TEST
+		iniciateFrame();
+	}
+	
+	/**
+	 * Iiciate the JFrame.
+	 */
+	private void iniciateFrame(){
+		
+		/**
+		 * add the price to the panel. Get the price from a query to the DB
+		 */
+		private void addPrice(){
+			try{
+				Statement st = db.createStatement();
+			    ResultSet rs = st.executeQuery("SELECT precio from coctail where nombre='"+this.name+"'" );
+			     
+			    while (rs.next()){
+			    	JLabel priceL = new JLabel("Precio: "+rs.getDouble("precio"));
+					priceL.setFont(new Font("Arial", Font.ITALIC, 28));
+					allTheInfo.add(priceL);
+				}
+				rs.close();
+				st.close();
+				
+			}
+			catch (SQLException e){
+				System.out.println("error SearchResult get price");
+				allTheInfo.add(new JLabel("Precio Desconocido"));
+			}
+		}
+		this.setSize(1366,720);
+		this.setResizable(false);
+		this.setLocationRelativeTo(null);
+		this.setIconImage((new ImageIcon("coctailsImgs/logoMin.jpg").getImage()));
+		this.setTitle("SOFTWARE NINJAS");
+		this.setLayout(new BorderLayout());
+		this.add(botP,BorderLayout.SOUTH);
+		this.add(topP,BorderLayout.NORTH);
+		this.add(sCenterP,BorderLayout.CENTER);
+		
+		this.setVisible(true);
+		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.validate();
+		this.repaint();
+	}
+	
+	public static void main(String[] args){
+		
+		new NinjaFrame();
+		
+	}
+	
+	public void showProfile(){
+		
+		profile.setVisible(true);
+		
+	}
+	
+}
