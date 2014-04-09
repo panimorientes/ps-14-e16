@@ -3,7 +3,6 @@ package profilePage;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -11,10 +10,14 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class ProfileFrame extends JFrame {
+	
 	private ProfileInfo info;
 	private JButton acept, cancel, edit, save;
 	private JPanel butP;
 	
+	/**
+	 * Constructor
+	 */
 	public ProfileFrame(){
 		info = new ProfileInfo();
 		butP=new JPanel();
@@ -27,24 +30,24 @@ public class ProfileFrame extends JFrame {
 		this.setSize(500,700);
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);
-		putButtons();
+		addButtons();
 		butP.add(edit);
 		butP.add(acept);
 		this.add(butP,BorderLayout.SOUTH);
 		
-		
 	}
 	
-	private void putButtons(){
+	/**
+	 * create the buttons and set the listeners.
+	 */
+	private void addButtons(){
 		acept = new JButton("Aceptar");
 		acept.addActionListener(new ActionListener(){
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				hideMe();
-				
+				hideMe();	
 			}
-			
 		});
 		
 		edit = new JButton("Editar");
@@ -59,8 +62,7 @@ public class ProfileFrame extends JFrame {
 				butP.add(cancel);
 				info.setInfoEditable();
 				validateAndrepaint();
-			}
-			
+			}	
 		});
 		
 		cancel = new JButton("Cancelar");
@@ -88,8 +90,7 @@ public class ProfileFrame extends JFrame {
 					validateAndrepaint();
 				}
 								
-			}
-			
+			}	
 		});
 		
 		save = new JButton("Guardar");
@@ -120,19 +121,22 @@ public class ProfileFrame extends JFrame {
 					
 					JOptionPane.showMessageDialog(
 							   null,
-							   "Nuevos Datos Guardados Correctamente");
-					
-				}
-								
+							   "Nuevos Datos Guardados Correctamente");	
+				}					
 			}	
-			
 		});
 	}
 	
+	/**
+	 * Set my Visibility to false.
+	 */
 	private void hideMe(){
 		this.setVisible(false);
 	}
 	
+	/**
+	 * calls to the method validate and repaint for mySelf.
+	 */
 	private void validateAndrepaint(){
 		this.validate();
 		this.repaint();

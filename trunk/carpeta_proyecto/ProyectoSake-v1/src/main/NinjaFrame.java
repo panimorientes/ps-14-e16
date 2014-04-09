@@ -26,26 +26,22 @@ public class NinjaFrame extends JFrame {
 	private TopInfoPanel topP;
 	private SearchResultPage sCenterP;
 	private ProfileFrame profile;
-	private Connection db;
-
 //	private JButton prueba;
-	
+
+	/**
+	 * Constructor method of the parent of my componetns
+	 */
 	public NinjaFrame(){
-		try{
-			db=ConnectionManager.getConnection();
+		
+			
 			profile = new ProfileFrame();
 			botP=new BotInfoPanel();
-			
-			//Pasar x parametro CONEXION BD
-			sCenterP = new SearchResultPage(db);
+			sCenterP = new SearchResultPage();
 			topP=new TopInfoPanel(this,sCenterP);
-		}
-		catch(SQLException e){
-			System.out.println("error inicio");
-		}
+
 		
 		
-//		//CDIGO PRUEBA
+//		//TEST CODE TO GET A WELCOME PAGE ONLY A BUTTON
 //		this.setVisible(true);
 //		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
 //		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -61,12 +57,12 @@ public class NinjaFrame extends JFrame {
 //			}
 //		});
 //		
-//		//FIN CODIGO PRUEBA
+//		//END CODE TEST
 		iniciateFrame();
 	}
 	
 	/**
-	 * Método que inicia el JFrame.
+	 * Iiciate the JFrame.
 	 */
 	private void iniciateFrame(){
 		
@@ -94,10 +90,11 @@ public class NinjaFrame extends JFrame {
 		
 	}
 	
+	/**
+	 * Shows a new JFrame with the prifile info
+	 */
 	public void showProfile(){
-		
-		profile.setVisible(true);
-		
+		profile.setVisible(true);	
 	}
 	
 }

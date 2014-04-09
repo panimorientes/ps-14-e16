@@ -1,17 +1,14 @@
 package homePage;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
@@ -22,15 +19,20 @@ public class CoctailDescriptionPanel extends JPanel {
 	private JLabel imgLabel, titleLabel;
 	private SearchResultPage searchPage;
 	
+	/**
+	 * Constructor. Makes an object with some info of the coctail
+	 * @param img, the image of the coctail
+	 * @param name, the name of the coctail
+	 * @param descr, the description of the coctail
+	 * @param searchPage, my grandParent. Used to link.
+	 */
 	public CoctailDescriptionPanel(String img, String name, String descr, 
-			SearchResultPage searchPage){
+									SearchResultPage searchPage){
 		
 		this.img=img;
 		this.name=name;
 		this.searchPage=searchPage;
-		
-		
-		//gestion de la descripcion
+
 		this.descr=descr;
 		if(this.descr.length()>100){
 			this.descr=this.descr.substring(0,96)+" ...";
@@ -41,6 +43,9 @@ public class CoctailDescriptionPanel extends JPanel {
 
 	}
 	
+	/**
+	 * Add the components of the JPanel coctail.
+	 */
 	private void addComponents(){
 		
 		JPanel imgPanel = new JPanel();
@@ -84,88 +89,58 @@ public class CoctailDescriptionPanel extends JPanel {
 		btn.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e){
 		
-			 JOptionPane.showMessageDialog(null,"COMRPAR "+name);
+			 searchPage.addToShop(name);
 
 		}
 	});
 	}
 	
 	/**
-	 * Método privado que añade los listeners al JLabel de contacto y al JLabel de FAQ
+	 * Set the listeners to the JLabels "imgLabel" and "titleLabel"
+	 * 
 	 */
 	private void addListeners(){
 		
 		titleLabel.addMouseListener(new MouseListener() {
 			
-			   public void mouseClicked(MouseEvent arg0) {
+			public void mouseClicked(MouseEvent arg0) {
+				searchPage.goToCoctail(name);
 				   
-				   searchPage.goToCoctail(name);
-				   
-			   }
-
-			@Override
-			public void mouseEntered(MouseEvent arg0) {
-				
-			
-				
 			}
 
 			@Override
-			public void mouseExited(MouseEvent arg0) {
-				
-				
-				
-			}
+			public void mouseEntered(MouseEvent arg0) {}
 
 			@Override
-			public void mousePressed(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
+			public void mouseExited(MouseEvent arg0) {}
 
 			@Override
-			public void mouseReleased(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
+			public void mousePressed(MouseEvent arg0) {}
+
+			@Override
+			public void mouseReleased(MouseEvent arg0) {}
 
 		});
 		
 		imgLabel.addMouseListener(new MouseListener() {
 			
-			   public void mouseClicked(MouseEvent arg0) {
-				   
-				   searchPage.goToCoctail(name);
-			   }
-
-			@Override
-			public void mouseEntered(MouseEvent arg0) {
-				
-				
-				
+			public void mouseClicked(MouseEvent arg0) {
+				searchPage.goToCoctail(name);
 			}
 
 			@Override
-			public void mouseExited(MouseEvent arg0) {
-				
-			
-				
-			}
+			public void mouseEntered(MouseEvent arg0) {}
 
 			@Override
-			public void mousePressed(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
+			public void mouseExited(MouseEvent arg0) {}
 
 			@Override
-			public void mouseReleased(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
+			public void mousePressed(MouseEvent arg0) {}
+
+			@Override
+			public void mouseReleased(MouseEvent arg0) {}
 
 		});
-		
-		
+	
 	}
 }
