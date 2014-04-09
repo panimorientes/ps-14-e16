@@ -14,10 +14,8 @@ public class PageNumberManager extends JPanel{
 	private int nPag;
 	
 	/**
-	 * panel contendra las paginas disponibles y los links hacia ellas.
-	 * Si solo hay un página dispoible aparecera solo página 1. y sin nignun link
-	 * Si hay mas de 10 páginas disponibles aparecera  <Anterior Pagina 1 2 3 4 ... n-3 n-2 n-1 n Siguiente>, sinedo n el numero de páginas
-	 * Si hay entre 1 y 10, aparecera lo mismo que en la anterior pero sin los "..."
+	 * Constructor
+	 * @param p my parent.
 	 */
 	public PageNumberManager(SearchResultPage p){
 		mySearch=p;
@@ -32,14 +30,13 @@ public class PageNumberManager extends JPanel{
 		
 		nPag=(nCoc/9)+1;
 		
-		//solo hya una págin
+
 		if(nPag == 1){
 			this.add(new JLabel("<"));
 			addLabel("1");
 			this.add(new JLabel(">"));
 		}
 		
-		//hay 10 o menos páginas
 		else if(nPag <11 && nPag!=1){
 
 			addLabel("<Anterior");
@@ -48,14 +45,11 @@ public class PageNumberManager extends JPanel{
 
 				addLabel(""+i);
 			}
-			
 
-			addLabel("Siguiente>");
-			
+			addLabel("Siguiente>");		
 		}
-		//hay mas de 10 páginas
-		else{
 
+		else{
 			addLabel("<Anterior");
 			for(int i=1;i<6;i++){
 				addLabel(""+i);
@@ -65,19 +59,20 @@ public class PageNumberManager extends JPanel{
 
 				addLabel(""+(nPag-i));
 			}
-			
 
 			addLabel("Siguiente>");
 		}
-		
 	}
 	
+	/**
+	 * add one JLabel to this and addthe listenets to this JLabel.
+	 * @param pagN, name of the JLabel
+	 */
 	private void addLabel(final String pagN){
 		
 		final JLabel lab = new JLabel(pagN);
 
 		lab.setFont(new Font("Arial", Font.BOLD, 16)); 
-
 		
 		final int goToPag;
 		int actPag=0;
@@ -85,14 +80,12 @@ public class PageNumberManager extends JPanel{
 			actPag=Integer.parseInt(pagN);
 		}
 		
-		
 		if(pagN.equals("<Anterior")){
 			int goTo = mySearch.getPag()-1;
 			if(goTo<1){
 				goTo=1;
 			}
 			goToPag=goTo;
-			
 		}
 		else if(pagN.equals("Siguiente>")){
 			int goTo = mySearch.getPag()+1;
@@ -105,46 +98,31 @@ public class PageNumberManager extends JPanel{
 			goToPag=actPag;
 		}
 		
-		
 		lab.addMouseListener(new MouseListener() {
 			
-			   public void mouseClicked(MouseEvent arg0) {
-				  
-				  
-				  mySearch.changePag(goToPag);
-				   
-			   }
+			public void mouseClicked(MouseEvent arg0) {
+				   mySearch.changePag(goToPag);   
+			}
 
 			@Override
 			public void mouseEntered(MouseEvent arg0) {
-				
 				lab.setForeground(Color.BLUE);
-				
 			}
 
 			@Override
-			public void mouseExited(MouseEvent arg0) {
-				
+			public void mouseExited(MouseEvent arg0) {	
 				lab.setForeground(null);
-				
 			}
 
 			@Override
-			public void mousePressed(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
+			public void mousePressed(MouseEvent arg0) {}
 
 			@Override
-			public void mouseReleased(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
+			public void mouseReleased(MouseEvent arg0) {}
 
 		});
 
 		this.add(lab);
 	}
-	
 	
 }

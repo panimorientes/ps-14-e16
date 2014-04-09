@@ -1,5 +1,3 @@
-// Clase que implementa el panel inferior de nuestra aplicacion.
-// Visible en cualquier estado de esta.
 package common;
 
 
@@ -7,7 +5,6 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -16,107 +13,80 @@ public class BotInfoPanel extends JPanel {
 	
 	private JLabel faq,contact;
 	
+	/**
+	 * Constructor Method
+	 */
 	public BotInfoPanel(){
 		
-		this.setLayout(new GridLayout(0,2));
+		this.setLayout(new GridLayout(0,2));	
+		JLabel cpRight = new JLabel("SoftWare Ninja @2014");
+		this.add(cpRight);
 		
 		JPanel p1 = new JPanel();
-		JPanel p2 = new JPanel();
-		p2.setLayout(new GridLayout(0,2));
-		
-		JLabel cpRight = new JLabel("SoftWare Ninja @2014");
-		p1.add(cpRight);
+		p1.setLayout(new GridLayout(0,2));
 		
 		contact = new JLabel("Contactar");
 		faq = new JLabel("FAQ");
-		p2.add(contact);
-		p2.add(faq);
+		p1.add(contact);
+		p1.add(faq);
 		
-		this.add(p1);
-		this.add(p2);
-		
+		this.add(p1);	
 		addListeners();
-			
 	}
 	
 	/**
-	 * Método privado que añade los listeners al JLabel de contacto y al JLabel de FAQ
+	 * Set the listeners to the JLabels "conctact" and "FAQ"
 	 */
 	private void addListeners(){
 		
 		faq.addMouseListener(new MouseListener() {
 			
 			   public void mouseClicked(MouseEvent arg0) {
-				   
-				   JOptionPane.showMessageDialog(null,"AQUI VIENE EL FAQ, DISCUTIR COMO");
-				   
+				   //Here will be a link to the FAQ text.
+				   JOptionPane.showMessageDialog(null,"AQUI VIENE EL FAQ, DISCUTIR COMO");		   
 			   }
 
 			@Override
-			public void mouseEntered(MouseEvent arg0) {
-				
-				faq.setForeground(Color.BLUE);
-				
+			public void mouseEntered(MouseEvent arg0) {	
+				faq.setForeground(Color.BLUE);			
 			}
 
 			@Override
 			public void mouseExited(MouseEvent arg0) {
-				
 				faq.setForeground(null);
-				
 			}
 
 			@Override
-			public void mousePressed(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
+			public void mousePressed(MouseEvent arg0) {}
 
 			@Override
-			public void mouseReleased(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
+			public void mouseReleased(MouseEvent arg0) {}
 
 		});
 		
 		contact.addMouseListener(new MouseListener() {
 			
 			   public void mouseClicked(MouseEvent arg0) {
-				   
-				   JOptionPane.showMessageDialog(null,"AQUI VIENE EL CONTACTO, DISCUTIR COMO");
-				   
+				   //Here will be a link to a class who sends a contact mmail
+				   JOptionPane.showMessageDialog(null,"AQUI VIENE EL CONTACTO, DISCUTIR COMO");	   
 			   }
 
 			@Override
-			public void mouseEntered(MouseEvent arg0) {
-				
+			public void mouseEntered(MouseEvent arg0) {	
 				contact.setForeground(Color.BLUE);
-				
 			}
 
 			@Override
 			public void mouseExited(MouseEvent arg0) {
-				
 				contact.setForeground(null);
-				
 			}
 
 			@Override
-			public void mousePressed(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
+			public void mousePressed(MouseEvent arg0) {}
 
 			@Override
-			public void mouseReleased(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
+			public void mouseReleased(MouseEvent arg0) {}
 
-		});
-		
-		
+		});		
 	}
-
 }

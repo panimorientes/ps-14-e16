@@ -5,12 +5,21 @@ import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.util.Scanner;
 
+
 public class DataManager {
 	
+	/**
+	 * That class implements static methods to get the info of the profile
+	 */
 	private static final String configPath ="profile/profile.txt";
 	private static final String[] configInfo ={"nif:=","name:=","ap1:=",
 										"ap2:=","fnac:=","dir:=",
 										"ciudad:=","codP:=","tlf:=","e-mail:="};
+	
+	/**
+	 * return true only if that profile has been installed at least one time
+	 * @return if the profile has been stalled
+	 */
 	public static boolean isInstalled(){
 		try{
 			Scanner sc = new Scanner(new File(configPath));
@@ -26,6 +35,10 @@ public class DataManager {
 		
 	}
 	
+	/**
+	 * Return the data of the profile
+	 * @return String[] with the profile info
+	 */
 	public static String[] getData(){
 		try{
 			String[] data = new String[configInfo.length];
@@ -43,6 +56,10 @@ public class DataManager {
 		catch(Exception e){System.out.println("error getData"); return null;}
 	}
 	
+	/**
+	 * Set the profile info in the profile config file
+	 * @param data,info of the profile
+	 */
 	public static void updateData(String[] data){
 		FileWriter fichero = null;
         PrintWriter pw = null;
@@ -59,8 +76,6 @@ public class DataManager {
             e.printStackTrace();
         } finally {
            try {
-           // Nuevamente aprovechamos el finally para 
-           // asegurarnos que se cierra el fichero.
            if (null != fichero)
               fichero.close();
            } catch (Exception e2) {
@@ -68,6 +83,5 @@ public class DataManager {
            }
         }
 	}
-		
-
+	
 }

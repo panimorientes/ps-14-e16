@@ -10,7 +10,6 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -28,7 +27,19 @@ public class CenterCoctailPanel extends JPanel {
 	private JPanel centerInfo,allTheInfo;
 	private JButton buyMe;
 	
+	/**
+	 * Constructor method.
+	 * @param name, name used to search in the DB
+	 */
 	public CenterCoctailPanel(String name){
+		//Get the connection to he DB
+		try{
+			db = ConnectionManager.getConnection();
+		}
+		catch(SQLException e){
+			System.out.println("error getConnection CenterCoctailPanel");
+		}
+		
 		this.name=name;
 		centerInfo=new JPanel();
 		centerInfo.setLayout(new BorderLayout());
@@ -36,24 +47,15 @@ public class CenterCoctailPanel extends JPanel {
 		allTheInfo.setLayout(new BoxLayout(allTheInfo,BoxLayout.Y_AXIS));
 		buyMe = new JButton("Anhadir al carrito");
 		
-		buyMe.addActionListener(new ActionListener(){
-
+		this.buyMe.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-				
+				//add the coctail to the shop. Not implement yet.
 			}
-			
 		});
 		
 		centerInfo.add(buyMe,BorderLayout.SOUTH);
-		centerInfo.add(allTheInfo,BorderLayout.CENTER);
-		try{
-			db = ConnectionManager.getConnection();
-		}
-		catch(SQLException e){
-			System.out.println("SQLEXCEPION CONNECTION CENTERCOCTAILPANEL");
-		}
+		centerInfo.add(allTheInfo,BorderLayout.CENTER);	
 		
 		this.setLayout(new BorderLayout());
 		JPanel titleP = new JPanel();
@@ -66,67 +68,81 @@ public class CenterCoctailPanel extends JPanel {
 		addDescr();		
 		addIngr();
 		addPrice();
-		
 	}
 	
+	/**
+	 * add the price to the panel. Get the price from a query to the DB
+	 */
 	private void addPrice(){
-		
-		 try{
-			 Statement st = db.createStatement();
-		     ResultSet rs = st.executeQuery("SELECT precio from coctail where nombre='"+this.name+"'" );
+		try{
+			Statement st = db.createStatement();
+		    ResultSet rs = st.executeQuery("SELECT precio from coctail where nombre='"+this.name+"'" );
 		     
-		     while (rs.next()){
+		    while (rs.next()){
 		    	JLabel priceL = new JLabel("Precio: "+rs.getDouble("precio"));
 				priceL.setFont(new Font("Arial", Font.ITALIC, 28));
 				allTheInfo.add(priceL);
-			 }
+			}
 			rs.close();
 			st.close();
 			
 		}
 		catch (SQLException e){
-		System.out.println("error SearchResult get INGR");
-		
+			System.out.println("error SearchResult get price");
+			allTheInfo.add(new JLabel("Precio Desconocido"));
 		}
 	}
 	
+	/**
+	 * add the coctail image to the left side of the panel.
+	 * Get the path to the image from a query to the DB.
+	 */
 	private void addImg(){
-
-				String img="";
-
-				 try{
-					 Statement st = db.createStatement();
-				     ResultSet rs = st.executeQuery("SELECT PathImg from coctail where nombre='"+this.name+"'" );
+		String img="";
+		try{
+			Statement st = db.createStatement();
+			ResultSet rs = st.executeQuery("SELECT PathImg from coctail where nombre='"+this.name+"'" );
 				     
-				     while (rs.next()){
-				    	 img=rs.getString("PathImg");
+			while (rs.next()){
+				img=rs.getString("PathImg");
 					          
-					 }
-					 rs.close();
-					 st.close();
-				}
-				catch (SQLException e){
-				System.out.println("error SearchResult get INGR");
-				img="Error consulta Img SQL";
-				}
-				 
-				img=img.substring(0,img.length()-4)+"2.jpg";
-				JPanel panel = new JPanel((LayoutManager) new FlowLayout(FlowLayout.CENTER));
-				panel.add(new JLabel(new ImageIcon(img)));
-				this.add(panel,BorderLayout.WEST);
-
+			}
+			rs.close();
+			st.close();
+		}
+		catch (SQLException e){
+			System.out.println("error SearchResult get IMG");
+			img="Error consulta Img SQL";
+		}
+		JPanel panel = new JPanel((LayoutManager) new FlowLayout(FlowLayout.CENTER));
+		
+		//Only works with jpg iamges. Fix it with all images or try to resize it manually.
+		if(img.contains(".jpg")){
+			img=img.substring(0,img.length()-4)+"2.jpg";
+			panel.add(new JLabel(new ImageIcon(img)));
+		}
+		else{
+			panel.add(new JLabel(img));
+		}
+		this.add(panel,BorderLayout.WEST);
 	}
 	
+	/**
+	 * add a list of ingredients. Get the list from a query to the DB
+	 */
 	private void addIngr(){
-
 		 try{
 			 Statement st = db.createStatement();
 		     ResultSet rs = st.executeQuery("SELECT Ingrediente_nombreI from " +
 		     								"pertenece where Coctail_nombre ='"+this.name+"'" );
 		     
+		     JLabel ingrL = new JLabel("Lista de Ingredientes:");
+		     ingrL.setFont(new Font("Arial", Font.ITALIC, 28));
+		     allTheInfo.add(ingrL);
+		   
 		     while (rs.next()){
-		    	JLabel ingrL = new JLabel("· "+rs.getString("Ingrediente_nombreI"));
-				ingrL.setFont(new Font("Arial", Font.ITALIC, 28));
+		    	ingrL = new JLabel("· "+rs.getString("Ingrediente_nombreI"));
+				ingrL.setFont(new Font("Arial", Font.ITALIC, 22));
 				allTheInfo.add(ingrL);
 			          
 			 }
@@ -135,27 +151,31 @@ public class CenterCoctailPanel extends JPanel {
 		}
 		catch (SQLException e){
 		System.out.println("error SearchResult get INGR");
+		allTheInfo.add(new JLabel("Ingredientes Desconocidos"));
 		}
 		
 	}
 	
+	/**
+	 * add the desription of the coctail. 
+	 * Get the description from a query to the DB 
+	 */
 	private void addDescr(){
-		
 		String descr ="";
-		 try{
-			 Statement st = db.createStatement();
-		     ResultSet rs = st.executeQuery("SELECT Descripcion from coctail where " +
-		     		"nombre='"+this.name+"'" );
+		try{
+			Statement st = db.createStatement();
+		    ResultSet rs = st.executeQuery("SELECT Descripcion from coctail where " +
+		     								"nombre='"+this.name+"'" );
 		     
-		     while (rs.next()){
-		    	 descr=""+rs.getString("Descripcion");          
-			 }
-			 rs.close();
-			 st.close();
+		    while (rs.next()){
+		    	descr=""+rs.getString("Descripcion");          
+			}
+		    rs.close();
+			st.close();
 		}
 		catch (SQLException e){
-		System.out.println("error SearchResult get INGR");
-		descr="Error consulta Descripcion SQL";
+			System.out.println("error SearchResult get DESCCR");
+			descr="Descripcion Desconocida";
 		}
 		 
 		JTextArea descrJTA = new JTextArea(descr);

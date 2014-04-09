@@ -7,22 +7,25 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.JPanel;
 
+import connection.ConnectionManager;
+
 public class CenterPagePanel extends JPanel{
 	
-	private Connection myDB;
-	private SearchResultPage searchPage;
-	
-	public CenterPagePanel(int nPage, Connection db,SearchResultPage searchPage){
-		
-		this.myDB=db;
-		this.searchPage=searchPage;
-		
-		int skipedCoctails=(nPage-1)*9;
-		
-		this.setLayout(new GridLayout(0,3));
 
-			
+	/**
+	 * Method Constructor, The constructor makes a new Object who contains 9 coctailt
+	 * from the DB.
+	 * @param nPage, number of the page
+	 * @param searchPage, my parent, usedto link
+	 */
+	public CenterPagePanel(int nPage,SearchResultPage searchPage){
+		
+
+		int skipedCoctails=(nPage-1)*9;
+	
+		this.setLayout(new GridLayout(0,3));
 		 try{
+			 Connection myDB = ConnectionManager.getConnection();
 			 Statement st = myDB.createStatement();
 	         ResultSet rs = st.executeQuery("select * from coctail limit "+skipedCoctails+",9" );
 	         String img,name,descr;
@@ -40,9 +43,7 @@ public class CenterPagePanel extends JPanel{
 		 }
 		 catch (SQLException e){
 			 System.out.println("error centerPagePanel");
-		 }
-			
-	}
-	
+		 }		
+	}	
 }
 

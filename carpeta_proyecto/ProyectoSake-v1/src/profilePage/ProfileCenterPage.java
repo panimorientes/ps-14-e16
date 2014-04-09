@@ -5,7 +5,6 @@ import homePage.SearchResultPage;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -18,6 +17,10 @@ public class ProfileCenterPage extends JPanel{
 	private JPanel butP;
 	private SearchResultPage searchPage;
 	
+	/**
+	 * Constructor
+	 * @param sp, my parent
+	 */
 	public ProfileCenterPage(SearchResultPage sp){
 		info = new ProfileInfo();
 		butP=new JPanel();
@@ -25,24 +28,23 @@ public class ProfileCenterPage extends JPanel{
 		this.setLayout(new BorderLayout());
 		this.add(info,BorderLayout.CENTER);
 
-		putButtons();
+		addButtons();
 		butP.add(edit);
 		butP.add(continueBuy);
 		this.add(butP,BorderLayout.SOUTH);
-		
-		
 	}
 	
-	private void putButtons(){
+	/**
+	 * create the buttons and set the listeners.
+	 */
+	private void addButtons(){
 		continueBuy = new JButton("Continuar Comprando");
 		continueBuy.addActionListener(new ActionListener(){
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				searchPage.goToHome();
-				
+				searchPage.goToHome();	
 			}
-			
 		});
 		
 		edit = new JButton("Editar");
@@ -58,7 +60,6 @@ public class ProfileCenterPage extends JPanel{
 				info.setInfoEditable();
 				validateAndrepaint();
 			}
-			
 		});
 		
 		cancel = new JButton("Cancelar");
@@ -73,7 +74,7 @@ public class ProfileCenterPage extends JPanel{
 						   "Cancelar edicion",
 						   JOptionPane.YES_NO_OPTION,
 						   JOptionPane.QUESTION_MESSAGE,
-						   null, //icono
+						   null, //possible image icon
 						   new Object[] { "Si","No"},
 						   "Yes");
 				if(option==0){
@@ -118,16 +119,15 @@ public class ProfileCenterPage extends JPanel{
 					
 					JOptionPane.showMessageDialog(
 							   null,
-							   "Nuevos Datos Guardados Correctamente");
-					
-				}
-								
-			}	
-			
+							   "Nuevos Datos Guardados Correctamente");		
+				}					
+			}		
 		});
 	}
 	
-	
+	/**
+	 * calls to the method validate and repaint for mySelf.
+	 */
 	private void validateAndrepaint(){
 		this.validate();
 		this.repaint();

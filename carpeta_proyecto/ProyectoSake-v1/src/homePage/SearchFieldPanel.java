@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -16,8 +15,9 @@ public class SearchFieldPanel extends JPanel{
 	private JTextField field;
 	private JLabel search, advanced;
 
-
-
+	/**
+	 * Constructor.
+	 */
 	public SearchFieldPanel(){
 		
 		field = new JTextField();
@@ -30,87 +30,60 @@ public class SearchFieldPanel extends JPanel{
 		this.add(field);
 		this.add(search);
 		
-		
 		addListeners();
 		
 	}
 	/**
-	 * Método privado que añade los listeners al JLabel advanced y al JLabel de search
+	 *Add the listeners to the JLabel "search" and "advanced"
 	 */
 	private void addListeners(){
 		
 		search.addMouseListener(new MouseListener() {
 			
-			   public void mouseClicked(MouseEvent arg0) {
-				   
-				   JOptionPane.showMessageDialog(null,"BUSCA");
-				   
-			   }
-	
-			@Override
-			public void mouseEntered(MouseEvent arg0) {
-				
-			
-				
+			public void mouseClicked(MouseEvent arg0) {
+				//Not implemented YET
+				JOptionPane.showMessageDialog(null,"BUSCA");
 			}
 	
 			@Override
-			public void mouseExited(MouseEvent arg0) {
-				
-				
-				
-			}
+			public void mouseEntered(MouseEvent arg0) {}
 	
 			@Override
-			public void mousePressed(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
+			public void mouseExited(MouseEvent arg0) {}
 	
 			@Override
-			public void mouseReleased(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
+			public void mousePressed(MouseEvent arg0) {}
+	
+			@Override
+			public void mouseReleased(MouseEvent arg0) {}
 	
 		});
 		
 		advanced.addMouseListener(new MouseListener() {
 			
-			   public void mouseClicked(MouseEvent arg0) {
+			public void mouseClicked(MouseEvent arg0) {
+				//Not implemented YET   
+				JOptionPane.showMessageDialog(null,"BUSQUEDA AVANZADA");
 				   
-				   JOptionPane.showMessageDialog(null,"BUSQUEDA AVANZADA");
-				   
-			   }
+			}
 	
 			@Override
 			public void mouseEntered(MouseEvent arg0) {
-				
-				advanced.setForeground(Color.BLUE);
-				
+				advanced.setForeground(Color.BLUE);		
 			}
 	
 			@Override
 			public void mouseExited(MouseEvent arg0) {
-				
-				advanced.setForeground(null);
-				
+				advanced.setForeground(null);	
 			}
 	
 			@Override
-			public void mousePressed(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
+			public void mousePressed(MouseEvent arg0) {}
 	
 			@Override
-			public void mouseReleased(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
+			public void mouseReleased(MouseEvent arg0) {}
 	
 		});
 		
-		}
-	
+	}
 }

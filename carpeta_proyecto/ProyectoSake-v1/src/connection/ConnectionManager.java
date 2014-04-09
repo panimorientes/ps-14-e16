@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 /**
- * Clase encargada de la gestión de conexiones
+ * Static clas who manage the DataBase Connection
  */
 public class ConnectionManager {
 
@@ -23,6 +23,11 @@ public class ConnectionManager {
 	}
 
 	
+	/**
+	 * Return a connection to our BD
+	 * @return the Connecion to our BD
+	 * @throws SQLException, in case of error thows a SQLException.
+	 */
 	public final static Connection getConnection() throws SQLException {
 		return DriverManager.getConnection(DRIVER_URL, USER, PASSWORD);
 	}
