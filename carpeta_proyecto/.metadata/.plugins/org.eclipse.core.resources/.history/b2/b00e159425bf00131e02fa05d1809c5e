@@ -1,0 +1,42 @@
+package coctailPage;
+
+import java.awt.BorderLayout;
+import java.sql.Connection;
+import java.sql.SQLException;
+
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
+
+import connection.ConnectionManager;
+
+public class CenterCoctailPanel extends JPanel {
+	
+	private Connection db;
+	private String name;
+	
+	public CenterCoctailPanel(String name){
+		
+		this.name=name;
+		try{
+			db = ConnectionManager.getConnection();
+		}
+		catch(SQLException e){
+			System.out.println("SQLEXCEPION CONNECTION CENTERCOCTAILPANEL");
+		}
+		
+		this.setLayout(new BorderLayout());
+		//SACAR LA IMG DE LA BD CON UNA CONSULTA.
+		//img = SELECT PathImg from coctail where nombre = name;
+		String img="coctailsImgs/maitai.jpg";
+		
+		img=img.substring(0,img.length()-4)+"2.jpg";
+
+		this.add(new JLabel(new ImageIcon(img)),BorderLayout.WEST);
+		
+	}
+	
+	
+
+}

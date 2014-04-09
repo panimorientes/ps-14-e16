@@ -18,7 +18,6 @@
 <fullyQualifiedTypeName name="main.NinjaFrame"/>
 <fullyQualifiedTypeName name="common.ShopPagePanel"/>
 <fullyQualifiedTypeName name="javax.swing.JPanel"/>
-<fullyQualifiedTypeName name="connection.ConnectionManager"/>
 <fullyQualifiedTypeName name="com.mysql.jdbc.Connection"/>
 <fullyQualifiedTypeName name="java.sql.Connection"/>
 <fullyQualifiedTypeName name="java.sql.SQLException"/>
@@ -31,4 +30,5 @@
 <fullyQualifiedTypeName name="javax.swing.JFrame"/>
 <fullyQualifiedTypeName name="profilePage.ProfileFrame"/>
 <fullyQualifiedTypeName name="homePage.SearchResultPage"/>
+<fullyQualifiedTypeName name="connection.ConnectionManager"/>
 </qualifiedTypeNameHistroy>
