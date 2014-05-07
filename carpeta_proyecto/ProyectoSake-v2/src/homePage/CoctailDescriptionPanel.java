@@ -2,10 +2,16 @@ package homePage;
 
 import java.awt.BorderLayout;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -52,8 +58,16 @@ public class CoctailDescriptionPanel extends JPanel {
 		this.add(imgPanel);
 		
 		this.imgLabel = new JLabel();
-		imgLabel.setIcon(new ImageIcon(this.img));
-		imgPanel.add(imgLabel);
+		
+		try {
+			BufferedImage myPicture = ImageIO.read(new File(img));
+			imgLabel.setIcon(new ImageIcon(myPicture.getScaledInstance(150, 150, Image.SCALE_SMOOTH)));
+			imgPanel.add(imgLabel);
+		} 
+		catch (IOException e1) {
+			System.out.println("Error BufferedImage CoctailDesriptionPanel");
+		}
+		
 		
 		JPanel infoP = new JPanel();
 		this.add(infoP);

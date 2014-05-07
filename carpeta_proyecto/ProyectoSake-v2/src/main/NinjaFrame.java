@@ -12,13 +12,12 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
-import profilePage.ProfileCenterPage;
 import profilePage.ProfileFrame;
-
 
 import common.BotInfoPanel;
 import common.TopInfoPanel;
-import connection.ConnectionManager;
+
+import connection.ConnectionPool;
 
 public class NinjaFrame extends JFrame {
 	
@@ -26,36 +25,42 @@ public class NinjaFrame extends JFrame {
 	private TopInfoPanel topP;
 	private SearchResultPage sCenterP;
 	private ProfileFrame profile;
-//	private JButton prueba;
+	private JButton prueba;
 
 	/**
 	 * Constructor method of the parent of my componetns
 	 */
 	public NinjaFrame(){
 		
-			
-			profile = new ProfileFrame();
-			botP=new BotInfoPanel();
-			sCenterP = new SearchResultPage();
-			topP=new TopInfoPanel(this,sCenterP);
+			Connection db;
+			try {
+				ConnectionPool connectionPool = new ConnectionPool();
+				profile = new ProfileFrame();
+				botP=new BotInfoPanel();
+				sCenterP = new SearchResultPage(connectionPool);
+				topP=new TopInfoPanel(this,sCenterP);
 
+			} catch (SQLException e) {
+				System.out.println("Error con la conexion");
+			}
+			
 		
 		
 //		//TEST CODE TO GET A WELCOME PAGE ONLY A BUTTON
-//		this.setVisible(true);
-//		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
-//		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-//		
-//		prueba = new JButton("ESTE BOTON ES DE PRUEBA; LA APLICACION TENDRA PANTALLA INICIAL!!");
-//		this.add(prueba);
-//		
-//		prueba.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e){
-//			
-//				iniciateFrame();
-//
-//			}
-//		});
+		this.setVisible(true);
+		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		
+		prueba = new JButton("ESTE BOTON ES DE PRUEBA; LA APLICACION TENDRA PANTALLA INICIAL!!");
+		this.add(prueba);
+		
+		prueba.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e){
+			
+				iniciateFrame();
+
+			}
+		});
 //		
 //		//END CODE TEST
 		iniciateFrame();

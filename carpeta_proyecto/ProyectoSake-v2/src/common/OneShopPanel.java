@@ -1,11 +1,12 @@
 package common;
 
+import java.awt.FlowLayout;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
@@ -14,10 +15,13 @@ import javax.swing.event.ChangeListener;
 
 public class OneShopPanel extends JPanel {
 	
+	private static final String TOTAL_STR = "Total: ";
+	private static final String DELETE_IMG_PATH = "coctailsImgs/deleteI.jpg";
 	private double totalPrice;
 	private JLabel priceLabel;
 	private JSpinner amount;
 	private ShopPagePanel allShops;
+	private String name;
 
 	/**
 	 * Constructor Method
@@ -28,11 +32,14 @@ public class OneShopPanel extends JPanel {
 	public OneShopPanel(String name, final double price, 
 						final ShopPagePanel allShops){
 		
+		this.name=name;
 		this.allShops=allShops;
 		totalPrice=price;
 		this.allShops.updateTotal(totalPrice);
 		
-		this.setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
+		JPanel myPanel = new JPanel();
+		this.setLayout(new FlowLayout());
+		myPanel.setLayout(new BoxLayout(myPanel,BoxLayout.Y_AXIS));
 		
 		SpinnerNumberModel model = new SpinnerNumberModel(1,0,null,1);
 		amount = new JSpinner(model);
@@ -42,7 +49,7 @@ public class OneShopPanel extends JPanel {
 			public void stateChanged(ChangeEvent e) {
 				double oldTotal = totalPrice;
 				totalPrice = price*(int)amount.getValue();
-				priceLabel.setText("Total: "+totalPrice);
+				priceLabel.setText(TOTAL_STR+totalPrice);
 				allShops.updateTotal(totalPrice-oldTotal);
 			}
 		});
@@ -57,12 +64,12 @@ public class OneShopPanel extends JPanel {
 		JLabel nameLabel = new JLabel(name);
 		nameP.add(nameLabel);
 		
-		priceLabel = new JLabel("Total: "+totalPrice);
+		priceLabel = new JLabel(TOTAL_STR+totalPrice);
 		priceP.add(priceLabel);
 		
 		amountP.add(amount);
 		
-		JLabel deleteLabel = new JLabel(new ImageIcon("coctailsImgs/deleteI.jpg"));
+		JLabel deleteLabel = new JLabel(new ImageIcon(DELETE_IMG_PATH));
 		deleteP.add(deleteLabel);
 		
 		addListener(deleteLabel);
@@ -72,9 +79,9 @@ public class OneShopPanel extends JPanel {
 		p2.add(amountP);
 		p2.add(priceP);
 		p2.add(deleteP);
-		this.add(p1);
-		this.add(p2);
-		
+		myPanel.add(p1);
+		myPanel.add(p2);
+		this.add(myPanel);	
 	}
 	
 	/**
@@ -110,5 +117,13 @@ public class OneShopPanel extends JPanel {
 	private void deleteMe(){
 		allShops.updateTotal(totalPrice*-1);
 		allShops.removeShop(this);
+	}
+	
+	public void updateAmount(){
+		amount.setValue(amount.getNextValue());
+	}
+	
+	public String getName(){
+		return this.name;
 	}
 }
