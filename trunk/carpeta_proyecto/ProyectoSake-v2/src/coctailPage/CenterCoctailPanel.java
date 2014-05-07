@@ -1,15 +1,22 @@
 package coctailPage;
 
+import homePage.SearchResultPage;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
+import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -17,29 +24,25 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
+import connection.ConnectionPool;
 
-import connection.ConnectionManager;
 
 public class CenterCoctailPanel extends JPanel {
 	
-	private Connection db;
+	private ConnectionPool myDB;
 	private String name;
 	private JPanel centerInfo,allTheInfo;
 	private JButton buyMe;
+	private SearchResultPage searchPage;
 	
 	/**
 	 * Constructor method.
 	 * @param name, name used to search in the DB
 	 */
-	public CenterCoctailPanel(String name){
-		//Get the connection to he DB
-		try{
-			db = ConnectionManager.getConnection();
-		}
-		catch(SQLException e){
-			System.out.println("error getConnection CenterCoctailPanel");
-		}
+	public CenterCoctailPanel(final String name,ConnectionPool db, SearchResultPage sp){
 		
+		searchPage = sp;
+		myDB = db;
 		this.name=name;
 		centerInfo=new JPanel();
 		centerInfo.setLayout(new BorderLayout());
@@ -50,7 +53,7 @@ public class CenterCoctailPanel extends JPanel {
 		this.buyMe.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				//add the coctail to the shop. Not implement yet.
+				searchPage.addToShop(name);
 			}
 		});
 		
@@ -75,7 +78,8 @@ public class CenterCoctailPanel extends JPanel {
 	 */
 	private void addPrice(){
 		try{
-			Statement st = db.createStatement();
+			Connection c = myDB.getConnection();
+			Statement st = c.createStatement();
 		    ResultSet rs = st.executeQuery("SELECT precio from coctail where nombre='"+this.name+"'" );
 		     
 		    while (rs.next()){
@@ -85,7 +89,7 @@ public class CenterCoctailPanel extends JPanel {
 			}
 			rs.close();
 			st.close();
-			
+			myDB.returnConnection(c);
 		}
 		catch (SQLException e){
 			System.out.println("error SearchResult get price");
@@ -100,7 +104,8 @@ public class CenterCoctailPanel extends JPanel {
 	private void addImg(){
 		String img="";
 		try{
-			Statement st = db.createStatement();
+			Connection c = myDB.getConnection();
+			Statement st = c.createStatement();
 			ResultSet rs = st.executeQuery("SELECT PathImg from coctail where nombre='"+this.name+"'" );
 				     
 			while (rs.next()){
@@ -109,6 +114,7 @@ public class CenterCoctailPanel extends JPanel {
 			}
 			rs.close();
 			st.close();
+			myDB.returnConnection(c);
 		}
 		catch (SQLException e){
 			System.out.println("error SearchResult get IMG");
@@ -116,14 +122,18 @@ public class CenterCoctailPanel extends JPanel {
 		}
 		JPanel panel = new JPanel((LayoutManager) new FlowLayout(FlowLayout.CENTER));
 		
-		//Only works with jpg iamges. Fix it with all images or try to resize it manually.
-		if(img.contains(".jpg")){
-			img=img.substring(0,img.length()-4)+"2.jpg";
-			panel.add(new JLabel(new ImageIcon(img)));
+		try {
+			BufferedImage myPicture = ImageIO.read(new File(img));
+			panel.add(new JLabel(new ImageIcon(myPicture.getScaledInstance(300, 300, Image.SCALE_SMOOTH))));
+			
+			
+		} catch (IOException e) {
+			System.out.println("error BufferedImage CencerCoctail Panel");
 		}
-		else{
-			panel.add(new JLabel(img));
-		}
+		
+
+		panel.validate();
+		panel.repaint();
 		this.add(panel,BorderLayout.WEST);
 	}
 	
@@ -132,7 +142,8 @@ public class CenterCoctailPanel extends JPanel {
 	 */
 	private void addIngr(){
 		 try{
-			 Statement st = db.createStatement();
+			 Connection c = myDB.getConnection();
+			 Statement st = c.createStatement();
 		     ResultSet rs = st.executeQuery("SELECT Ingrediente_nombreI from " +
 		     								"pertenece where Coctail_nombre ='"+this.name+"'" );
 		     
@@ -148,6 +159,7 @@ public class CenterCoctailPanel extends JPanel {
 			 }
 			 rs.close();
 			 st.close();
+			 myDB.returnConnection(c);
 		}
 		catch (SQLException e){
 		System.out.println("error SearchResult get INGR");
@@ -163,7 +175,8 @@ public class CenterCoctailPanel extends JPanel {
 	private void addDescr(){
 		String descr ="";
 		try{
-			Statement st = db.createStatement();
+			Connection c = myDB.getConnection();
+			Statement st = c.createStatement();
 		    ResultSet rs = st.executeQuery("SELECT Descripcion from coctail where " +
 		     								"nombre='"+this.name+"'" );
 		     
@@ -172,6 +185,7 @@ public class CenterCoctailPanel extends JPanel {
 			}
 		    rs.close();
 			st.close();
+			myDB.returnConnection(c);
 		}
 		catch (SQLException e){
 			System.out.println("error SearchResult get DESCCR");

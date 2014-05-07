@@ -5,16 +5,20 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
 import javax.swing.JPanel;
-import coctailPage.CenterCoctailPanel;
+
 import profilePage.ProfileCenterPage;
+import coctailPage.CenterCoctailPanel;
+
 import common.ShopPagePanel;
-import connection.ConnectionManager;
+
+import connection.ConnectionPool;
 
 public class SearchResultPage extends JPanel{
 	
 	private int pagNum;
-	private Connection myDB;
+	private ConnectionPool myDB;
 	private CenterPagePanel myCenterPanel;
 	private SearchFieldPanel fieldP;
 	private int nCoc;
@@ -22,25 +26,21 @@ public class SearchResultPage extends JPanel{
 	private PageNumberManager pageNumbers;
 	private CenterCoctailPanel showCoctailPage;
 	private ProfileCenterPage profilePage;
-
+	private String query;
 	
 	
-	public SearchResultPage(){
+	public SearchResultPage(ConnectionPool connectionPool){
 
-		try {
-			this.myDB=ConnectionManager.getConnection();
-		} 
-		catch (SQLException e) {
-			System.out.println("No es poisble establecer conexcion, SearchReultPage");
-		}
-		
-		this.myCenterPanel = new CenterPagePanel(1,this);
+	
+		this.myDB=connectionPool;
+		query = "SELECT * FROM coctail";
+		this.myCenterPanel = new CenterPagePanel(1,this, myDB,query);
 		this.profilePage=new ProfileCenterPage(this);
 		
 		this.setLayout(new BorderLayout());
 		pagNum=1;
 		setNumberOfCoctails();
-		this.fieldP=new SearchFieldPanel();
+		this.fieldP=new SearchFieldPanel(myDB,this);
 		this.shopP=new ShopPagePanel(this);
 		
 		this.add(myCenterPanel, BorderLayout.CENTER);
@@ -66,8 +66,11 @@ public class SearchResultPage extends JPanel{
 	private void setNumberOfCoctails(){
 		
 		 try{
-			 Statement st = myDB.createStatement();
-		     ResultSet rs = st.executeQuery("select count(*) from coctail" );
+			 Connection c = myDB.getConnection();
+			 Statement st = c.createStatement();
+			 String countQuery = query.substring(8);
+			 countQuery="SELECT count(*)"+countQuery;
+		     ResultSet rs = st.executeQuery(countQuery);
 		     
 		     while (rs.next()){
 		    	 nCoc=rs.getInt(1);
@@ -75,6 +78,7 @@ public class SearchResultPage extends JPanel{
 			 }
 			 rs.close();
 			 st.close();
+			 myDB.returnConnection(c);
 		}
 		catch (SQLException e){
 			System.out.println("error SearchResult getin nCOC");
@@ -86,8 +90,14 @@ public class SearchResultPage extends JPanel{
 	 * @param n the new page to go
 	 */
 	public void changePag(int n){
+		
+		if(showCoctailPage!=null) this.remove(showCoctailPage);
 		this.remove(myCenterPanel);
-		myCenterPanel=new CenterPagePanel(n,this);
+		this.remove(pageNumbers);
+		setNumberOfCoctails();
+		pageNumbers = (new PageNumberManager(this));
+		this.add(pageNumbers,BorderLayout.SOUTH);
+		myCenterPanel=new CenterPagePanel(n,this,myDB,query);
 		this.add(myCenterPanel,BorderLayout.CENTER);
 		this.repaint();
 		this.validate();
@@ -109,7 +119,7 @@ public class SearchResultPage extends JPanel{
 		this.remove(profilePage);
 		this.remove(myCenterPanel);
 		this.remove(pageNumbers);
-		showCoctailPage=(new CenterCoctailPanel(coctail));
+		showCoctailPage=(new CenterCoctailPanel(coctail, myDB,this));
 		this.add(showCoctailPage,BorderLayout.CENTER);
 		this.validate();
 		this.repaint();
@@ -165,7 +175,8 @@ public class SearchResultPage extends JPanel{
 	private double getPrice(String name){
 		double price=0;
 		try{
-			Statement st = myDB.createStatement();
+			Connection c = myDB.getConnection();
+			Statement st = c.createStatement();
 		    ResultSet rs = st.executeQuery("SELECT precio from coctail where nombre='"+name+"'" );
 		     
 		    while (rs.next()){
@@ -174,6 +185,7 @@ public class SearchResultPage extends JPanel{
 			}
 			rs.close();
 			st.close();
+			myDB.returnConnection(c);
 			return price;
 			
 		}
@@ -181,6 +193,16 @@ public class SearchResultPage extends JPanel{
 			System.out.println("error SearchResult get price");
 			return price;
 		}
+	}
+
+	/**
+	 * Set a new query and update the page with the new queryy
+	 * @param query, the new qquery
+	 */
+	public void updateQuery(String query) {
+		this.query=query;
+		this.changePag(1);
+		
 	}
 
 }

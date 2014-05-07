@@ -5,29 +5,32 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
 import javax.swing.JPanel;
 
-import connection.ConnectionManager;
+import connection.ConnectionPool;
 
 public class CenterPagePanel extends JPanel{
+	
 	
 
 	/**
 	 * Method Constructor, The constructor makes a new Object who contains 9 coctailt
 	 * from the DB.
+	 * @param myDB 
 	 * @param nPage, number of the page
 	 * @param searchPage, my parent, usedto link
 	 */
-	public CenterPagePanel(int nPage,SearchResultPage searchPage){
+	public CenterPagePanel(int nPage,SearchResultPage searchPage, ConnectionPool myDB, String query){
 		
 
 		int skipedCoctails=(nPage-1)*9;
 	
 		this.setLayout(new GridLayout(0,3));
 		 try{
-			 Connection myDB = ConnectionManager.getConnection();
-			 Statement st = myDB.createStatement();
-	         ResultSet rs = st.executeQuery("select * from coctail limit "+skipedCoctails+",9" );
+			 Connection c = myDB.getConnection();
+			 Statement st = c.createStatement();
+	         ResultSet rs = st.executeQuery(query+" limit "+skipedCoctails+",9" );
 	         String img,name,descr;
 
 	         while (rs.next()){
@@ -40,9 +43,11 @@ public class CenterPagePanel extends JPanel{
 	         }
 	         rs.close();
 	         st.close();
+	         myDB.returnConnection(c);
 		 }
 		 catch (SQLException e){
 			 System.out.println("error centerPagePanel");
+			 e.printStackTrace();
 		 }		
 	}	
 }

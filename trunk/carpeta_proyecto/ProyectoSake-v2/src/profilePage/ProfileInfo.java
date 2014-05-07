@@ -47,7 +47,7 @@ public class ProfileInfo extends JPanel{
 	 * set the info editable
 	 */
 	public void setInfoEditable(){
-		for(int i=1;i<textFieldVector.length;i++){
+		for(int i=0;i<textFieldVector.length;i++){
 			textFieldVector[i].setEditable(true);
 			textFieldVector[i].setColumns(30);
 		}

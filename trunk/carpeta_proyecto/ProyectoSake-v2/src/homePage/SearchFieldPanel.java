@@ -4,32 +4,60 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.Vector;
+import javax.swing.ButtonGroup;
+import javax.swing.ButtonModel;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JTextField;
+import connection.ConnectionPool;
 
 public class SearchFieldPanel extends JPanel{
 	
+	private static final String SEARCH_ADVANCED_STR = "Busqueda avanzada";
+	private static final String LUPA_IMG_PATH = "CoctailsImgs/lupa.jpg";
 	private JTextField field;
 	private JLabel search, advanced;
-
+	private ConnectionPool myDB;
+	private SearchResultPage searchPage;
+	private Vector<JRadioButton> buttons;
+	private ButtonGroup group;
+	
 	/**
 	 * Constructor.
 	 */
-	public SearchFieldPanel(){
+	public SearchFieldPanel(ConnectionPool pool, SearchResultPage panel){
 		
+		myDB=pool;
+		searchPage=panel;
 		field = new JTextField();
 		field.setColumns(40);
-		search = new JLabel(new ImageIcon("CoctailsImgs/lupa.jpg"));
-		advanced = new JLabel("Busqueda avanzada");
+		search = new JLabel(new ImageIcon(LUPA_IMG_PATH));
+		advanced = new JLabel(SEARCH_ADVANCED_STR);
 		
 		this.setLayout(new FlowLayout());
 		this.add(advanced);
 		this.add(field);
 		this.add(search);
 		
+		buttons = new Vector<JRadioButton>();
+		
+		
+		addButton("Nombre Coctail","coctail");
+		addButton("Ingrediente","pertenece");
+		addButton("Precio Minimo","precioMIN");
+		addButton("Precio Maximo","precioMAX");
+		group = new ButtonGroup();
+		
+		for(int i=0;i<buttons.size();i++){
+			group.add(buttons.get(i));
+			if(i==0){
+				buttons.get(i).setSelected(true);
+			}
+		}
+	
 		addListeners();
 		
 	}
@@ -41,8 +69,18 @@ public class SearchFieldPanel extends JPanel{
 		search.addMouseListener(new MouseListener() {
 			
 			public void mouseClicked(MouseEvent arg0) {
-				//Not implemented YET
-				JOptionPane.showMessageDialog(null,"BUSCA");
+				
+				if(!advanced.isVisible()){
+					String query = "SELECT * FROM coctail WHERE nombre LIKE '%"
+							+field.getText()+"%'";
+		
+					searchPage.updateQuery(query);
+				}
+				else{
+					doAdvancedQuery();
+				}
+				
+				
 			}
 	
 			@Override
@@ -62,9 +100,7 @@ public class SearchFieldPanel extends JPanel{
 		advanced.addMouseListener(new MouseListener() {
 			
 			public void mouseClicked(MouseEvent arg0) {
-				//Not implemented YET   
-				JOptionPane.showMessageDialog(null,"BUSQUEDA AVANZADA");
-				   
+				showAdvanced();
 			}
 	
 			@Override
@@ -84,6 +120,51 @@ public class SearchFieldPanel extends JPanel{
 			public void mouseReleased(MouseEvent arg0) {}
 	
 		});
+		
+	}
+	private void showAdvanced(){
+		this.remove(advanced);
+		for(JRadioButton r : buttons){
+			this.add(r);
+		}
+		this.validate();
+		this.repaint();
+	}
+	
+	private void addButton(String name, String actionName){
+		JRadioButton jr = new JRadioButton(name);
+		jr.setActionCommand(actionName);
+		buttons.add(jr);
+	}
+	
+	private void doAdvancedQuery(){
+
+		ButtonModel jr = group.getSelection();
+		
+		String comand = jr.getActionCommand(),query;
+		if(comand.equals("coctail")){
+			query = "SELECT * FROM coctail WHERE nombre LIKE '%"
+					+field.getText()+"%'";
+		}
+		else if(comand.equals("pertenece")){
+			query = "SELECT DISTINCT  nombre,precio,descripcion,pathimg from coctail, pertenece WHERE coctail_nombre=nombre and " +
+					"ingrediente_nombreI LIKE '%"+field.getText()+"%'";
+		}
+		else if(comand.equals("precioMIN")){
+			query = "SELECT * FROM coctail WHERE precio>="+field.getText();
+		}
+		
+		else if(comand.equals("precioMAX")){
+			query = "SELECT * FROM coctail WHERE precio<="+field.getText();
+		}
+		
+		else{
+			System.out.println("2");
+			query="ERROR";
+		}
+		
+		searchPage.updateQuery(query);
+		
 		
 	}
 }
