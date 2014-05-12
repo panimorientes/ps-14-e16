@@ -1,0 +1,36 @@
+package profilePage;
+
+import javax.swing.JOptionPane;
+
+public class ShowDialogs {
+	
+	
+
+
+
+	private static final String NO_OPTION_LABEL = "No";
+	private static final String YES_OPTION_LABEL = "Si";
+	private static final String YES_DIALOG = "Yes";
+
+
+	protected static final String CANT_CONTINUE_LABEL = "Necesitas tener almenos un coctail en el carrito.";
+	public static final String BAD_NIF_LABEL = "Error en el DNI, Introduce uno correcto.";
+	public static final String MUST_WRITE = "Error de datos en ";
+	public static final String BAD_MAIL_LABEL = "Error en el mail introducido, introduce uno correcto";
+
+	
+	public static int showDialogOption(String question, String title){
+		int option = JOptionPane.showOptionDialog(null,
+				question,
+				title,
+				JOptionPane.YES_NO_OPTION,
+				JOptionPane.QUESTION_MESSAGE,
+				null, // possible image
+						// icon
+				new Object[] { YES_OPTION_LABEL, NO_OPTION_LABEL },
+				YES_DIALOG);
+		
+		return option;
+	}
+
+}

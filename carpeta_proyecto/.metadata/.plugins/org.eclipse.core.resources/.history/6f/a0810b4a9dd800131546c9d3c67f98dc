@@ -1,0 +1,230 @@
+package profilePage;
+
+import homePage.SearchResultPage;
+
+import java.awt.BorderLayout;
+import java.awt.Desktop;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.io.File;
+
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+
+import properties.PropertiesManager;
+
+import mailConfig.PdfCreator;
+import mailConfig.SendMail;
+import main.NinjaFrame;
+
+public class ProfileCenterPage extends JPanel {
+
+	private static final String EDIT_LABEL = "Editar";
+	private static final String CONFIRM_BUY_BUTTON_LABEL = "Confirmar Compra";
+	private static final String BACK_BUTTON_LABEL = "Continuar Comprando";
+	private ProfileInfo info;
+	private JButton confirm, cancel, edit, save, back;
+	private JPanel butP;
+	private SearchResultPage searchPage;
+
+	/**
+	 * Constructor
+	 * 
+	 * @param sp
+	 *            , my parent
+	 */
+	public ProfileCenterPage(SearchResultPage sp) {
+		info = new ProfileInfo();
+		butP = new JPanel();
+		searchPage = sp;
+		this.setLayout(new BorderLayout());
+		this.add(info, BorderLayout.CENTER);
+
+		addButtons();
+		butP.add(edit);
+		butP.add(confirm);
+		butP.add(back);
+		this.add(butP, BorderLayout.SOUTH);
+	}
+
+	/**
+	 * create the buttons and set the listeners.
+	 */
+	private void addButtons() {
+		confirm = new JButton(CONFIRM_BUY_BUTTON_LABEL);
+		confirm.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				int option = ShowDialogs.showDialogOption(
+						ShowDialogs.ARE_SURE_BUY_LABEL,
+						ShowDialogs.CONFIRM_EDIT_LABEL);
+
+				if (option == 0) {
+					verifyData();
+
+				}
+
+			}
+
+		});
+		addMouseListener(confirm);
+
+		back = new JButton(BACK_BUTTON_LABEL);
+		addMouseListener(back);
+		back.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				searchPage.goToHome();
+			}
+		});
+
+		edit = new JButton(EDIT_LABEL);
+		addMouseListener(edit);
+		edit.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+
+				butP.remove(confirm);
+				butP.remove(edit);
+				butP.add(save);
+				butP.add(cancel);
+				info.setInfoEditable();
+				validateAndrepaint();
+			}
+		});
+
+		cancel = new JButton(
+				PropertiesManager
+						.getProperties(PropertiesManager.CANCEL_BUTTON_NAME));
+
+		addMouseListener(cancel);
+		cancel.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+
+				int option = ShowDialogs.showDialogOption(
+						ShowDialogs.ARE_SURE_CANCEL_LABEL,
+						ShowDialogs.CANCEL_EDIT_LABEL);
+				if (option == 0) {
+					butP.remove(save);
+					butP.remove(cancel);
+					butP.add(confirm);
+					butP.add(edit);
+					info.setChanges(false);
+					info.setInfoNotEditable();
+					validateAndrepaint();
+				}
+
+			}
+
+		});
+
+		save = new JButton(
+				PropertiesManager
+						.getProperties(PropertiesManager.SAVE_BUTTON_NAME));
+		addMouseListener(save);
+		save.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+
+				int option = ShowDialogs.showDialogOption(
+						ShowDialogs.ARE_SURE_SAVE_LABEL,
+						ShowDialogs.SAVING_CHANGES_LABEL);
+
+				if (option == 0) {
+
+					butP.remove(save);
+					butP.remove(cancel);
+					butP.add(confirm);
+					butP.add(edit);
+					info.setChanges(true);
+					info.setInfoNotEditable();
+					validateAndrepaint();
+
+					JOptionPane.showMessageDialog(null,
+							ShowDialogs.SAVED_DATA_LABEL);
+				}
+			}
+		});
+	}
+
+	private void addMouseListener(JButton button) {
+		button.addMouseListener(new MouseListener() {
+
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				setCursor(NinjaFrame.handCursor);
+			}
+
+			@Override
+			public void mouseExited(MouseEvent arg0) {
+				setCursor(NinjaFrame.defaultCursor);
+			}
+
+			@Override
+			public void mousePressed(MouseEvent arg0) {
+
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent arg0) {
+
+			}
+
+		});
+
+	}
+
+	/**
+	 * calls to the method validate and repaint for mySelf.
+	 */
+	private void validateAndrepaint() {
+		this.validate();
+		this.repaint();
+	}
+
+	private void sendMails(String myDocument) {
+
+		String[] dataMail = DataProfileManager.getData();
+		SendMail.sendMail(dataMail[dataMail.length - 1], PdfCreator.getPath(),
+				String.valueOf(PdfCreator.getDocumentNumber()));
+		SendMail.sendMail(SendMail.OUR_MAIL, PdfCreator.getPath(),
+				String.valueOf(PdfCreator.getDocumentNumber()));
+
+	}
+
+	private void verifyData() {
+		if (searchPage.isThereAPursache()) {
+			if (DataProfileManager.verifyData()) {
+				PdfCreator.generateDocument(searchPage.getPursaches(),
+						searchPage.getTotalPrice());
+
+				try {
+					Desktop.getDesktop().open(new File(PdfCreator.getPath()));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				sendMails(PdfCreator.getPath());
+				JOptionPane.showMessageDialog(null,
+						ShowDialogs.CONFIRM_PURSACHE);
+			}
+		} else {
+			JOptionPane
+					.showMessageDialog(null, ShowDialogs.CANT_CONTINUE_LABEL);
+		}
+	}
+
+}

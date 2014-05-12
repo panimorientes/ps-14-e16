@@ -1,0 +1,46 @@
+package mailConfig;
+
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+
+public class MailFrame extends JFrame {
+	
+	
+	
+	private JFrame frame;
+	private JTextField mailFrom;
+	private JTextField mailTo;
+	private JTextField subject;
+	private JTextArea body;
+
+	public MailFrame(){
+		
+			frame = new JFrame();
+			frame.setSize(500, 500);
+//			frame.setLayout(new BoxLayout(frame, BoxLayout.Y_AXIS));
+			mailFrom = new JTextField();
+			mailTo=new JTextField();
+			mailTo.setText(SendMail.OUR_MAIL);
+			mailTo.setEditable(false);
+			subject = new JTextField();
+			body = new JTextArea();
+
+			JPanel p1 = new JPanel();
+			p1.add(new JLabel(MAILTO_LABEL));
+			p1.add(mailTo);
+
+			JPanel p2 = new JPanel();
+			p1.add(new JLabel(MAILFROM_LABEL));
+			p1.add(mailFrom);
+			
+			frame.add(p1);
+			frame.add(p2);
+			frame.setVisible(false);
+			frame.validate();
+			frame.repaint();	
+		}
+
+}

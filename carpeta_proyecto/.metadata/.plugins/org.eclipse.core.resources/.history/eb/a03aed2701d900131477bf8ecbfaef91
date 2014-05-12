@@ -1,0 +1,9 @@
+package common;
+
+import javax.swing.JPanel;
+
+public class NoResultPage extends JPanel {
+	
+	public NoResultP
+
+}

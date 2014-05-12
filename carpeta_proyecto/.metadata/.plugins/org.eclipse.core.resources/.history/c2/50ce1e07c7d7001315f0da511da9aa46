@@ -1,0 +1,89 @@
+package mailConfig;
+
+import java.awt.BorderLayout;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+
+public class MailFrame extends JFrame {
+	
+	
+	
+	private JButton send,cancel;
+	private JTextField mailFrom;
+	private JTextField mailTo;
+	private JTextField subject;
+	private JTextArea body;
+	private static final String SUBJECT_LABEL = "Asunto: ";
+	private static final String MAILTO_LABEL = "Destinatario: ";
+	private static final String MAILFROM_LABEL = "Origen: ";
+	private static final String SEND_LABEL = "Enviar";
+	private static final String CANCEL_LABEL = "Cancelar";
+	
+	public MailFrame(){
+		
+		
+			this.setSize(500, 500);
+			this.setLayout(new BorderLayout());
+			mailFrom = new JTextField();
+			mailFrom.setColumns(20);
+			mailTo=new JTextField();
+			mailTo.setText(SendMail.OUR_MAIL);
+			mailTo.setEditable(false);
+			subject = new JTextField();
+			subject.setColumns(20);
+			body = new JTextArea();
+
+			JPanel p1 = new JPanel();
+			JPanel p11 = new JPanel();
+			p11.add(new JLabel(MAILTO_LABEL));
+			p11.add(mailTo);
+
+			JPanel p12 = new JPanel();
+			p12.add(new JLabel(MAILFROM_LABEL));
+			p12.add(mailFrom);
+			
+			JPanel p13 = new JPanel();
+			p13.add(new JLabel(SUBJECT_LABEL));
+			p13.add(subject);
+			p1.add(p11);
+			p1.add(p12);
+			p1.add(p13);
+			
+			JPanel p2 = new JPanel();
+			send = new JButton(SEND_LABEL);
+			cancel = new JButton(CANCEL_LABEL);
+			
+			JPanel p21 = new JPanel();
+			p21.add(send);
+		
+			JPanel p22 = new JPanel();
+			p22.add(cancel);
+			
+			p2.add(p21);
+			p2.add(p22);
+			
+			this.add(p1,BorderLayout.NORTH);
+			this.add(body,BorderLayout.CENTER);
+			this.add(p2,BorderLayout.SOUTH);
+			
+			this.setVisible(false);
+			this.validate();
+			this.repaint();	
+		}
+	
+	public void showFrame(){
+		this.setVisible(true);
+	}
+	
+	public static void main(String[] args){
+		MailFrame m = new MailFrame();
+		m.showFrame();
+		
+	}
+
+}

@@ -1,0 +1,225 @@
+package profilePage;
+
+import homePage.SearchResultPage;
+
+import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+
+import mailConfig.GifMailFrame;
+import mailConfig.PdfCreator;
+import mailConfig.WorkerMail;
+import main.NinjaFrame;
+import properties.PropertiesManager;
+
+public class ProfileCenterPage extends JPanel {
+
+	private ProfileInfo info;
+	private JButton confirm, cancel, edit, save, back;
+	private JPanel butP;
+	private SearchResultPage searchPage;
+
+	/**
+	 * Constructor
+	 * 
+	 * @param sp
+	 *            , my parent
+	 */
+	public ProfileCenterPage(SearchResultPage sp) {
+		info = new ProfileInfo();
+		butP = new JPanel();
+		searchPage = sp;
+		this.setLayout(new BorderLayout());
+		this.add(info, BorderLayout.CENTER);
+
+		addButtons();
+		butP.add(edit);
+		butP.add(confirm);
+		butP.add(back);
+		this.add(butP, BorderLayout.SOUTH);
+	}
+
+	/**
+	 * create the buttons and set the listeners.
+	 */
+	private void addButtons() {
+		confirm = new JButton(
+				PropertiesManager
+						.getProperties(PropertiesManager.PCP_BTN_CONFIM_NAME));
+		confirm.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				int option = ShowDialogs.showDialogOption(
+						PropertiesManager
+								.getProperties(PropertiesManager.SD_CONFIRM_PURSACHE_TEXT),
+						PropertiesManager
+								.getProperties(PropertiesManager.SD_CONFIRM_PURSACHE_TITLE));
+
+				if (option == 0) {
+					verifyData();
+
+				}
+
+			}
+
+		});
+		addMouseListener(confirm);
+
+		back = new JButton(
+				PropertiesManager
+						.getProperties(PropertiesManager.PCP_BTN_CONTINUE_NAME));
+		addMouseListener(back);
+		back.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				searchPage.goToHome();
+			}
+		});
+
+		edit = new JButton(
+				PropertiesManager
+						.getProperties(PropertiesManager.EDIT_BUTTON_NAME));
+		addMouseListener(edit);
+		edit.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+
+				butP.remove(confirm);
+				butP.remove(edit);
+				butP.add(save);
+				butP.add(cancel);
+				info.setInfoEditable();
+				validateAndrepaint();
+			}
+		});
+
+		cancel = new JButton(
+				PropertiesManager
+						.getProperties(PropertiesManager.CANCEL_BUTTON_NAME));
+
+		addMouseListener(cancel);
+		cancel.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+
+				int option = ShowDialogs.showDialogOption(
+						PropertiesManager
+								.getProperties(PropertiesManager.SD_CANCEL_EDIT_TEXT),
+						PropertiesManager
+								.getProperties(PropertiesManager.SD_CANCEL_EDIT_TITLE));
+				if (option == 0) {
+					butP.remove(save);
+					butP.remove(cancel);
+					butP.add(confirm);
+					butP.add(edit);
+					info.setChanges(false);
+					info.setInfoNotEditable();
+					validateAndrepaint();
+				}
+
+			}
+
+		});
+
+		save = new JButton(
+				PropertiesManager
+						.getProperties(PropertiesManager.SAVE_BUTTON_NAME));
+		addMouseListener(save);
+		save.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+
+				int option = ShowDialogs.showDialogOption(
+						PropertiesManager
+								.getProperties(PropertiesManager.SD_SAVE_EDIT_TEXT),
+						PropertiesManager
+								.getProperties(PropertiesManager.SD_SAVE_EDIT_TITLE));
+
+				if (option == 0) {
+
+					butP.remove(save);
+					butP.remove(cancel);
+					butP.add(confirm);
+					butP.add(edit);
+					info.setChanges(true);
+					info.setInfoNotEditable();
+					validateAndrepaint();
+
+					JOptionPane.showMessageDialog(
+							null,
+							PropertiesManager
+									.getProperties(PropertiesManager.SD_SAVED_DATA_TEXT));
+				}
+			}
+		});
+	}
+
+	private void addMouseListener(JButton button) {
+		button.addMouseListener(new MouseListener() {
+
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				setCursor(NinjaFrame.handCursor);
+			}
+
+			@Override
+			public void mouseExited(MouseEvent arg0) {
+				setCursor(NinjaFrame.defaultCursor);
+			}
+
+			@Override
+			public void mousePressed(MouseEvent arg0) {
+
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent arg0) {
+
+			}
+
+		});
+
+	}
+
+	/**
+	 * calls to the method validate and repaint for mySelf.
+	 */
+	private void validateAndrepaint() {
+		this.validate();
+		this.repaint();
+	}
+
+	private void verifyData() {
+		if (searchPage.isThereAPursache()) {
+			if (DataProfileManager.verifyData()) {
+				PdfCreator.generateDocument(searchPage.getPursaches(),
+						searchPage.getTotalPrice());
+
+				GifMailFrame showGifWait = new GifMailFrame();
+				WorkerMail sendMails = new WorkerMail(showGifWait);
+				sendMails.execute();
+
+			}
+		} else {
+			JOptionPane.showMessageDialog(null, PropertiesManager
+					.getProperties(PropertiesManager.SD_CANT_CONTINUE_TEXT));
+		}
+	}
+
+}

@@ -1,0 +1,35 @@
+package connection;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Vector;
+
+public class DataManager {
+	public static String NO_INGREDIENT_SELECTED = "--";
+	public static Vector<String> getData(){
+		Vector<String> ingredients = new Vector<String>();
+		try{
+			
+			Connection c = ConnectionPool.getConnection();
+			Statement st = c.createStatement();
+			
+			ResultSet rs = st.executeQuery("SELECT nombreI FROM ingrediente");
+			ingredients.add(NO_INGREDIENT_SELECTED);
+			while(rs.next()){
+				ingredients.add(rs.getString("nombreI"));
+			}
+
+			rs.close();
+			st.close();
+			ConnectionPool.returnConnection(c);
+		}
+		catch(SQLException e){
+			e.printStackTrace();
+		}
+		return ingredients;
+		
+	}
+
+}

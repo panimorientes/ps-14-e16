@@ -1,0 +1,194 @@
+package common;
+
+import homePage.SearchResultPage;
+
+import java.awt.Color;
+import java.awt.FlowLayout;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.Vector;
+
+import javax.swing.ButtonGroup;
+import javax.swing.ButtonModel;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JSpinner;
+import javax.swing.JTextField;
+
+public class SearchFieldPanel extends JPanel {
+
+	private static final String SEARCH_ADVANCED_STR = "Mostrar Busqueda avanzada";
+	private static final String LUPA_IMG_PATH = "CoctailsImgs/lupa.jpg";
+	private static final String PRICE_LABEL = "Precio:";
+	private JTextField field;
+	private JLabel search, advanced, price;
+	private SearchResultPage searchPage;
+	private Vector<JRadioButton> buttons;
+	private ButtonGroup group;
+	private RangeSlider priceSlider;
+
+	/**
+	 * Constructor.
+	 */
+	public SearchFieldPanel(SearchResultPage panel) {
+
+		searchPage = panel;
+		field = new JTextField();
+		field.setColumns(40);
+		search = new JLabel(new ImageIcon(LUPA_IMG_PATH));
+		advanced = new JLabel(SEARCH_ADVANCED_STR);
+		price = new JLabel(PRICE_LABEL);
+		initSlider();
+
+		this.setLayout(new FlowLayout());
+		this.add(advanced);
+		this.add(field);
+		this.add(search);
+
+		buttons = new Vector<JRadioButton>();
+
+		addButton("Nombre Coctail", "coctail");
+		addButton("Ingrediente", "pertenece");
+		group = new ButtonGroup();
+
+		for (int i = 0; i < buttons.size(); i++) {
+			group.add(buttons.get(i));
+			if (i == 0) {
+				buttons.get(i).setSelected(true);
+			}
+		}
+
+		addListeners();
+
+	}
+
+	private void initSlider() {
+		
+		priceSlider = new RangeSlider(0, 10);
+		priceSlider.setMajorTickSpacing(10);
+		priceSlider.setMinorTickSpacing(1);
+		priceSlider.setPaintTicks(true);
+		priceSlider.setPaintLabels(true);
+		priceSlider.setValue(2);
+		priceSlider.setUpperValue(7);
+
+	}
+
+	/**
+	 * Add the listeners to the JLabel "search" and "advanced"
+	 */
+	private void addListeners() {
+
+		search.addMouseListener(new MouseListener() {
+
+			public void mouseClicked(MouseEvent arg0) {
+
+				if (!advanced.isVisible()) {
+					String query = "SELECT * FROM coctail WHERE nombre LIKE '%"
+							+ field.getText() + "%'";
+
+					searchPage.updateQuery(query);
+				} else {
+					doAdvancedQuery();
+				}
+
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+			}
+
+			@Override
+			public void mouseExited(MouseEvent arg0) {
+			}
+
+			@Override
+			public void mousePressed(MouseEvent arg0) {
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent arg0) {
+			}
+
+		});
+
+		advanced.addMouseListener(new MouseListener() {
+
+			public void mouseClicked(MouseEvent arg0) {
+				showAdvanced();
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				advanced.setForeground(Color.BLUE);
+			}
+
+			@Override
+			public void mouseExited(MouseEvent arg0) {
+				advanced.setForeground(null);
+			}
+
+			@Override
+			public void mousePressed(MouseEvent arg0) {
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent arg0) {
+			}
+
+		});
+
+	}
+
+	private void showAdvanced() {
+		this.remove(advanced);
+		for (JRadioButton r : buttons) {
+			this.add(r);
+		}
+		
+		this.add(new JSpinner(new ListPanel()));
+		this.add(price);
+		this.add(priceSlider);
+		this.validate();
+		this.repaint();
+	}
+
+	private void addButton(String name, String actionName) {
+		JRadioButton jr = new JRadioButton(name);
+		jr.setActionCommand(actionName);
+		buttons.add(jr);
+	}
+	
+	private String getPriceQuery(){
+		String priceQuery;
+		priceQuery="precio>="+priceSlider.getValue();
+		priceQuery = priceQuery+" and ";
+		priceQuery = priceQuery +"precio<="+priceSlider.getUpperValue();
+		return priceQuery;
+		
+	}
+	private void doAdvancedQuery() {
+
+		ButtonModel jr = group.getSelection();
+
+
+		String comand = jr.getActionCommand(), query;
+		if (comand.equals("coctail")) {
+			query = "SELECT * FROM coctail WHERE nombre LIKE '%"
+					+ field.getText() + "%' and "+getPriceQuery();
+		} else if (comand.equals("pertenece")) {
+			query = "SELECT DISTINCT  nombre,precio,descripcion,pathimg from coctail, pertenece WHERE coctail_nombre=nombre and "
+					+ "ingrediente_nombreI LIKE '%" + field.getText() + "%' and "+getPriceQuery();
+		}
+
+		else {
+			System.out.println("error doAdvancedQuery searchFieldPanel");
+			query = "ERROR";
+		}
+
+		searchPage.updateQuery(query);
+
+	}
+}

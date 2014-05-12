@@ -1,0 +1,217 @@
+package homePage;
+
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
+
+import main.NinjaFrame;
+
+public class CoctailDescriptionPanel extends JPanel {
+
+	private static final int TEXT_AREA_COLUMNS = 17;
+	private static final String BUY_BTN_NAME = "Comprar";
+	private static final int IMG_SIZE = 150;
+	private static final String ETC_DESCR_STRING = " ...";
+	private static final int MAX_CHAR_PER_DESCR = 100;
+	private String name, descr, img;
+	private JLabel imgLabel, titleLabel;
+	private SearchResultPage searchPage;
+
+	/**
+	 * Constructor. Makes an object with some info of the coctail
+	 * 
+	 * @param img
+	 *            , the image of the coctail
+	 * @param name
+	 *            , the name of the coctail
+	 * @param descr
+	 *            , the description of the coctail
+	 * @param searchPage
+	 *            , my grandParent. Used to link.
+	 */
+	public CoctailDescriptionPanel(String img, String name, String descr,
+			SearchResultPage searchPage) {
+
+		this.img = img;
+		this.name = name;
+		this.searchPage = searchPage;
+
+		this.descr = descr;
+		if (this.descr.length() > MAX_CHAR_PER_DESCR) {
+			this.descr = this.descr.substring(0, MAX_CHAR_PER_DESCR
+					- ETC_DESCR_STRING.length())
+					+ ETC_DESCR_STRING;
+		}
+
+		this.addComponents();
+		this.addListeners();
+
+	}
+
+	/**
+	 * Add the components of the JPanel coctail.
+	 */
+	private void addComponents() {
+
+		JPanel imgPanel = new JPanel();
+		this.add(imgPanel);
+
+		this.imgLabel = new JLabel();
+
+		try {
+			BufferedImage myPicture = ImageIO.read(new File(img));
+			imgLabel.setIcon(new ImageIcon(myPicture.getScaledInstance(
+					IMG_SIZE, IMG_SIZE, Image.SCALE_SMOOTH)));
+			imgPanel.add(imgLabel);
+		} catch (IOException e1) {
+			e1.printStackTrace();
+			System.out.println("Error BufferedImage CoctailDesriptionPanel");
+		}
+
+		JPanel infoP = new JPanel();
+		this.add(infoP);
+		infoP.setLayout(new BorderLayout());
+
+		JPanel bot = new JPanel();
+		infoP.add(bot, BorderLayout.SOUTH);
+
+		JButton btn = new JButton(BUY_BTN_NAME);
+		bot.add(btn);
+
+		JPanel center = new JPanel();
+		infoP.add(center, BorderLayout.CENTER);
+
+		JTextArea descr = new JTextArea(this.descr);
+		descr.setEditable(false);
+		descr.setBackground(null);
+		descr.setFocusable(false);
+		descr.setLineWrap(true);
+		descr.setWrapStyleWord(true);
+		descr.setColumns(TEXT_AREA_COLUMNS);
+
+		center.add(descr);
+
+		JPanel titlePanel = new JPanel();
+		infoP.add(titlePanel, BorderLayout.NORTH);
+
+		titleLabel = new JLabel(this.name);
+		titleLabel.setFont(new Font("Arial", Font.BOLD, 18));
+		titlePanel.add(titleLabel);
+
+		btn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				searchPage.addToShop(name);
+
+			}
+		});
+		
+		btn.addMouseListener(new MouseListener(){
+
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+		
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				setCursor(NinjaFrame.handCursor);
+			}
+
+			@Override
+			public void mouseExited(MouseEvent arg0) {
+				setCursor(NinjaFrame.defaultCursor);
+			}
+
+			@Override
+			public void mousePressed(MouseEvent arg0) {
+	
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent arg0) {
+	
+			}
+			
+		});
+	}
+
+	/**
+	 * Set the listeners to the JLabels "imgLabel" and "titleLabel"
+	 * 
+	 */
+	private void addListeners() {
+
+		titleLabel.addMouseListener(new MouseListener() {
+
+			public void mouseClicked(MouseEvent arg0) {
+				searchPage.goToCoctail(name);
+
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				setCursor(NinjaFrame.handCursor);
+				titleLabel.setForeground(Color.BLUE);	
+			}
+
+			@Override
+			public void mouseExited(MouseEvent arg0) {
+				setCursor(NinjaFrame.defaultCursor);
+				titleLabel.setForeground(null);	
+			}
+
+			@Override
+			public void mousePressed(MouseEvent arg0) {
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent arg0) {
+			}
+
+		});
+
+		imgLabel.addMouseListener(new MouseListener() {
+
+			public void mouseClicked(MouseEvent arg0) {
+				
+				searchPage.goToCoctail(name);
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				setCursor(NinjaFrame.handCursor);
+			}
+
+			@Override
+			public void mouseExited(MouseEvent arg0) {
+				setCursor(NinjaFrame.defaultCursor);
+			}
+
+			@Override
+			public void mousePressed(MouseEvent arg0) {
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent arg0) {
+			}
+
+		});
+
+	}
+}

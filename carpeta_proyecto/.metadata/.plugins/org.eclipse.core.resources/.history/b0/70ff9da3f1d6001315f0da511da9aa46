@@ -1,0 +1,58 @@
+package mailConfig;
+
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.net.URL;
+
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+
+public class GifThread implements Runnable{
+	private static final String LOGO_PATH = "coctailsImgs/logoMin.jpg";
+	private static final int FRAME_X_SIZE = 400;
+	private static final int FRAME_Y_SIZE = 125;
+	private static final String GIF_PATH = "coctailsImgs/gifMail.gif";
+	private static final String MAIL_LABEL = "Espere mientras se envia el EMail.";
+	private static final String MAIL_TITLE = "Enviado";
+
+	
+	
+
+	@Override
+	public void run() {
+		System.out.printf("Just in the tread: %l\n", System.nanoTime());
+		JFrame mailFrame=new JFrame();
+		mailFrame.setLayout(new FlowLayout());
+		JPanel gifP = new JPanel();
+		
+		ImageIcon myImgIcon = new ImageIcon(GIF_PATH);
+		JLabel imageLbl = new JLabel(myImgIcon);
+		gifP.add(imageLbl, BorderLayout.CENTER);	
+		
+		myImgIcon.setImageObserver(imageLbl); 
+		
+
+//		gifP.add(new JLabel(new ImageIcon(GIF_PATH)));
+	
+		
+		mailFrame.add(gifP);
+		mailFrame.setTitle(MAIL_TITLE);
+		mailFrame.add(new JLabel(MAIL_LABEL));
+		mailFrame.setIconImage((new ImageIcon(LOGO_PATH).getImage()));
+		mailFrame.setSize(FRAME_X_SIZE, FRAME_Y_SIZE);
+		mailFrame.setLocationRelativeTo(null);
+		mailFrame.setVisible(true);
+		mailFrame.validate();
+		System.out.printf("Just before paint thread: %l\n", System.nanoTime());
+		mailFrame.repaint();
+		System.out.printf("Just after paint thread: %l\n", System.nanoTime());
+		
+	};
+
+	
+
+}

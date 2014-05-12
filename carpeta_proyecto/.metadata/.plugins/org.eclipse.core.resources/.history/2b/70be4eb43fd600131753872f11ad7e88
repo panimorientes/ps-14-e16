@@ -1,0 +1,141 @@
+package profilePage;
+
+import homePage.SearchResultPage;
+
+import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+
+public class ProfileCenterPage extends JPanel {
+
+	private static final String YES_OPTION_LABEL = "Si";
+	private static final String YES_DIALOG = "Yes";
+	private static final String SAVED_DATA_LABEL = "Nuevos Datos Guardados Correctamente";
+	private static final String SAVING_CHANGES_LABEL = "Guardando cambios";
+	private static final String ARE_SURE_SAVE_LABEL = "Estas seguro que deseas guardas los cambios";
+	private static final String SAVE_LABEL = "Guardar";
+	private static final String CANCEL_EDIT_LABEL = "Cancelar edicion";
+	private static final String ARE_SURE_CANCEL_LABEL = "Estas seguro que deseas cancelar";
+	private static final String CANCEL_LABEL = "Cancelar";
+	private static final String EDIT_LABEL = "Editar";
+	private static final String CONTINUE_BUY_LABEL = "Continuar Comprando";
+	private ProfileInfo info;
+	private JButton continueBuy, cancel, edit, save;
+	private JPanel butP;
+	private SearchResultPage searchPage;
+
+	/**
+	 * Constructor
+	 * 
+	 * @param sp
+	 *            , my parent
+	 */
+	public ProfileCenterPage(SearchResultPage sp) {
+		info = new ProfileInfo();
+		butP = new JPanel();
+		searchPage = sp;
+		this.setLayout(new BorderLayout());
+		this.add(info, BorderLayout.CENTER);
+
+		addButtons();
+		butP.add(edit);
+		butP.add(continueBuy);
+		this.add(butP, BorderLayout.SOUTH);
+	}
+
+	/**
+	 * create the buttons and set the listeners.
+	 */
+	private void addButtons() {
+		continueBuy = new JButton(CONTINUE_BUY_LABEL);
+		continueBuy.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				searchPage.goToHome();
+			}
+		});
+
+		edit = new JButton(EDIT_LABEL);
+		edit.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+
+				butP.remove(continueBuy);
+				butP.remove(edit);
+				butP.add(save);
+				butP.add(cancel);
+				info.setInfoEditable();
+				validateAndrepaint();
+			}
+		});
+
+		cancel = new JButton(CANCEL_LABEL);
+		cancel.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+
+				int option = JOptionPane.showOptionDialog(null,
+						ARE_SURE_CANCEL_LABEL, CANCEL_EDIT_LABEL,
+						JOptionPane.YES_NO_OPTION,
+						JOptionPane.QUESTION_MESSAGE, null, // possible image
+															// icon
+						new Object[] { YES_OPTION_LABEL, "No" }, YES_DIALOG);
+				if (option == 0) {
+					butP.remove(save);
+					butP.remove(cancel);
+					butP.add(continueBuy);
+					butP.add(edit);
+					info.setChanges(false);
+					info.setInfoNotEditable();
+					validateAndrepaint();
+				}
+
+			}
+
+		});
+
+		save = new JButton(SAVE_LABEL);
+		save.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+
+				int option = JOptionPane.showOptionDialog(null,
+						ARE_SURE_SAVE_LABEL,
+						SAVING_CHANGES_LABEL, JOptionPane.YES_NO_OPTION,
+						JOptionPane.QUESTION_MESSAGE, null, // icono
+						new Object[] { YES_OPTION_LABEL, "No" }, YES_DIALOG);
+
+				if (option == 0) {
+
+					butP.remove(save);
+					butP.remove(cancel);
+					butP.add(continueBuy);
+					butP.add(edit);
+					info.setChanges(true);
+					info.setInfoNotEditable();
+					validateAndrepaint();
+
+					JOptionPane.showMessageDialog(null,
+							SAVED_DATA_LABEL);
+				}
+			}
+		});
+	}
+
+	/**
+	 * calls to the method validate and repaint for mySelf.
+	 */
+	private void validateAndrepaint() {
+		this.validate();
+		this.repaint();
+	}
+
+}

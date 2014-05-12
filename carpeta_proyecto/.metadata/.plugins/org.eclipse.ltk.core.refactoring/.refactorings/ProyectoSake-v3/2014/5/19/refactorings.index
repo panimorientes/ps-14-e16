@@ -1,0 +1,22 @@
+1399540741369	Extract constant 'OUR_MAIL'
+1399540793585	Extract constant 'OUR_PASS'
+1399542073135	Extract constant 'TEXT_MAIL'
+1399546425614	Extract constant 'AMOUNT_TABLE_HEAD'
+1399546447020	Extract constant 'NAME_TABLE_HEAD'
+1399546467645	Extract constant 'PRICE_TABLE_HEAD'
+1399546581499	Extract constant 'TOTAL_PRICE_TABLE_LABEL'
+1399547058385	Extract constant 'DOCUMENT_TITLE'
+1399547133572	Extract constant 'NINJA_SOFTWARE'
+1399547216519	Extract constant 'SUBJECT_DOCUMENT_STR'
+1399558118544	Delete element
+1399576281158	Extract constant 'FRAME_Y_SIZE'
+1399576295892	Extract constant 'FRAME_X_SIZE'
+1399631701923	Extract method 'verifyData'
+1399631739622	Extract method 'sendMails'
+1399632690825	Extract method 'verifyNIF'
+1399681150611	Extract constant 'LINE_SEPARATOR'
+1399746772860	Extract method 'iniciateButton'
+1399749780330	Extract method 'inciateBuyButton'
+1399803866001	Infer generic type arguments
+1399804714992	Delete element
+1399808473948	Delete element
