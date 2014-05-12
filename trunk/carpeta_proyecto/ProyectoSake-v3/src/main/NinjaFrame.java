@@ -49,7 +49,6 @@ public class NinjaFrame extends JFrame {
 	 */
 	private void iniciateFrame() {
 
-		// this.remove(prueba);
 		this.setSize(SIZE_X, SIZE_Y);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
