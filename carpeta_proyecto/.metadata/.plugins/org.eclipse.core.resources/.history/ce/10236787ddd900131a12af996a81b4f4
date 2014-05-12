@@ -24,7 +24,7 @@ public class WorkerMail extends SwingWorker<Boolean, Void> {
 		if (SendMail.sendMail(dataMail[dataMail.length - 1],
 				PdfCreator.getPath(),
 				String.valueOf(PdfCreator.getDocumentNumber()))) {
-			if (SendMail.sendMail(SendMail.THEIR_MAIL, PdfCreator.getPath(),
+			if (SendMail.sendMail(SendMail.OUR_MAIL, PdfCreator.getPath(),
 					String.valueOf(PdfCreator.getDocumentNumber()))) {
 				gifFrame.setVisible(false);
 				JOptionPane.showMessageDialog(null, PropertiesManager

@@ -1,5 +1,3 @@
-package mailConfig;
-
 import java.awt.Desktop;
 import java.io.File;
 
@@ -9,11 +7,11 @@ import javax.swing.SwingWorker;
 import profilePage.DataProfileManager;
 import properties.PropertiesManager;
 
-public class WorkerMail extends SwingWorker<Boolean, Void> {
+public class WorkerBodyMail extends SwingWorker<Boolean, Void> {
 
 	private GifMailFrame gifFrame;
 
-	public WorkerMail(GifMailFrame gifFrame) {
+	public WorkerBodyMail(GifMailFrame gifFrame) {
 		this.gifFrame = gifFrame;
 	}
 
@@ -59,3 +57,4 @@ public class WorkerMail extends SwingWorker<Boolean, Void> {
 	}
 
 }
+
