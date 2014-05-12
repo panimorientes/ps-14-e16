@@ -1,6 +1,7 @@
 package homePage;
 
 import java.awt.BorderLayout;
+import java.util.List;
 import java.util.Scanner;
 import java.util.Vector;
 
@@ -90,8 +91,6 @@ public class SearchResultPage extends JPanel {
 		}
 	}
 
-
-
 	/***
 	 * Change the page of the coctails
 	 * 
@@ -174,7 +173,7 @@ public class SearchResultPage extends JPanel {
 		this.validate();
 		this.repaint();
 	}
-	
+
 	private void showNoResult() {
 		if (showCoctailPage != null) {
 			this.remove(showCoctailPage);
@@ -185,7 +184,7 @@ public class SearchResultPage extends JPanel {
 		this.add(noResultFound, BorderLayout.CENTER);
 		this.validate();
 		this.repaint();
-		
+
 	}
 
 	/**
@@ -259,7 +258,7 @@ public class SearchResultPage extends JPanel {
 	 * 
 	 * @return vector with all the pursaches
 	 */
-	public Vector<OneShopPanel> getPursaches() {
+	public List<OneShopPanel> getPursaches() {
 		return shopP.getPursaches();
 	}
 

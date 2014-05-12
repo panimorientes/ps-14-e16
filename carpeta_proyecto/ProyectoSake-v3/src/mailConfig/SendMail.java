@@ -130,7 +130,6 @@ public class SendMail extends Object {
 			msg.setSubject(subject);
 
 			// --[ Create the body of the mail
-
 			msg.setText(body);
 			// --[ Ask the Transport class to send our mail message
 			Transport.send(msg);

@@ -1,8 +1,8 @@
 package mailConfig;
 
 import java.io.FileOutputStream;
+import java.util.List;
 import java.util.Random;
-import java.util.Vector;
 
 import profilePage.DataProfileManager;
 import properties.PropertiesManager;
@@ -52,7 +52,7 @@ public class PdfCreator {
 		return documentFile;
 	}
 
-	public static void generateDocument(Vector<OneShopPanel> pursaches,
+	public static void generateDocument(List<OneShopPanel> pursaches,
 			double totalPrice) {
 		try {
 			Document document = new Document();
@@ -96,7 +96,7 @@ public class PdfCreator {
 	}
 
 	private static void addTable(Document document,
-			Vector<OneShopPanel> pursaches, double totalPrice) {
+			List<OneShopPanel> pursaches, double totalPrice) {
 		PdfPTable table = new PdfPTable(3);
 
 		PdfPCell c1 = new PdfPCell(
@@ -133,7 +133,7 @@ public class PdfCreator {
 									.getProperties(PropertiesManager.PRICE_SYMBOL_LABEL)));
 		}
 
-		//
+		
 		table.addCell("");
 		table.addCell(new Phrase(PropertiesManager
 				.getProperties(PropertiesManager.PC_DOCUMENT_TOTAL_PRICE_TEXT),
@@ -188,11 +188,12 @@ public class PdfCreator {
 					catFont));
 
 			addEmptyLine(preface, 1);
-
+			
+			preface.add(new Paragraph(DataProfileManager.getSystemDate()));
 			preface.add(new Paragraph((PropertiesManager
 					.getProperties(PropertiesManager.PC_DOCUMENT_SUBJECT))
 					+ documentNumber));
-
+			
 			addEmptyLine(preface, 1);
 
 			preface.add(new Paragraph(PropertiesManager

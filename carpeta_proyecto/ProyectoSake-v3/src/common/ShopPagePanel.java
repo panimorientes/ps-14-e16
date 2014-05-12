@@ -8,7 +8,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -18,9 +20,8 @@ import javax.swing.JTextField;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 
-import properties.PropertiesManager;
-
 import main.NinjaFrame;
+import properties.PropertiesManager;
 
 public class ShopPagePanel extends JPanel {
 
@@ -29,7 +30,7 @@ public class ShopPagePanel extends JPanel {
 	private JPanel shopsPanel, butPanel;
 	private JButton buy;
 	private SearchResultPage searchPage;
-	private Vector<OneShopPanel> oneShopVector;
+	private List<OneShopPanel> oneShopVector;
 
 	/**
 	 * Method constructor
@@ -40,7 +41,7 @@ public class ShopPagePanel extends JPanel {
 	public ShopPagePanel(SearchResultPage sp) {
 		total = 0;
 		this.searchPage = sp;
-		oneShopVector = new Vector<OneShopPanel>();
+		oneShopVector = new ArrayList<OneShopPanel>();
 		this.setLayout(new BorderLayout());
 		shopsPanel = new JPanel();
 		shopsPanel.setLayout(new BoxLayout(shopsPanel, BoxLayout.Y_AXIS));
@@ -160,7 +161,7 @@ public class ShopPagePanel extends JPanel {
 
 		if (!find) {
 			OneShopPanel shop = new OneShopPanel(name, price, this);
-			oneShopVector.addElement(shop);
+			oneShopVector.add(shop);
 			shopsPanel.add(shop);
 		}
 
@@ -178,7 +179,7 @@ public class ShopPagePanel extends JPanel {
 	 */
 	public void removeShop(OneShopPanel p) {
 		shopsPanel.remove(p);
-		oneShopVector.removeElement(p);
+		oneShopVector.remove(p);
 		this.validate();
 		this.repaint();
 	}
@@ -197,7 +198,7 @@ public class ShopPagePanel extends JPanel {
 	 * 
 	 * @return a vector with all the pursaches
 	 */
-	public Vector<OneShopPanel> getPursaches() {
+	public List<OneShopPanel> getPursaches() {
 		return oneShopVector;
 	}
 

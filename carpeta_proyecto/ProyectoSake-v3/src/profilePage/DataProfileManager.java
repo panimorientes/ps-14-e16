@@ -3,6 +3,9 @@ package profilePage;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.PrintWriter;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Scanner;
 
 import javax.swing.JOptionPane;
@@ -27,6 +30,9 @@ public class DataProfileManager {
 	public static String[] dataLabels = { "NIF", "Nombre", "Primer Apellido",
 			"Segundo Apellido", "Fecha Nacimiento", "Direccion", "Ciudad",
 			"Codigo Postal", "Telefono", "E-mail" };
+
+	private static DateFormat dateFormat = new SimpleDateFormat(
+			"yyyy/MM/dd HH:mm:ss");
 
 	/**
 	 * return true only if that profile has been installed at least one time
@@ -138,5 +144,13 @@ public class DataProfileManager {
 			return false;
 		}
 	}
+
+	public static String getSystemDate() {
+
+		Date date = new Date();
+		return dateFormat.format(date);
+	}
+	
+	
 
 }
