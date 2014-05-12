@@ -1,0 +1,183 @@
+package common;
+
+import homePage.SearchResultPage;
+
+import java.awt.Color;
+import java.awt.FlowLayout;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.Vector;
+
+import javax.swing.ImageIcon;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+import connection.DataBaseNames;
+import connection.DataManager;
+
+public class SearchFieldPanel extends JPanel {
+
+	private static final String SEARCH_ADVANCED_STR = "Mostrar Busqueda avanzada";
+	private static final String LUPA_IMG_PATH = "CoctailsImgs/lupa.jpg";
+	private static final String PRICE_LABEL = "Precio:";
+	private static final String INGREDIENT_LABEL = "Ingrediente:";
+	private JTextField field;
+	private JLabel search, advanced, price, ingredient;
+	private SearchResultPage searchPage;
+	private RangeSlider priceSlider;
+	private JComboBox<String> ingredientCB;
+
+	/**
+	 * Constructor.
+	 */
+	public SearchFieldPanel(SearchResultPage panel) {
+
+		searchPage = panel;
+		field = new JTextField();
+		field.setColumns(40);
+		search = new JLabel(new ImageIcon(LUPA_IMG_PATH));
+		advanced = new JLabel(SEARCH_ADVANCED_STR);
+		price = new JLabel(PRICE_LABEL);
+		ingredient = new JLabel(INGREDIENT_LABEL);
+		initSlider();
+		initComboBox();
+
+		this.setLayout(new FlowLayout());
+		this.add(advanced);
+		this.add(field);
+		this.add(search);
+
+		addListeners();
+
+	}
+
+	private void initComboBox() {
+		String query = DataManager.getQuery(
+				DataBaseNames.INGREDIENT_COLUM_NAME,
+				DataBaseNames.INGREDIENT_TABLE);
+		Vector<String> ingredients = connection.DataManager.getData(query,
+				DataBaseNames.INGREDIENT_COLUM_NAME);
+		ingredients.insertElementAt(
+				connection.DataManager.NO_INGREDIENT_SELECTED, 0);
+		ingredientCB = new JComboBox<String>(ingredients);
+	}
+
+	private void initSlider() {
+
+		priceSlider = new RangeSlider(0, 10);
+		priceSlider.setMajorTickSpacing(10);
+		priceSlider.setMinorTickSpacing(1);
+		priceSlider.setPaintTicks(true);
+		priceSlider.setPaintLabels(true);
+		priceSlider.setValue(2);
+		priceSlider.setUpperValue(7);
+
+	}
+
+	/**
+	 * Add the listeners to the JLabel "search" and "advanced"
+	 */
+	private void addListeners() {
+
+		search.addMouseListener(new MouseListener() {
+
+			public void mouseClicked(MouseEvent arg0) {
+				String query = "";
+				if (!advanced.isVisible()) {
+					query = "SELECT * FROM coctail WHERE nombre LIKE '%"
+							+ field.getText() + "%'";
+					query=DataManager.getQueryWhere(DataManager., condition)
+				} else {
+					query = getQuery();
+				}
+				searchPage.updateQuery(query);
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+			}
+
+			@Override
+			public void mouseExited(MouseEvent arg0) {
+			}
+
+			@Override
+			public void mousePressed(MouseEvent arg0) {
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent arg0) {
+			}
+
+		});
+
+		advanced.addMouseListener(new MouseListener() {
+
+			public void mouseClicked(MouseEvent arg0) {
+				showAdvanced();
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				advanced.setForeground(Color.BLUE);
+			}
+
+			@Override
+			public void mouseExited(MouseEvent arg0) {
+				advanced.setForeground(null);
+			}
+
+			@Override
+			public void mousePressed(MouseEvent arg0) {
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent arg0) {
+			}
+
+		});
+
+	}
+
+	private void showAdvanced() {
+		this.remove(advanced);
+
+		this.add(ingredient);
+		this.add(ingredientCB);
+		this.add(price);
+		this.add(priceSlider);
+		this.validate();
+		this.repaint();
+	}
+
+	private String getPriceQuery() {
+		String priceQuery;
+		priceQuery = "precio>=" + priceSlider.getValue();
+		priceQuery = priceQuery + " and ";
+		priceQuery = priceQuery + "precio<=" + priceSlider.getUpperValue();
+		return priceQuery;
+
+	}
+
+	private String getQuery() {
+		String query = "", selectedIngredient;
+		selectedIngredient = (String) ingredientCB.getSelectedItem();
+
+		if (!selectedIngredient.equals(DataManager.NO_INGREDIENT_SELECTED)) {
+			query = "SELECT DISTINCT  nombre,precio,descripcion,pathimg from coctail, pertenece WHERE coctail_nombre=nombre and "
+					+ "nombre LIKE '%"
+					+ field.getText()
+					+ "%' and "
+					+ "ingrediente_nombreI='"
+					+ ingredientCB.getSelectedItem()
+					+ "' and " + getPriceQuery();
+		} else {
+			query = "SELECT * FROM coctail WHERE nombre LIKE '%"
+					+ field.getText() + "%' and " + getPriceQuery();
+		}
+		System.out.println(query);
+		return query;
+	}
+}

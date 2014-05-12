@@ -1,0 +1,48 @@
+package connection;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Vector;
+
+public class DataManager {
+	public static String NO_INGREDIENT_SELECTED = "-------";
+	//--SQL WORDS
+	public static String SELECT = "SELECT ";
+	public static String SELECT_DIS = "SELECT DISTINCT ";
+	public static String SELECT_COUNT = "SELECT count(*) ";
+	public static String FROM ="FROM ";
+	
+	
+	public static String getQuery(String whatToSelect, String fromWhere){
+		String query="";
+		query = SELECT+whatToSelect+FROM+fromWhere;
+		return query;
+	}
+	
+	public static Vector<String> getData(){
+		Vector<String> data = new Vector<String>();
+		try{
+			
+			Connection c = ConnectionPool.getConnection();
+			Statement st = c.createStatement();
+			
+			ResultSet rs = st.executeQuery("SELECT nombreI FROM ingrediente");
+			
+			while(rs.next()){
+				data.add(rs.getString("nombreI"));
+			}
+
+			rs.close();
+			st.close();
+			ConnectionPool.returnConnection(c);
+		}
+		catch(SQLException e){
+			e.printStackTrace();
+		}
+		return ingredients;
+		
+	}
+
+}

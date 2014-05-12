@@ -1,0 +1,151 @@
+package profilePage;
+
+import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+
+import main.NinjaFrame;
+
+public class ProfileFrame extends JFrame {
+
+	private static final int SIZE_X = 500;
+	private static final String TITLE_LABEL = "PERFIL DE USUARIO";
+	private static final String BTN_SAVE_NAME = "Guardar";
+	private static final String BTN_CANCEL_NAME = "Cancelar";
+	private static final String BTN_EDIT_NAME = "Editar";
+	private static final String BTN_ACEPT_NAME = "Aceptar";
+	private static final String LOGO_MIN_PATH = "coctailsImgs/logoMin.jpg";
+	private ProfileInfo info;
+	private JButton acept, cancel, edit, save;
+	private JPanel butP;
+
+	/**
+	 * Constructor
+	 */
+	public ProfileFrame() {
+		info = new ProfileInfo();
+		butP = new JPanel();
+		this.setTitle(TITLE_LABEL);
+		this.setIconImage((new ImageIcon(LOGO_MIN_PATH).getImage()));
+		this.setLayout(new BorderLayout());
+		this.add(info, BorderLayout.CENTER);
+		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
+		this.setSize(SIZE_X, 700);
+		this.setLocationRelativeTo(null);
+		this.setResizable(false);
+		addButtons();
+		butP.add(edit);
+		butP.add(acept);
+		this.add(butP, BorderLayout.SOUTH);
+		if(!DataProfileManager.isInstalled()){
+			this.setVisible(true);
+			edit.doClick();
+		}
+
+	}
+
+	/**
+	 * create the buttons and set the listeners.
+	 */
+	private void addButtons() {
+		acept = new JButton(BTN_ACEPT_NAME);
+		acept.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				hideMe();
+				if(DataProfileManager.isInstalled()){
+					NinjaFrame.start();
+				}
+			}
+		});
+
+		edit = new JButton(BTN_EDIT_NAME);
+		edit.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+
+				butP.remove(acept);
+				butP.remove(edit);
+				butP.add(save);
+				butP.add(cancel);
+				info.setInfoEditable();
+				validateAndrepaint();
+			}
+		});
+
+		cancel = new JButton(BTN_CANCEL_NAME);
+		cancel.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+
+				int option = JOptionPane.showOptionDialog(null,
+						"Estas seguro que deseas cancelar", "Cancelar edicion",
+						JOptionPane.YES_NO_OPTION,
+						JOptionPane.QUESTION_MESSAGE, null, // icono
+						new Object[] { "Si", "No" }, "Yes");
+				if (option == 0) {
+					butP.remove(save);
+					butP.remove(cancel);
+					butP.add(acept);
+					butP.add(edit);
+					info.setChanges(false);
+					info.setInfoNotEditable();
+					validateAndrepaint();
+				}
+
+			}
+		});
+
+		save = new JButton(BTN_SAVE_NAME);
+		save.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+
+				int option = JOptionPane.showOptionDialog(null,
+						"Estas seguro que deseas guardas los cambios",
+						"Guardando cambios", JOptionPane.YES_NO_OPTION,
+						JOptionPane.QUESTION_MESSAGE, null, // icono
+						new Object[] { "Si", "No" }, "Yes");
+
+				if (option == 0) {
+
+					butP.remove(save);
+					butP.remove(cancel);
+					butP.add(acept);
+					butP.add(edit);
+					info.setChanges(true);
+					info.setInfoNotEditable();
+					validateAndrepaint();
+
+					JOptionPane.showMessageDialog(null,
+							"Nuevos Datos Guardados Correctamente");
+				}
+			}
+		});
+	}
+
+	/**
+	 * Set my Visibility to false.
+	 */
+	private void hideMe() {
+		this.setVisible(false);
+	}
+
+	/**
+	 * calls to the method validate and repaint for mySelf.
+	 */
+	private void validateAndrepaint() {
+		this.validate();
+		this.repaint();
+	}
+}

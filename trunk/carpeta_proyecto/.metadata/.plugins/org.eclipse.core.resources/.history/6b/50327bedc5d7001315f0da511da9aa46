@@ -1,0 +1,65 @@
+package mailConfig;
+
+import javax.swing.BoxLayout;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+
+public class MailFrame extends JFrame {
+	
+	
+	
+
+	private JTextField mailFrom;
+	private JTextField mailTo;
+	private JTextField subject;
+	private JTextArea body;
+	private static final String SUBJECT_LABEL = "Asunto: ";
+	private static final String MAILTO_LABEL = "Destinatario: ";
+	private static final String MAILFROM_LABEL = "Origen: ";
+	
+	public MailFrame(){
+		
+		
+			this.setSize(500, 500);
+			this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+			mailFrom = new JTextField();
+			mailTo=new JTextField();
+			mailTo.setText(SendMail.OUR_MAIL);
+			mailTo.setEditable(false);
+			subject = new JTextField();
+			body = new JTextArea();
+
+			JPanel p1 = new JPanel();
+			p1.add(new JLabel(MAILTO_LABEL));
+			p1.add(mailTo);
+
+			JPanel p2 = new JPanel();
+			p2.add(new JLabel(MAILFROM_LABEL));
+			p2.add(mailFrom);
+			
+			JPanel p3= new JPanel();
+			p3.add(new JLabel(SUBJECT_LABEL));
+			p3.add(subject);
+			this.add(p1);
+			this.add(p2);
+			this.add(p3);
+			
+			this.setVisible(false);
+			this.validate();
+			this.repaint();	
+		}
+	
+	public void showFrame(){
+		this.setVisible(true);
+	}
+	
+	public static void main(String[] args){
+		MailFrame m = new MailFrame();
+		m.showFrame();
+		
+	}
+
+}

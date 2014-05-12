@@ -1,0 +1,79 @@
+package properties;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Properties;
+
+public class PropertiesManager {
+	// keys for all the files.
+
+	// common keys
+	public static final String IMG_COMPANY_PATH ="img_company_path";
+	public static final String PRICE_SYMBOL_LABEL = "price_symbol_label";
+	public static final String PRICE_LABEL = "price_label";
+	public static final String ARIAL_FONT_NAME = "arial_font";
+	public static final String LINE_SEPARATOR = "line_separator";
+	public static final String COPY_RIGHT_LABEL = "copy_right_label";
+	public static final String BUY_BUTTON_NAME = "buy_button_name";
+
+	// CenterCoctailPanel keys
+	public static final String CCP_INGREDIENT_LIST_SEPARATOR = "ccp_ingredient_list_separator";
+	public static final String CCP_INGREDIENT_LIST_LABEL = "ccp_ingredient_list_label";
+	public static final String CCP_BTN_ADD_NAME = "ccp_btn_add_name";
+
+	// BotInfoPanel keys
+	public static final String BIP_CONTACT_LABEL = "bip_contact_label";
+	public static final String BIP_FAQ_LABEL = "bip_faq_label";
+
+	// OneShopPanel keys
+	public static final String OSP_TOTAL_LABEL = "osp_total_label";
+	public static final String OSP_DELETE_IMG_PATH = "osp_delete_img_path";
+
+	// SearchFieldPanel keys
+	public static final String SFP_ADVANCED_LABEL = "sfp_advanced_label";
+	public static final String SFP_NON_ADVANCED_LABEL = "sfp_non_advanced_label";
+	public static final String SFP_SEARCH_IMG_PATH = "sfp_seach_img_path";
+	public static final String SFP_INGREDIENT_LABEL = "sfp_ingredient_label";
+
+	// ShopPagePanel keys
+	public static final String SSP_TITLE_BORDER = "ssp_title_border";
+	public static final String SSP_TOTAL_LABEL = "ssp_total_label";
+
+	// TopInfoPanel keys
+	public static final String TIP_WELCOME_LABEL = "tip_welcome_label";
+
+	// PageNumberManager keys
+	public static final String PNM_RIGHT_LABEL = "pnm_right_label";
+	public static final String PNM_LEFT_LABEL = "pnm_left_label";
+	public static final String PNM_NEXT_LABEL = "pnm_next_label";
+	public static final String PNM_PREVIUS_LABEL = "pnm_previus_label";
+
+	// MailFrame keys
+	public static final String MF_TITLE_FRAME = "mf_title_farme";
+	public static final String MF_SUBJECT_LABEL = "mf_subject_label";
+	public static final String MF_MAIL_TO_LABEL = "mf_mail_to_label";
+	public static final String MF_MAIL_FROM_LABEL = "mf_mail_from_label";
+	public static final String MF_BTN_CANCEL_NAME = "mf_btn_cancel_name";
+	public static final String MF_BTN_SEND_NAME = "mf_btn_send_name";
+	
+	// PdfCreator keys
+	public static final String PC_DOCUMENT_SUBJECT="pc_document_subject";
+
+	private static Properties myProp = new Properties();
+	private static String PROPERTIES_PATH = "config//config.properties";
+
+	static {
+		try (FileInputStream input = new FileInputStream(PROPERTIES_PATH)) {
+
+			myProp.load(input);
+
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		}
+	}
+
+	public static String getProperties(String key) {
+		return myProp.getProperty(key);
+	}
+
+}

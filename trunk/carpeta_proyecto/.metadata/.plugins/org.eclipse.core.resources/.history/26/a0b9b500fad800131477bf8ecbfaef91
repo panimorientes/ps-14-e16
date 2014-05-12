@@ -1,0 +1,83 @@
+package mailConfig;
+
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingWorker;
+
+public class GifThread implements Runnable {
+
+	private static final int FRAME_X_SIZE = 400;
+	private static final int FRAME_Y_SIZE = 125;
+	private static final String GIF_PATH = "coctailsImgs/gifMail.gif";
+	private static final String MAIL_LABEL = "Espere mientras se envia el EMail.";
+	private static final String MAIL_TITLE = "Enviado";
+	
+	
+	public JFrame mailFrame;
+	
+	public GifThread(){
+		mailFrame = new JFrame();
+		mailFrame.setLayout(new FlowLayout());
+		JPanel gifP = new JPanel();
+
+		ImageIcon myImgIcon = new ImageIcon(GIF_PATH);
+		JLabel imageLbl = new JLabel(myImgIcon);
+		gifP.add(imageLbl, BorderLayout.CENTER);
+
+		myImgIcon.setImageObserver(imageLbl);
+
+
+//		mailFrame.add(gifP);
+		mailFrame.setTitle(MAIL_TITLE);
+		mailFrame.add(new JLabel(MAIL_LABEL));
+
+		mailFrame.setSize(FRAME_X_SIZE, FRAME_Y_SIZE);
+		mailFrame.setLocationRelativeTo(null);
+		mailFrame.setVisible(true);
+		mailFrame.validate();
+		mailFrame.repaint();
+	}
+	
+
+	
+	
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		
+	}
+
+//	@Override
+//	public void run() {
+//		
+//		
+//		JFrame mailFrame = new JFrame();
+//		mailFrame.setLayout(new FlowLayout());
+//		JPanel gifP = new JPanel();
+//
+//		ImageIcon myImgIcon = new ImageIcon(GIF_PATH);
+//		JLabel imageLbl = new JLabel(myImgIcon);
+//		gifP.add(imageLbl, BorderLayout.CENTER);
+//
+//		myImgIcon.setImageObserver(imageLbl);
+//
+//
+////		mailFrame.add(gifP);
+//		mailFrame.setTitle(MAIL_TITLE);
+//		mailFrame.add(new JLabel(MAIL_LABEL));
+//
+//		mailFrame.setSize(FRAME_X_SIZE, FRAME_Y_SIZE);
+//		mailFrame.setLocationRelativeTo(null);
+//		mailFrame.setVisible(true);
+//		mailFrame.validate();
+//		mailFrame.repaint();
+//
+//	};
+
+
+}

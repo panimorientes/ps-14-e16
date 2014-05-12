@@ -1,0 +1,65 @@
+package connection;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Vector;
+
+public class DataManager {
+	public static String NO_INGREDIENT_SELECTED = "----------------";
+	// --SQL WORDS
+	public static String SELECT = "SELECT ";
+	public static String SELECT_DIS = "SELECT DISTINCT ";
+	public static String SELECT_COUNT = " count(*) ";
+	public static String SELECT_ALL =" * ";
+	private static String FROM = " FROM ";
+	private static String WHERE =" WHERE ";
+	public static String LIKE = " LIKE ";
+	public static String DATA_SEPARATOR = ",";
+	public static String DATA_EQUAL = "=";
+	public static String AND = " and ";
+	public static String NAME_LIKE_IN = "'%";
+	public static String NAME_LIKE_OUT = "%'";
+	public static String EQUAL_IN_OUT ="'";
+	public static String DATA_BIGGER = ">";
+	public static String DATA_SMALLER ="<";
+	public statis String LIMIT = " LIMIT ";
+	
+
+	public static String getQuery(String selectType, String whatToSelect, String fromWhere) {
+		String query = "";
+		query = selectType + whatToSelect + FROM + fromWhere;
+		return query;
+	}
+	
+	public static String getQueryWhere(String selectType, String whatToSelect, String fromWhere, String condition) {
+		String query = "";
+		query = selectType + whatToSelect + FROM + fromWhere + WHERE + condition;
+		return query;
+	}
+
+	public static Vector<String> getData(String query, String whatToSelect) {
+		Vector<String> data = new Vector<String>();
+		try {
+
+			Connection c = ConnectionPool.getConnection();
+			Statement st = c.createStatement();
+
+			ResultSet rs = st.executeQuery(query);
+
+			while (rs.next()) {
+				data.add(rs.getString(whatToSelect));
+			}
+
+			rs.close();
+			st.close();
+			ConnectionPool.returnConnection(c);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return data;
+
+	}
+
+}

@@ -1,0 +1,57 @@
+package properties;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Properties;
+
+public class PropertiesManager {
+	//keys for all the files.
+	
+	//common keys
+	public static final String PRICE_SYMBOL_LABEL = "price_symbol_label";
+	public static final String PRICE_LABEL = "price_label";
+	public static final String ARIAL_FONT_NAME = "arial_font";
+	public static final String LINE_SEPARATOR ="line_separator";
+	public static final String COPY_RIGHT_LABEL ="copy_right_label";
+	
+	//CenterCoctailPanel keys
+	public static final String CCP_INGREDIENT_LIST_SEPARATOR ="ccp_ingredient_list_separator";
+	public static final String CCP_INGREDIENT_LIST_LABEL = "ccp_ingredient_list_label";
+	public static final String CCP_BTN_ADD_NAME = "ccp_btn_add_name";
+	
+	//BotInfoPanel keys
+	public static final String BIP_CONTACT_LABEL="bip_contact_label";
+	public static final String BIP_FAQ_LABEL = "bip_faq_label";
+	
+	//OneShopPanel keys
+	public static final String OSP_TOTAL_LABEL ="osp_total_label";
+	public static final String OSP_DELETE_IMG_PATH="osp_delete_img_path";
+	
+	//SearchFieldPanel keys
+	public static final String SFP_ADVANCED_LABEL = "sfp_advanced_label";
+	public static final String SFP_NON_ADVANCED_LABEL = "sfp_non_advanced_label";
+	public static final String SFP_SEARCH_IMG_PATH ="sfp_seach_img_path";
+	public static final String SFP_INGREDIENT_LABEL="sfp_ingredient_label";
+	
+	//ShopPagePanel keys
+	public static final String SSP_BUY_BUTTON_NAME = "ssp_buy_button_name";
+	public static final String SSP_TITLE_BORDER ="ssp_title_border";
+	
+	private static Properties myProp = new Properties();
+	private static String PROPERTIES_PATH = "config//config.properties";
+
+	static {
+		try (FileInputStream input = new FileInputStream(PROPERTIES_PATH)) {
+
+			myProp.load(input);
+
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		}
+	}
+
+	public static String getProperties(String key) {
+		return myProp.getProperty(key);
+	}
+
+}

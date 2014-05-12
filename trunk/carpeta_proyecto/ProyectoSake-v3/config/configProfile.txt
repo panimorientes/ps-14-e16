@@ -1,0 +1,11 @@
+installed:=true
+nif:=73209463A
+name:=a
+ap1:=a
+ap2:=a
+fnac:=a
+dir:=a
+ciudad:=a
+codP:=a
+tlf:=a
+e-mail:=ramonmoxo@gmail.com

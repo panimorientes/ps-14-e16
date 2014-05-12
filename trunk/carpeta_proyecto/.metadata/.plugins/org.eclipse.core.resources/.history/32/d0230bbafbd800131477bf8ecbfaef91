@@ -1,0 +1,43 @@
+package mailConfig;
+
+import javax.swing.JOptionPane;
+import javax.swing.SwingWorker;
+
+import profilePage.DataProfileManager;
+import properties.PropertiesManager;
+
+public class Worker extends SwingWorker<Boolean, Void> {
+
+	private GifThread gifThread;
+	public Worker(GifThread gifTrhead){
+		this.gifThread=gifThread;
+	}
+	@Override
+	protected Boolean doInBackground() throws Exception {
+
+		String[] dataMail = DataProfileManager.getData();
+		if (SendMail.sendMail(dataMail[dataMail.length - 1],
+				PdfCreator.getPath(),
+				String.valueOf(PdfCreator.getDocumentNumber()))) {
+			if (SendMail.sendMail(SendMail.OUR_MAIL, PdfCreator.getPath(),
+					String.valueOf(PdfCreator.getDocumentNumber()))) {
+				JOptionPane.showMessageDialog(null, PropertiesManager
+						.getProperties(PropertiesManager.SM_SEND_OK));
+				gifThread.changeVisibility(false);
+				return true;
+			} else {
+				JOptionPane.showMessageDialog(null, PropertiesManager
+						.getProperties(PropertiesManager.SM_SEND_ERROR));
+				gifThread.changeVisibility(false);
+				return false;
+			}
+		} else {
+			JOptionPane.showMessageDialog(null, PropertiesManager
+					.getProperties(PropertiesManager.SM_SEND_ERROR));
+			gifThread.changeVisibility(false);
+			return false;
+		}
+
+	}
+
+}

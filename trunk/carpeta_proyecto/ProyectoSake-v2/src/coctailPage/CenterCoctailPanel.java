@@ -1,6 +1,7 @@
 package coctailPage;
 
 import homePage.SearchResultPage;
+
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -15,6 +16,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Scanner;
+import java.util.Vector;
 
 import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
@@ -25,181 +28,160 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
 import connection.ConnectionPool;
-
+import connection.DataBaseNames;
+import connection.DataManager;
 
 public class CenterCoctailPanel extends JPanel {
-	
-	private ConnectionPool myDB;
+
+	private static final String INGREDIENT_LIST_SEPARATOR = "· ";
+
+	private static final String INGREDIENT_LIST_LABEL = "Lista de Ingredientes:";
+
+	private static final String ARIAL_FONT = "Arial";
+
+	private static final String PRICE_LABEL = "Precio: ";
+
+	private static final String BTN_ADD_NAME = "Anhadir al carrito";
+
 	private String name;
-	private JPanel centerInfo,allTheInfo;
+	private JPanel centerInfo, allTheInfo;
 	private JButton buyMe;
 	private SearchResultPage searchPage;
-	
+
 	/**
 	 * Constructor method.
-	 * @param name, name used to search in the DB
+	 * 
+	 * @param name
+	 *            , name used to search in the DB
 	 */
-	public CenterCoctailPanel(final String name,ConnectionPool db, SearchResultPage sp){
-		
+	public CenterCoctailPanel(final String name, SearchResultPage sp) {
+
 		searchPage = sp;
-		myDB = db;
-		this.name=name;
-		centerInfo=new JPanel();
+		this.name = name;
+		centerInfo = new JPanel();
 		centerInfo.setLayout(new BorderLayout());
-		allTheInfo=new JPanel();
-		allTheInfo.setLayout(new BoxLayout(allTheInfo,BoxLayout.Y_AXIS));
-		buyMe = new JButton("Anhadir al carrito");
-		
-		this.buyMe.addActionListener(new ActionListener(){
+		allTheInfo = new JPanel();
+		allTheInfo.setLayout(new BoxLayout(allTheInfo, BoxLayout.Y_AXIS));
+		buyMe = new JButton(BTN_ADD_NAME);
+
+		this.buyMe.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				searchPage.addToShop(name);
 			}
 		});
-		
-		centerInfo.add(buyMe,BorderLayout.SOUTH);
-		centerInfo.add(allTheInfo,BorderLayout.CENTER);	
-		
+
+		centerInfo.add(buyMe, BorderLayout.SOUTH);
+		centerInfo.add(allTheInfo, BorderLayout.CENTER);
+
 		this.setLayout(new BorderLayout());
 		JPanel titleP = new JPanel();
 		JLabel nameLabel = new JLabel(this.name);
-		nameLabel.setFont(new Font("Arial", Font.BOLD, 42));
+		nameLabel.setFont(new Font(ARIAL_FONT, Font.BOLD, 42));
 		titleP.add(nameLabel);
-		this.add(titleP,BorderLayout.NORTH);
-		this.add(centerInfo,BorderLayout.CENTER);
+		this.add(titleP, BorderLayout.NORTH);
+		this.add(centerInfo, BorderLayout.CENTER);
 		addImg();
-		addDescr();		
+		addDescr();
 		addIngr();
 		addPrice();
 	}
-	
+
 	/**
 	 * add the price to the panel. Get the price from a query to the DB
 	 */
-	private void addPrice(){
-		try{
-			Connection c = myDB.getConnection();
-			Statement st = c.createStatement();
-		    ResultSet rs = st.executeQuery("SELECT precio from coctail where nombre='"+this.name+"'" );
-		     
-		    while (rs.next()){
-		    	JLabel priceL = new JLabel("Precio: "+rs.getDouble("precio"));
-				priceL.setFont(new Font("Arial", Font.ITALIC, 28));
-				allTheInfo.add(priceL);
-			}
-			rs.close();
-			st.close();
-			myDB.returnConnection(c);
-		}
-		catch (SQLException e){
-			System.out.println("error SearchResult get price");
-			allTheInfo.add(new JLabel("Precio Desconocido"));
-		}
+	private void addPrice() {
+
+		String query = DataManager.getQueryWhere(DataManager.SELECT,
+				DataBaseNames.COCTAIL_COLUM_PRICE, DataBaseNames.COCTAIL_TABLE,
+				DataManager.getDBConditionName(DataBaseNames.COCTAIL_COLUM_NAME,this.name));
+		Vector<String> d = DataManager.getData(query,
+				DataManager.getColumns(DataBaseNames.COCTAIL_COLUM_PRICE));
+
+		JLabel priceL = new JLabel(PRICE_LABEL + d.firstElement());
+		priceL.setFont(new Font(ARIAL_FONT, Font.ITALIC, 28));
+		allTheInfo.add(priceL);
+
 	}
-	
+
 	/**
-	 * add the coctail image to the left side of the panel.
-	 * Get the path to the image from a query to the DB.
+	 * add the coctail image to the left side of the panel. Get the path to the
+	 * image from a query to the DB.
 	 */
-	private void addImg(){
-		String img="";
-		try{
-			Connection c = myDB.getConnection();
-			Statement st = c.createStatement();
-			ResultSet rs = st.executeQuery("SELECT PathImg from coctail where nombre='"+this.name+"'" );
-				     
-			while (rs.next()){
-				img=rs.getString("PathImg");
-					          
-			}
-			rs.close();
-			st.close();
-			myDB.returnConnection(c);
-		}
-		catch (SQLException e){
-			System.out.println("error SearchResult get IMG");
-			img="Error consulta Img SQL";
-		}
-		JPanel panel = new JPanel((LayoutManager) new FlowLayout(FlowLayout.CENTER));
-		
+	private void addImg() {
+		String img = "";
+		String query = DataManager.getQueryWhere(DataManager.SELECT,
+				DataBaseNames.COCTAIL_COLUM_PATH_IMG,
+				DataBaseNames.COCTAIL_TABLE,
+				DataManager.getDBConditionName(DataBaseNames.COCTAIL_COLUM_NAME,this.name));
+		Vector<String> data = DataManager.getData(query,
+				DataManager.getColumns(DataBaseNames.COCTAIL_COLUM_PATH_IMG));
+		img = data.firstElement();
+
+		JPanel panel = new JPanel((LayoutManager) new FlowLayout(
+				FlowLayout.CENTER));
+
 		try {
 			BufferedImage myPicture = ImageIO.read(new File(img));
-			panel.add(new JLabel(new ImageIcon(myPicture.getScaledInstance(300, 300, Image.SCALE_SMOOTH))));
-			
-			
+			panel.add(new JLabel(new ImageIcon(myPicture.getScaledInstance(300,
+					300, Image.SCALE_SMOOTH))));
+
 		} catch (IOException e) {
 			System.out.println("error BufferedImage CencerCoctail Panel");
 		}
-		
 
 		panel.validate();
 		panel.repaint();
-		this.add(panel,BorderLayout.WEST);
+		this.add(panel, BorderLayout.WEST);
 	}
-	
+
 	/**
 	 * add a list of ingredients. Get the list from a query to the DB
 	 */
-	private void addIngr(){
-		 try{
-			 Connection c = myDB.getConnection();
-			 Statement st = c.createStatement();
-		     ResultSet rs = st.executeQuery("SELECT Ingrediente_nombreI from " +
-		     								"pertenece where Coctail_nombre ='"+this.name+"'" );
-		     
-		     JLabel ingrL = new JLabel("Lista de Ingredientes:");
-		     ingrL.setFont(new Font("Arial", Font.ITALIC, 28));
-		     allTheInfo.add(ingrL);
-		   
-		     while (rs.next()){
-		    	ingrL = new JLabel("· "+rs.getString("Ingrediente_nombreI"));
-				ingrL.setFont(new Font("Arial", Font.ITALIC, 22));
-				allTheInfo.add(ingrL);
-			          
-			 }
-			 rs.close();
-			 st.close();
-			 myDB.returnConnection(c);
+	private void addIngr() {
+		String query = DataManager.getQueryWhere(DataManager.SELECT,
+				DataBaseNames.PERTAIN_COLUM_INGREDIENT,
+				DataBaseNames.PERTAIN_TABLE,
+				DataManager.getDBConditionName(DataBaseNames.PERTAIN_COLUM_COCTAIL,this.name));
+		JLabel ingrL = new JLabel(INGREDIENT_LIST_LABEL);
+		ingrL.setFont(new Font(ARIAL_FONT, Font.ITALIC, 28));
+		allTheInfo.add(ingrL);
+
+		Vector<String> data = DataManager.getData(query,
+				DataManager.getColumns(DataBaseNames.PERTAIN_COLUM_INGREDIENT));
+
+		for (String ingr : data) {
+			ingrL = new JLabel(INGREDIENT_LIST_SEPARATOR + ingr);
+			ingrL.setFont(new Font(ARIAL_FONT, Font.ITALIC, 22));
+			allTheInfo.add(ingrL);
 		}
-		catch (SQLException e){
-		System.out.println("error SearchResult get INGR");
-		allTheInfo.add(new JLabel("Ingredientes Desconocidos"));
-		}
-		
 	}
-	
+
 	/**
-	 * add the desription of the coctail. 
-	 * Get the description from a query to the DB 
+	 * add the desription of the coctail. Get the description from a query to
+	 * the DB
 	 */
-	private void addDescr(){
-		String descr ="";
-		try{
-			Connection c = myDB.getConnection();
-			Statement st = c.createStatement();
-		    ResultSet rs = st.executeQuery("SELECT Descripcion from coctail where " +
-		     								"nombre='"+this.name+"'" );
-		     
-		    while (rs.next()){
-		    	descr=""+rs.getString("Descripcion");          
-			}
-		    rs.close();
-			st.close();
-			myDB.returnConnection(c);
-		}
-		catch (SQLException e){
-			System.out.println("error SearchResult get DESCCR");
-			descr="Descripcion Desconocida";
-		}
-		 
+	private void addDescr() {
+		String descr = "";
+		String query = DataManager.getQueryWhere(DataManager.SELECT,
+				DataBaseNames.COCTAIL_COLUM_DESCR, DataBaseNames.COCTAIL_TABLE,
+				DataManager.getDBConditionName(DataBaseNames.COCTAIL_COLUM_NAME,this.name));
+		Vector<String> data = DataManager.getData(query,
+				DataManager.getColumns(DataBaseNames.COCTAIL_COLUM_DESCR));
+
+		descr = data.firstElement();
+
 		JTextArea descrJTA = new JTextArea(descr);
 		descrJTA.setEditable(false);
 		descrJTA.setBackground(null);
 		descrJTA.setFocusable(false);
 		descrJTA.setLineWrap(true);
 		descrJTA.setWrapStyleWord(true);
-		descrJTA.setFont(new Font("Arial", Font.PLAIN, 18));
+		descrJTA.setFont(new Font(ARIAL_FONT, Font.PLAIN, 18));
 		allTheInfo.add(descrJTA);
 	}
+
+
+	
 	
 }

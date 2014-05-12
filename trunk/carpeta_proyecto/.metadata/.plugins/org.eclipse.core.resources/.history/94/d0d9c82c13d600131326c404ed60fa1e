@@ -1,0 +1,187 @@
+package coctailPage;
+
+import homePage.SearchResultPage;
+
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.Image;
+import java.awt.LayoutManager;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Vector;
+
+import javax.imageio.ImageIO;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
+
+import connection.ConnectionPool;
+import connection.DataBaseNames;
+import connection.DataManager;
+
+public class CenterCoctailPanel extends JPanel {
+
+	private static final String INGREDIENT_LIST_SEPARATOR = "· ";
+
+	private static final String INGREDIENT_LIST_LABEL = "Lista de Ingredientes:";
+
+	private static final String ARIAL_FONT = "Arial";
+
+	private static final String PRICE_LABEL = "Precio: ";
+
+	private static final String BTN_ADD_NAME = "Anhadir al carrito";
+
+	private String name;
+	private JPanel centerInfo, allTheInfo;
+	private JButton buyMe;
+	private SearchResultPage searchPage;
+
+	/**
+	 * Constructor method.
+	 * 
+	 * @param name
+	 *            , name used to search in the DB
+	 */
+	public CenterCoctailPanel(final String name, SearchResultPage sp) {
+
+		searchPage = sp;
+		this.name = name;
+		centerInfo = new JPanel();
+		centerInfo.setLayout(new BorderLayout());
+		allTheInfo = new JPanel();
+		allTheInfo.setLayout(new BoxLayout(allTheInfo, BoxLayout.Y_AXIS));
+		buyMe = new JButton(BTN_ADD_NAME);
+
+		this.buyMe.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				searchPage.addToShop(name);
+			}
+		});
+
+		centerInfo.add(buyMe, BorderLayout.SOUTH);
+		centerInfo.add(allTheInfo, BorderLayout.CENTER);
+
+		this.setLayout(new BorderLayout());
+		JPanel titleP = new JPanel();
+		JLabel nameLabel = new JLabel(this.name);
+		nameLabel.setFont(new Font(ARIAL_FONT, Font.BOLD, 42));
+		titleP.add(nameLabel);
+		this.add(titleP, BorderLayout.NORTH);
+		this.add(centerInfo, BorderLayout.CENTER);
+		addImg();
+		addDescr();
+		addIngr();
+		addPrice();
+	}
+
+	/**
+	 * add the price to the panel. Get the price from a query to the DB
+	 */
+	private void addPrice() {
+
+		String query = DataManager.getQueryWhere(DataManager.SELECT,
+				DataBaseNames.COCTAIL_COLUM_PRICE, DataBaseNames.COCTAIL_TABLE,
+				getDBCondition(DataBaseNames.COCTAIL_COLUM_NAME));
+		Vector<String> d = DataManager.getData(query,
+				DataBaseNames.COCTAIL_COLUM_PRICE);
+
+		JLabel priceL = new JLabel(PRICE_LABEL + d.firstElement());
+		priceL.setFont(new Font(ARIAL_FONT, Font.ITALIC, 28));
+		allTheInfo.add(priceL);
+
+	}
+
+	/**
+	 * add the coctail image to the left side of the panel. Get the path to the
+	 * image from a query to the DB.
+	 */
+	private void addImg() {
+		String img = "";
+		String query = DataManager.getQueryWhere(DataManager.SELECT,
+				DataBaseNames.COCTAIL_COLUM_PATH_IMG,
+				DataBaseNames.COCTAIL_TABLE,
+				getDBCondition(DataBaseNames.COCTAIL_COLUM_NAME));
+		Vector<String> data = DataManager.getData(query,
+				DataBaseNames.COCTAIL_COLUM_PATH_IMG);
+		img = data.firstElement();
+
+		JPanel panel = new JPanel((LayoutManager) new FlowLayout(
+				FlowLayout.CENTER));
+
+		try {
+			BufferedImage myPicture = ImageIO.read(new File(img));
+			panel.add(new JLabel(new ImageIcon(myPicture.getScaledInstance(300,
+					300, Image.SCALE_SMOOTH))));
+
+		} catch (IOException e) {
+			System.out.println("error BufferedImage CencerCoctail Panel");
+		}
+
+		panel.validate();
+		panel.repaint();
+		this.add(panel, BorderLayout.WEST);
+	}
+
+	/**
+	 * add a list of ingredients. Get the list from a query to the DB
+	 */
+	private void addIngr() {
+		String query = DataManager.getQueryWhere(DataManager.SELECT,
+				DataBaseNames.PERTAIN_COLUM_INGREDIENT,
+				DataBaseNames.PERTAIN_TABLE,
+				getDBCondition(DataBaseNames.PERTAIN_COLUM_COCTAIL));
+		JLabel ingrL = new JLabel(INGREDIENT_LIST_LABEL);
+		ingrL.setFont(new Font(ARIAL_FONT, Font.ITALIC, 28));
+		allTheInfo.add(ingrL);
+
+		Vector<String> data = DataManager.getData(query,
+				DataBaseNames.PERTAIN_COLUM_INGREDIENT);
+
+		for (String ingr : data) {
+			ingrL = new JLabel(INGREDIENT_LIST_SEPARATOR + ingr);
+			ingrL.setFont(new Font(ARIAL_FONT, Font.ITALIC, 22));
+			allTheInfo.add(ingrL);
+		}
+	}
+
+	/**
+	 * add the desription of the coctail. Get the description from a query to
+	 * the DB
+	 */
+	private void addDescr() {
+		String descr = "";
+		String query = DataManager.getQueryWhere(DataManager.SELECT,
+				DataBaseNames.COCTAIL_COLUM_DESCR, DataBaseNames.COCTAIL_TABLE,
+				getDBCondition(DataBaseNames.COCTAIL_COLUM_NAME));
+		Vector<String> data = DataManager.getData(query,
+				DataBaseNames.COCTAIL_COLUM_DESCR);
+
+		descr = data.firstElement();
+
+		JTextArea descrJTA = new JTextArea(descr);
+		descrJTA.setEditable(false);
+		descrJTA.setBackground(null);
+		descrJTA.setFocusable(false);
+		descrJTA.setLineWrap(true);
+		descrJTA.setWrapStyleWord(true);
+		descrJTA.setFont(new Font(ARIAL_FONT, Font.PLAIN, 18));
+		allTheInfo.add(descrJTA);
+	}
+
+	private String getDBCondition(String name) {
+		String condition = name + "='" + this.name + "'";
+		return condition;
+	}
+}

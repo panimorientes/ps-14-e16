@@ -1,0 +1,163 @@
+package common;
+
+import java.awt.FlowLayout;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
+import properties.PropertiesManager;
+
+import main.NinjaFrame;
+
+public class OneShopPanel extends JPanel {
+
+	// private static final String TOTAL_STR = "Total: ";
+	// private static final String DELETE_IMG_PATH = "coctailsImgs/deleteI.jpg";
+	private double totalPrice;
+	private JLabel priceLabel;
+	private JSpinner amount;
+	private ShopPagePanel allShops;
+	private String name;
+
+	/**
+	 * Constructor Method
+	 * 
+	 * @param name
+	 *            , name of the coctail
+	 * @param price
+	 *            , price of the coctail
+	 * @param allShops
+	 *            , my parent, used to delete and update
+	 */
+	public OneShopPanel(String name, final double price,
+			final ShopPagePanel allShops) {
+
+		this.name = name;
+		this.allShops = allShops;
+		totalPrice = price;
+		this.allShops.updateTotal(totalPrice);
+
+		JPanel myPanel = new JPanel();
+		this.setLayout(new FlowLayout());
+		myPanel.setLayout(new BoxLayout(myPanel, BoxLayout.Y_AXIS));
+
+		SpinnerNumberModel model = new SpinnerNumberModel(1, 0, null, 1);
+		amount = new JSpinner(model);
+
+		amount.addChangeListener(new ChangeListener() {
+			@Override
+			public void stateChanged(ChangeEvent e) {
+				double oldTotal = totalPrice;
+				totalPrice = price * (int) amount.getValue();
+				priceLabel.setText((PropertiesManager
+						.getProperties(PropertiesManager.OSP_TOTAL_LABEL))
+						+ totalPrice
+						+ (PropertiesManager
+								.getProperties(PropertiesManager.PRICE_SYMBOL_LABEL)));
+				allShops.updateTotal(totalPrice - oldTotal);
+			}
+		});
+
+		JPanel p1 = new JPanel();
+		JPanel p2 = new JPanel();
+		JPanel nameP = new JPanel();
+		JPanel priceP = new JPanel();
+		JPanel amountP = new JPanel();
+		JPanel deleteP = new JPanel();
+
+		JLabel nameLabel = new JLabel(name);
+		nameP.add(nameLabel);
+
+		priceLabel = new JLabel(
+				(PropertiesManager
+						.getProperties(PropertiesManager.OSP_TOTAL_LABEL))
+						+ totalPrice
+						+ (PropertiesManager
+								.getProperties(PropertiesManager.PRICE_SYMBOL_LABEL)));
+		priceP.add(priceLabel);
+
+		amountP.add(amount);
+
+		JLabel deleteLabel = new JLabel(new ImageIcon(
+				PropertiesManager
+						.getProperties(PropertiesManager.OSP_DELETE_IMG_PATH)));
+		deleteP.add(deleteLabel);
+
+		addListener(deleteLabel);
+
+		p1.add(nameP);
+		p2.add(amountP);
+		p2.add(priceP);
+		p2.add(deleteP);
+		myPanel.add(p1);
+		myPanel.add(p2);
+		this.add(myPanel);
+	}
+
+	/**
+	 * Method used to set the listener to the lad
+	 * 
+	 * @param lab
+	 *            , JLabel that will get the new listener
+	 */
+	private void addListener(JLabel lab) {
+		lab.addMouseListener(new MouseListener() {
+			public void mouseClicked(MouseEvent arg0) {
+				deleteMe();
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				setCursor(NinjaFrame.handCursor);
+			}
+
+			@Override
+			public void mouseExited(MouseEvent arg0) {
+				setCursor(NinjaFrame.defaultCursor);
+			}
+
+			@Override
+			public void mousePressed(MouseEvent arg0) {
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent arg0) {
+			}
+
+		});
+	}
+
+	/**
+	 * Method that first update the total (discount my own total price where
+	 * total price = my price * amount Then the method calls to a method from my
+	 * parent who removes myself.
+	 */
+	private void deleteMe() {
+		allShops.updateTotal(totalPrice * -1);
+		allShops.removeShop(this);
+	}
+
+	public void updateAmount() {
+		amount.setValue(amount.getNextValue());
+	}
+
+	public String getName() {
+		return this.name;
+	}
+
+	public double getTotalPrice() {
+		return totalPrice;
+	}
+
+	public double getSinglePrice() {
+		return totalPrice / (int) amount.getValue();
+	}
+}

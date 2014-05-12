@@ -1,0 +1,219 @@
+package mailConfig;
+
+import java.io.FileOutputStream;
+import java.util.Random;
+import java.util.Vector;
+
+import profilePage.DataProfileManager;
+
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+import common.OneShopPanel;
+
+public class PdfCreator {
+	private static final String SW_NINJA_LABEL = "Software Ninja SL ®";
+	private static final String LOGO_PATH = "CoctailsImgs/logo.jpg";
+	private static final String SUBJECT_DOCUMENT_STR = "Pedido numero ";
+	private static final String CLIENT_DATA = "Datos del cliente";
+	private static final String NINJA_SOFTWARE = "NINJA SOFTWARE";
+	private static final String AMOUNT_COCTAIL_LABEL = "x";
+	private static final String PRICE_SYMBOL_LABEL = "€";
+	private static final String IVA_TEXT_LABEL = "*IVA incluído";
+
+	private static final String DOCUMENT_TITLE = "Factura";
+
+	private static final String TOTAL_PRICE_TABLE_LABEL = "Precio Total";
+
+	private static final String PRICE_TABLE_HEAD = "Precio";
+
+	private static final String NAME_TABLE_HEAD = "Coctail";
+
+	private static final String AMOUNT_TABLE_HEAD = "Cantidad";
+	private static final String CLIENT_DATA_SEPARATOR = ": ";
+	private static final String PDF_END_LABEL = ".pdf";
+	private static final String TABLE_TITLE = "Contenido del pedido";
+	private static final String FINAL_DOCMUENT_TEXT = "En caso de dudas puedes visitar el manual de usuario de la aplicación o el apartado de FAQ";
+	private static final String CONTACT_US_LABEL = "Para cualquier duda o problema contacta con nosotros en el siguiente correo:";
+	private static String FILE_PATH = "tmp/factura_";
+
+	private static Font catFont = new Font(Font.FontFamily.TIMES_ROMAN, 18,
+			Font.BOLD);
+	private static Font subFont = new Font(Font.FontFamily.TIMES_ROMAN, 16,
+			Font.BOLD);
+	private static Font smallBold = new Font(Font.FontFamily.TIMES_ROMAN, 12,
+			Font.BOLD);
+	private static Font emailFont = new Font(Font.FontFamily.TIMES_ROMAN, 12,
+			Font.UNDERLINE, BaseColor.BLUE);
+
+	private static int documentNumber;
+	private static String documentFile;
+
+	public static void setDocumnetNumber() {
+		documentNumber = Math.abs(new Random().nextInt() * 12417);
+	}
+	
+	public String getPath(){
+		return documentFile;
+	}
+
+	public PdfCreator(Vector<OneShopPanel> pursaches, double totalPrice) {
+
+		generateDocument(pursaches, totalPrice);
+
+	}
+
+	private static void generateDocument(Vector<OneShopPanel> pursaches,
+			double totalPrice) {
+		try {
+			Document document = new Document();
+			PdfCreator.setDocumnetNumber();
+			documentFile = FILE_PATH + documentNumber + PDF_END_LABEL;
+			PdfWriter.getInstance(document, new FileOutputStream(documentFile));
+			document.open();
+			addMetaData(document);
+			addClientInfo(document);
+			addTable(document, pursaches, totalPrice);
+			addComentsInfo(document);
+			document.close();
+			
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			
+		}
+	}
+
+	private static void addComentsInfo(Document document) {
+		Paragraph preface = new Paragraph();
+		preface.add(SW_NINJA_LABEL);
+		addEmptyLine(preface, 1);
+		preface.add(FINAL_DOCMUENT_TEXT);
+		addEmptyLine(preface, 1);
+		preface.add(CONTACT_US_LABEL);
+		preface.add(new Paragraph(SendMail.OUR_MAIL, emailFont));
+		addEmptyLine(preface, 1);
+
+		try {
+			document.add(preface);
+		} catch (DocumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	private static void addTable(Document document,
+			Vector<OneShopPanel> pursaches, double totalPrice) {
+		PdfPTable table = new PdfPTable(3);
+
+		PdfPCell c1 = new PdfPCell(new Phrase(AMOUNT_TABLE_HEAD, smallBold));
+		c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+		table.addCell(c1);
+
+		c1 = new PdfPCell(new Phrase(NAME_TABLE_HEAD, smallBold));
+		c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+		table.addCell(c1);
+
+		c1 = new PdfPCell(new Phrase(PRICE_TABLE_HEAD, smallBold));
+		c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+		table.addCell(c1);
+		table.setHeaderRows(1);
+
+		for (OneShopPanel coctail : pursaches) {
+			table.addCell(new Phrase(getAmountCoctail(coctail)
+					+ AMOUNT_COCTAIL_LABEL));
+			table.addCell(new Phrase(coctail.getName()));
+			table.addCell(new Phrase(String.valueOf(coctail.getTotalPrice())));
+		}
+
+		//
+		table.addCell("");
+		table.addCell(new Phrase(TOTAL_PRICE_TABLE_LABEL, smallBold));
+		table.addCell(new Phrase(totalPrice + PRICE_SYMBOL_LABEL));
+		Paragraph preface = new Paragraph();
+		preface.add(new Paragraph(new Phrase(TABLE_TITLE, subFont)));
+		addEmptyLine(preface, 2);
+		preface.add(table);
+		preface.add(new Paragraph(IVA_TEXT_LABEL));
+		addEmptyLine(preface, 3);
+		try {
+			document.add(preface);
+		} catch (DocumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	// iText allows to add metadata to the PDF which can be viewed in your Adobe
+	// Reader
+	// under File -> Properties
+	private static void addMetaData(Document document) {
+		document.addTitle(DOCUMENT_TITLE);
+		document.addSubject(SUBJECT_DOCUMENT_STR + documentNumber);
+		document.addAuthor(NINJA_SOFTWARE);
+		document.addCreator(NINJA_SOFTWARE);
+	}
+
+	private static void addClientInfo(Document document)
+			throws DocumentException {
+		try {
+			Image image1 = Image.getInstance(LOGO_PATH);
+
+			Paragraph preface = new Paragraph();
+
+			addEmptyLine(preface, 1);
+			preface.add(image1);
+			addEmptyLine(preface, 1);
+
+			preface.add(new Paragraph(DOCUMENT_TITLE, catFont));
+
+			addEmptyLine(preface, 1);
+
+			preface.add(new Paragraph(SUBJECT_DOCUMENT_STR + documentNumber));
+
+			addEmptyLine(preface, 1);
+
+			preface.add(new Paragraph(CLIENT_DATA, subFont));
+
+			addEmptyLine(preface, 1);
+
+			addClientData(preface);
+
+			document.add(preface);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	private static void addClientData(Paragraph preface) {
+		String[] myData = DataProfileManager.getData();
+		for (int i = 0; i < myData.length; i++) {
+			preface.add(new Paragraph(DataProfileManager.dataLabels[i]
+					+ CLIENT_DATA_SEPARATOR + myData[i]));
+		}
+		addEmptyLine(preface, 1);
+
+	}
+
+	private static void addEmptyLine(Paragraph paragraph, int number) {
+		for (int i = 0; i < number; i++) {
+			paragraph.add(new Paragraph(" "));
+		}
+	}
+
+	private static double getAmountCoctail(OneShopPanel coctail) {
+		return coctail.getTotalPrice() / coctail.getSinglePrice();
+	}
+
+}

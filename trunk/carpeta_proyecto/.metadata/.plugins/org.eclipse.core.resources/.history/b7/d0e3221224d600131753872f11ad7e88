@@ -1,0 +1,69 @@
+package homePage;
+
+import java.awt.Font;
+import java.awt.GridLayout;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Vector;
+
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
+import connection.ConnectionPool;
+import connection.DataBaseNames;
+import connection.DataManager;
+
+public class CenterPagePanel extends JPanel {
+
+	private static final int COCTAILS_PER_PAGE = 9;
+
+	/**
+	 * Method Constructor, The constructor makes a new Object who contains 9
+	 * coctailt from the DB.
+	 * 
+	 * @param myDB
+	 * @param nPage
+	 *            , number of the page
+	 * @param searchPage
+	 *            , my parent, usedto link
+	 */
+	public CenterPagePanel(int nPage, SearchResultPage searchPage, String query) {
+		
+		query = query+DataManager.
+		Vector<String> d = DataManager.getData(query,
+				DataBaseNames.COCTAIL_COLUM_PRICE);
+
+		JLabel priceL = new JLabel(PRICE_LABEL + d.firstElement());
+		priceL.setFont(new Font(ARIAL_FONT, Font.ITALIC, 28));
+		allTheInfo.add(priceL);
+		
+		int skipedCoctails = (nPage - 1) * COCTAILS_PER_PAGE;
+
+		this.setLayout(new GridLayout(0, 3));
+		try {
+			Connection c = ConnectionPool.getConnection();
+			Statement st = c.createStatement();
+			ResultSet rs = st.executeQuery(query + " limit " + skipedCoctails
+					+ ",9");
+			String img, name, descr;
+
+			while (rs.next()) {
+				name = rs.getString("nombre");
+				rs.getDouble("precio");
+				descr = rs.getString("Descripcion");
+				img = rs.getString("PathImg");
+				this.add(new CoctailDescriptionPanel(img, name, descr,
+						searchPage));
+
+			}
+			rs.close();
+			st.close();
+			ConnectionPool.returnConnection(c);
+		} catch (SQLException e) {
+			System.out.println("error centerPagePanel");
+			e.printStackTrace();
+		}
+	}
+}
