@@ -91,9 +91,9 @@ public class MailFrame extends JFrame {
 				String txt = body.getText();
 				
 				GifMailFrame showGifWait = new GifMailFrame();
-				WorkerBodyMail sendBodyMail = new WorkerBodyMail(showGifWait, mailF,sub,txt,frame);
+				WorkerBodyMail sendBodyMail = new WorkerBodyMail(showGifWait, mailF,sub,txt);
 				sendBodyMail.execute();
-				
+				showFrame(false);
 			}
 
 		});
@@ -119,6 +119,5 @@ public class MailFrame extends JFrame {
 	public static void showFrame(boolean show) {
 		frame.setVisible(show);
 	}
-
 
 }

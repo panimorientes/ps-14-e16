@@ -16,6 +16,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
+import javax.swing.JOptionPane;
 
 import properties.PropertiesManager;
 
@@ -134,10 +135,12 @@ public class SendMail extends Object {
 			msg.setText(body);
 			// --[ Ask the Transport class to send our mail message
 			Transport.send(msg);
-			
+			JOptionPane.showMessageDialog(null, PropertiesManager
+					.getProperties(PropertiesManager.SM_SEND_OK));
 			return true;
 		} catch (Exception E) {
-			
+			JOptionPane.showMessageDialog(null, PropertiesManager
+					.getProperties(PropertiesManager.SM_SEND_ERROR));
 			E.printStackTrace();
 			return false;
 		}
