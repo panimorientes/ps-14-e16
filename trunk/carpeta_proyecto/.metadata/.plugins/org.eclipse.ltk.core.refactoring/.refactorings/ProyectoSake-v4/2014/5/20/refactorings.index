@@ -1,0 +1,4 @@
+1399999407131	Extract method 'addTextToFAQText'
+1399999602216	Extract constant 'FRAME_X_SIZE'
+1399999612214	Extract constant 'FRAME_Y_SIZE'
+1399999674553	Extract constant 'READ_ME_PATH'

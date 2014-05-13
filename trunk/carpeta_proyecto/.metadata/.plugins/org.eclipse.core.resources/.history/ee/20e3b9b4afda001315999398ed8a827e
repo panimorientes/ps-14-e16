@@ -1,0 +1,85 @@
+package main;
+
+import homePage.SearchResultPage;
+
+import java.awt.BorderLayout;
+import java.awt.Cursor;
+
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+
+import profilePage.DataProfileManager;
+import profilePage.ProfileFrame;
+import properties.PropertiesManager;
+
+import common.BotInfoPanel;
+import common.TopInfoPanel;
+
+public class NinjaFrame extends JFrame {
+
+	private static final int SIZE_Y = 720;
+	private static final int SIZE_X = 1366;
+
+	private BotInfoPanel botP;
+	private TopInfoPanel topP;
+	private SearchResultPage sCenterP;
+	public static final Cursor handCursor = new Cursor(Cursor.HAND_CURSOR);
+	public static final Cursor defaultCursor = new Cursor(Cursor.DEFAULT_CURSOR);
+
+	/**
+	 * Constructor method of the parent of my componetns
+	 */
+	public NinjaFrame() {
+
+		profile = new ProfileFrame();
+		botP = new BotInfoPanel();
+		sCenterP = new SearchResultPage();
+		topP = new TopInfoPanel(sCenterP);
+		this.setVisible(true);
+
+		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+		iniciateFrame();
+	}
+
+	/**
+	 * Iiciate the JFrame.
+	 */
+	private void iniciateFrame() {
+
+		this.setSize(SIZE_X, SIZE_Y);
+		this.setResizable(false);
+		this.setLocationRelativeTo(null);
+		this.setIconImage((new ImageIcon(PropertiesManager
+				.getProperties(PropertiesManager.IMG_COMPANY_LITTLE_PATH))
+				.getImage()));
+		this.setTitle(PropertiesManager
+				.getProperties(PropertiesManager.NF_TITLE_FRAME));
+		this.setLayout(new BorderLayout());
+		this.add(botP, BorderLayout.SOUTH);
+		this.add(topP, BorderLayout.NORTH);
+		this.add(sCenterP, BorderLayout.CENTER);
+
+		this.setVisible(true);
+		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.validate();
+		this.repaint();
+	}
+
+	public static void start() {
+		new NinjaFrame();
+	}
+
+	public static void main(String[] args) {
+		if (DataProfileManager.isInstalled()) {
+			start();
+		} else {
+			new ProfileFrame();
+		}
+
+	}
+
+
+}

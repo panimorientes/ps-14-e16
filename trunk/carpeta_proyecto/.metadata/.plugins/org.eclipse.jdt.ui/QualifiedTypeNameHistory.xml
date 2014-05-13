@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="java.awt.AlphaComposite"/>
-<fullyQualifiedTypeName name="java.awt.Graphics2D"/>
-<fullyQualifiedTypeName name="java.awt.RenderingHints"/>
 <fullyQualifiedTypeName name="java.awt.Image"/>
 <fullyQualifiedTypeName name="common.ResizeImage"/>
 <fullyQualifiedTypeName name="java.awt.image.BufferedImage"/>
@@ -24,7 +21,6 @@
 <fullyQualifiedTypeName name="java.awt.Font"/>
 <fullyQualifiedTypeName name="com.lowagie.text.Font"/>
 <fullyQualifiedTypeName name="org.w3c.dom.Document"/>
-<fullyQualifiedTypeName name="java.util.Date"/>
 <fullyQualifiedTypeName name="com.lowagie.text.pdf.CFFFont.Font"/>
 <fullyQualifiedTypeName name="com.lowagie.text.List"/>
 <fullyQualifiedTypeName name="com.lowagie.text.Element"/>
@@ -59,5 +55,9 @@
 <fullyQualifiedTypeName name="javax.swing.SwingWorker"/>
 <fullyQualifiedTypeName name="mailConfig.Worker"/>
 <fullyQualifiedTypeName name="mailConfig.WorkerMail"/>
+<fullyQualifiedTypeName name="java.util.Date"/>
+<fullyQualifiedTypeName name="java.util.List"/>
+<fullyQualifiedTypeName name="com.adobe.acrobat.PDFDocument"/>
 <fullyQualifiedTypeName name="properties.PropertiesManager"/>
+<fullyQualifiedTypeName name="faqFrame.FaqFrame"/>
 </qualifiedTypeNameHistroy>
