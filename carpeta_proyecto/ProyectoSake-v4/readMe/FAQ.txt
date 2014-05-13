@@ -1,0 +1,34 @@
+
+P: ¿Qué es Proyecto Sake?
+R: Proyecto Sake es una aplicación de escritorio destinada a la compra de cocteles mediante un catalogo online. 
+
+P: ¿Cómo funciona Proyecto Sake?
+R : Dicho catalogo permite navegar por todos los cocteles disponibles, comprarlos, buscarlos por ingrediente y ver una información mas detallada sobre cada uno. Una vez seleccionados los productos a comprar se debe confirmar el pedido y proceder al pago del mismo. Una vez efectuado el pago se tramitara una orden de pedido y el usuario dispondrá de un documento PDF, que se enviará por correo electrónico, con la información del perfil del usuario y la información de la compra.
+
+P: ¿Ventajas de utilizar Proyecto Sake?
+R:  Proyecto Sake es un catalogo de cocteles cuya principal ventaja es que el proceso de compra de cocteles se realiza de una manera cómoda y sencilla desde cualquier equipo en el que este instalada la aplicación . Se trata de desarrollar una interfaz intuitiva para el  usuario y un proceso de compra guiado así como seguro y que no deje lugar a ambigüedades.
+
+P:¿Debo registrarme?
+R: No ya que el perfil de usuario se genera en el proceso de instalación de la aplicación. Una vez creado tiene la posibilidad de modificar dicho perfil desde la misma aplicación.(siguiente pregunta)
+ 
+P: ¿Puedo modificar mi perfil?
+R: Si. La aplicación permite modificar el perfil aunque siempre siguiendo un patrón de datos obligatorio compuesto de nombre, dirección postal, dirección de correo electrónico y teléfono. 
+
+P:¿Dónde puedo consultar mi pedido?
+R: Puede consultar su pedido consultando la cesta de la compra actual en la que se van añadiendo uno a uno los artículos añadidos.(COMPLETAR)
+
+P: ¿Puedo modificar mi cesta?
+R: Si, puede modificar su cesta clicando sobre (COMPLETAR)
+
+P: ¿Qué medios de pago tengo disponibles?
+R:
+
+
+
+
+P: ¿Cómo se que se ha efectuado correctamente el pedido?
+R: A la hora de finalizar el proceso de compra y una vez verificados los datos del cliente se autogenera un PDF con toda la información relativa al pedido, como el importe y productos comprados o el  perfil de usuario.
+
+
+
+

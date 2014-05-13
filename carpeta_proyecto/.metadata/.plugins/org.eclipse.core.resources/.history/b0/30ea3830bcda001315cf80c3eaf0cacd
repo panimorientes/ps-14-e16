@@ -1,0 +1,80 @@
+package faqFrame;
+
+import java.awt.BorderLayout;
+import java.awt.Desktop;
+import java.io.File;
+import java.util.Scanner;
+
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+
+import properties.PropertiesManager;
+
+public class FaqFrame {
+	private static final String USER_MANUAL_PATH = "readMe//userManual.pdf";
+
+	private static String s = "Este es un conjunto de preguntas simples y respuestas cortas sobre la aplicacion."
+			+ "\nPara cualquier duda acudir al mnual de usuario <HIPERVINCULO>";
+	private static JFrame FAQFrame = new JFrame();
+	private static JTextArea FAQHead = new JTextArea(s);
+	private static JTextArea FAQText = new JTextArea();
+
+	static {
+		FAQFrame.setSize(600, 800);
+		FAQFrame.setLocationRelativeTo(null);
+		FAQFrame.setIconImage((new ImageIcon(PropertiesManager
+				.getProperties(PropertiesManager.IMG_COMPANY_LITTLE_PATH))
+				.getImage()));
+		FAQFrame.setTitle(PropertiesManager
+				.getProperties(PropertiesManager.FF_TITLE_FRAME));
+		FAQFrame.setLayout(new BorderLayout());
+
+		JScrollPane scroll = new JScrollPane(FAQText);
+		FAQFrame.add(scroll, BorderLayout.CENTER);
+	}
+
+	public static void main(String[] args) {
+		FAQFrame.setVisible(true);
+		FAQFrame.add(FAQHead, BorderLayout.NORTH);
+
+		try (Scanner sc = new Scanner(new File("readMe//FAQ.txt"))) {
+			String txt = "";
+			while (sc.hasNextLine()) {
+				txt = txt + sc.nextLine() + "\n";
+			}
+			FAQText.setText(txt);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		setDefaultTextAreaOption(FAQHead);
+		setDefaultTextAreaOption(FAQText);
+		FAQFrame.validate();
+		FAQFrame.repaint();
+	}
+
+	private static void setDefaultTextAreaOption(JTextArea jTxtArea) {
+		jTxtArea.setLineWrap(true);
+		jTxtArea.setBackground(null);
+		jTxtArea.setEditable(false);
+	}
+
+	private static JLabel getUserManualLabel() {
+		JLabel userManualLabel = new JLabel(
+				PropertiesManager.getProperties(FF_USER_MANUAL_LABEL));
+
+		return userManualLabel;
+	}
+
+	private static void showUserManual() {
+		try {
+			Desktop.getDesktop().open(new File(USER_MANUAL_PATH));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+}

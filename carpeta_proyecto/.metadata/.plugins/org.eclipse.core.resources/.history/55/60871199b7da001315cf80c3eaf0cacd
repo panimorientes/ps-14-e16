@@ -1,0 +1,52 @@
+package faqFrame;
+
+import java.io.File;
+import java.util.Scanner;
+
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+
+import properties.PropertiesManager;
+
+public class FaqFrame{
+	
+	private static JFrame FAQFrame = new JFrame();
+	private static JPanel FAQPanel = new JPanel();
+	
+	static{
+		FAQFrame.setSize(600, 800);
+		FAQFrame.setLocationRelativeTo(null);
+		FAQFrame.setIconImage((new ImageIcon(PropertiesManager
+				.getProperties(PropertiesManager.IMG_COMPANY_LITTLE_PATH))
+				.getImage()));
+		FAQFrame.setTitle(PropertiesManager
+				.getProperties(PropertiesManager.FF_TITLE_FRAME));
+		
+		JScrollPane scroll = new JScrollPane(FAQPanel);
+		scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+       
+//		scroll.add(FAQPanel);
+		FAQFrame.add(scroll);
+
+	}
+	
+	public static void main(String[] args){
+		FAQFrame.setVisible(true);
+		try(Scanner sc = new Scanner(new File("readMe//FAQ.txt"))){
+			while(sc.hasNextLine()){
+				FAQPanel.add(new JLabel(sc.nextLine()+"\n"));
+			}
+			
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		FAQFrame.validate();
+		FAQFrame.repaint();
+	}
+	
+}
