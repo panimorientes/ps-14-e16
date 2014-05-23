@@ -174,31 +174,15 @@ public class CenterCoctailPanel extends JPanel {
 
 		panel.validate();
 		panel.repaint();
-		westPanel.add(panel, BorderLayout.CENTER);
+		westPanel.add(panel,BorderLayout.CENTER);
 		JPanel backPanelBtn = new JPanel();
-
-		iniciateBackBtn();
-
-		backPanelBtn.add(back);
-		westPanel.add(backPanelBtn, BorderLayout.SOUTH);
-		this.add(westPanel, BorderLayout.WEST);
-
-	}
-	
-	private void iniciateBackBtn(){
-		back = new JButton(
-				PropertiesManager
-						.getProperties(PropertiesManager.CCP_BTN_BACK_NAME));
 		
-		back.addActionListener(new ActionListener(){
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				searchPage.goBack();
-				
-			}
-			
-		});
+		back = new JButton(PropertiesManager.getProperties(PropertiesManager.CCP_BTN_BACK_NAME))
+		
+		backPanelBtn.add(back);
+		westPanel.add(backPanelBtn,BorderLayout.SOUTH);
+		this.add(westPanel, BorderLayout.WEST);
+	
 	}
 
 	/**

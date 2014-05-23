@@ -4,17 +4,17 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-import properties.PropertiesManager;
-
 /**
  * Static clas who manage the DataBase Connection
  */
 public class ConnectionManager {
 
+
+
+
 	static {
 		try {
-			Class.forName(PropertiesManager
-					.getProperties(PropertiesManager.DB_DRIVER_CLASS));
+			Class.forName();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace(System.err);
 		}
@@ -28,9 +28,7 @@ public class ConnectionManager {
 	 *             , in case of error thows a SQLException.
 	 */
 	public final static Connection getConnection() throws SQLException {
-		return DriverManager.getConnection(PropertiesManager
-				.getProperties(PropertiesManager.DB_DRIVER_NAME),
-				PropertiesManager.getProperties(PropertiesManager.DB_USER),
-				PropertiesManager.getProperties(PropertiesManager.DB_PASS));
+		return DriverManager.getConnection(DRIVER_URL, USER, PASSWORD);
 	}
+
 }

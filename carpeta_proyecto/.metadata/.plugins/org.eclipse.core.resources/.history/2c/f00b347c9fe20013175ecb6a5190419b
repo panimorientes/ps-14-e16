@@ -194,7 +194,7 @@ public class CenterCoctailPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				searchPage.goBack();
+				searchPage.goToHome();
 				
 			}
 			

@@ -25,7 +25,6 @@ public class PropertiesManager {
 	public static final String CCP_INGREDIENT_LIST_SEPARATOR = "ccp_ingredient_list_separator";
 	public static final String CCP_INGREDIENT_LIST_LABEL = "ccp_ingredient_list_label";
 	public static final String CCP_BTN_ADD_NAME = "ccp_btn_add_name";
-	public static final String CCP_BTN_BACK_NAME = "ccp_btn_back_name";
 
 	// BotInfoPanel keys
 	public static final String BIP_CONTACT_LABEL = "bip_contact_label";

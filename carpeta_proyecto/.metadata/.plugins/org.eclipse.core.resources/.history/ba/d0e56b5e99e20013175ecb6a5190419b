@@ -25,7 +25,6 @@ public class PropertiesManager {
 	public static final String CCP_INGREDIENT_LIST_SEPARATOR = "ccp_ingredient_list_separator";
 	public static final String CCP_INGREDIENT_LIST_LABEL = "ccp_ingredient_list_label";
 	public static final String CCP_BTN_ADD_NAME = "ccp_btn_add_name";
-	public static final String CCP_BTN_BACK_NAME = "ccp_btn_back_name";
 
 	// BotInfoPanel keys
 	public static final String BIP_CONTACT_LABEL = "bip_contact_label";
@@ -123,7 +122,7 @@ public class PropertiesManager {
 	//DB
 	public static final String DB_USER = "db_user";
 	public static final String DB_PASS = "db_pass";
-	public static final String DB_DRIVER_CLASS = "db_driver_class";
+	public static final String DB_DRIVER_CLASS = "com.mysql.jdbc.Driver";
 	public static final String DB_DRIVER_NAME = "db_driver_name";
 	
 	private static Properties myProp = new Properties();

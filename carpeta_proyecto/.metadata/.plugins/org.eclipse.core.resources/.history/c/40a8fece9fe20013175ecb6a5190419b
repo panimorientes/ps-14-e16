@@ -29,14 +29,13 @@ public class SearchResultPage extends JPanel {
 	private PageNumberManager pageNumbers;
 	private CenterCoctailPanel showCoctailPage;
 	private ProfileCenterPage profilePage;
-	private String query, homeQuery;
+	private String query;
 	private JPanel noResultFound;
 
 	public SearchResultPage() {
 
 		query = DataManager.getQuery(DataManager.SELECT,
 				DataManager.SELECT_ALL, DataBaseNames.COCTAIL_TABLE);
-		homeQuery=query;
 		this.myCenterPanel = new CenterPagePanel(1, this, query);
 		this.profilePage = new ProfileCenterPage(this);
 
@@ -155,7 +154,6 @@ public class SearchResultPage extends JPanel {
 
 		this.add(myCenterPanel, BorderLayout.CENTER);
 		this.add(pageNumbers, BorderLayout.SOUTH);
-		this.updateQuery(homeQuery);
 		this.validate();
 		this.repaint();
 	}

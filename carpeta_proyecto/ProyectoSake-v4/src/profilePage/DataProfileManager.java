@@ -27,9 +27,9 @@ public class DataProfileManager {
 			"ap2:=", "fnac:=", "dir:=", "ciudad:=", "codP:=", "tlf:=",
 			"e-mail:=" };
 
-	public static String[] dataLabels = { "NIF", "Nombre", "Primer Apellido",
-			"Segundo Apellido", "Fecha Nacimiento", "Direccion", "Ciudad",
-			"Codigo Postal", "Telefono", "E-mail" };
+	public static String[] dataLabels = { "NIF", "Nombre", "Primer apellido",
+			"Segundo apellido", "Fecha nacimiento", "Direcci\u00f3n", "Ciudad",
+			"C\u00f3digo postal", "Tel\u00e9fono", "E-mail" };
 
 	private static DateFormat dateFormat = new SimpleDateFormat(
 			"yyyy/MM/dd HH:mm:ss");

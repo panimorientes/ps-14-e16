@@ -29,7 +29,7 @@ public class ConnectionManager {
 	 */
 	public final static Connection getConnection() throws SQLException {
 		return DriverManager.getConnection(PropertiesManager
-				.getProperties(PropertiesManager.DB_DRIVER_NAME),
+				.getProperties("jdbc:mysql://"+PropertiesManager.DB_DRIVER_NAME),
 				PropertiesManager.getProperties(PropertiesManager.DB_USER),
 				PropertiesManager.getProperties(PropertiesManager.DB_PASS));
 	}
