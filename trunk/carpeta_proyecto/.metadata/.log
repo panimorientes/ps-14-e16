@@ -3111,3 +3111,73 @@ Binding(SHIFT+DEL,
 		,,true),null),
 	org.eclipse.ui.defaultAcceleratorConfiguration,
 	org.eclipse.ui.contexts.window,,,system)
+!SESSION 2014-05-20 01:44:42.420 -----------------------------------------------
+eclipse.buildId=M20130204-1200
+java.version=1.7.0_21
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=es_ES
+Command-line arguments:  -os win32 -ws win32 -arch x86_64
+
+!ENTRY org.eclipse.jface 2 0 2014-05-20 01:45:27.736
+!MESSAGE Keybinding conflicts occurred.  They may interfere with normal accelerator operation.
+!SUBENTRY 1 org.eclipse.jface 2 0 2014-05-20 01:45:27.736
+!MESSAGE A conflict occurred for SHIFT+DEL:
+Binding(SHIFT+DEL,
+	ParameterizedCommand(Command(org.eclipse.ui.edit.cut,Cut,
+		Cut the selection to the clipboard,
+		Category(org.eclipse.ui.category.edit,Edit,null,true),
+		org.eclipse.ui.internal.MakeHandlersGo@47e9ff99,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.ui.contexts.dialogAndWindow,,,system)
+Binding(SHIFT+DEL,
+	ParameterizedCommand(Command(org.eclipse.datatools.sqltools.result.removeAllInstances,Remove All Visible Results,
+		,
+		Category(org.eclipse.datatools.sqltools.result.category,SQL Results View,null,true),
+		org.eclipse.ui.internal.MakeHandlersGo@538bbab1,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.ui.contexts.window,,,system)
+Binding(SHIFT+DEL,
+	ParameterizedCommand(Command(org.eclipse.graphiti.ui.internal.action.RemoveAction,Remove,
+		Remove selected Pictogram Elements,
+		Category(org.eclipse.graphiti.ui.Graphiti_Category,Edit,Graphiti Diagram Editor,true),
+		org.eclipse.ui.internal.MakeHandlersGo@7a8de550,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.ui.contexts.window,,,system)
+!SESSION 2014-05-23 18:30:21.919 -----------------------------------------------
+eclipse.buildId=M20130204-1200
+java.version=1.7.0_21
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=es_ES
+Command-line arguments:  -os win32 -ws win32 -arch x86_64
+
+!ENTRY org.eclipse.jface 2 0 2014-05-23 18:31:06.278
+!MESSAGE Keybinding conflicts occurred.  They may interfere with normal accelerator operation.
+!SUBENTRY 1 org.eclipse.jface 2 0 2014-05-23 18:31:06.278
+!MESSAGE A conflict occurred for SHIFT+DEL:
+Binding(SHIFT+DEL,
+	ParameterizedCommand(Command(org.eclipse.ui.edit.cut,Cut,
+		Cut the selection to the clipboard,
+		Category(org.eclipse.ui.category.edit,Edit,null,true),
+		org.eclipse.ui.internal.MakeHandlersGo@484e83d4,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.ui.contexts.dialogAndWindow,,,system)
+Binding(SHIFT+DEL,
+	ParameterizedCommand(Command(org.eclipse.datatools.sqltools.result.removeAllInstances,Remove All Visible Results,
+		,
+		Category(org.eclipse.datatools.sqltools.result.category,SQL Results View,null,true),
+		org.eclipse.ui.internal.MakeHandlersGo@1ab0f862,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.ui.contexts.window,,,system)
+Binding(SHIFT+DEL,
+	ParameterizedCommand(Command(org.eclipse.graphiti.ui.internal.action.RemoveAction,Remove,
+		Remove selected Pictogram Elements,
+		Category(org.eclipse.graphiti.ui.Graphiti_Category,Edit,Graphiti Diagram Editor,true),
+		org.eclipse.ui.internal.MakeHandlersGo@5882f79e,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.ui.contexts.window,,,system)

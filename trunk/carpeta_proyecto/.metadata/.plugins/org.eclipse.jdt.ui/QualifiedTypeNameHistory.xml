@@ -58,6 +58,6 @@
 <fullyQualifiedTypeName name="java.util.Date"/>
 <fullyQualifiedTypeName name="java.util.List"/>
 <fullyQualifiedTypeName name="com.adobe.acrobat.PDFDocument"/>
-<fullyQualifiedTypeName name="properties.PropertiesManager"/>
 <fullyQualifiedTypeName name="faqFrame.FaqFrame"/>
+<fullyQualifiedTypeName name="properties.PropertiesManager"/>
 </qualifiedTypeNameHistroy>

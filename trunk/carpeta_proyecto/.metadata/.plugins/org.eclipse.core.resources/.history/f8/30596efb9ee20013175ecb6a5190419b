@@ -33,7 +33,7 @@ public class CenterCoctailPanel extends JPanel {
 
 	private String name;
 	private JPanel centerInfo, allTheInfo, ingrPanel;
-	private JButton buyMe, back;
+	private JButton buyMe;
 	private SearchResultPage searchPage;
 
 	/**
@@ -130,7 +130,8 @@ public class CenterCoctailPanel extends JPanel {
 				DataManager.getColumns(DataBaseNames.COCTAIL_COLUM_PRICE));
 
 		JLabel priceL = new JLabel(
-				(PropertiesManager.getProperties(PropertiesManager.PRICE_LABEL))
+				(PropertiesManager
+						.getProperties(PropertiesManager.PRICE_LABEL))
 						+ d.firstElement()
 						+ (PropertiesManager
 								.getProperties(PropertiesManager.PRICE_SYMBOL_LABEL)));
@@ -174,31 +175,12 @@ public class CenterCoctailPanel extends JPanel {
 
 		panel.validate();
 		panel.repaint();
-		westPanel.add(panel, BorderLayout.CENTER);
+		westPanel.add(panel,BorderLayout.CENTER);
 		JPanel backPanelBtn = new JPanel();
-
-		iniciateBackBtn();
-
-		backPanelBtn.add(back);
-		westPanel.add(backPanelBtn, BorderLayout.SOUTH);
+		backPanelBtn.add(new JButton("Atras"));
+		westPanel.add(backPanelBtn,BorderLayout.SOUTH);
 		this.add(westPanel, BorderLayout.WEST);
-
-	}
 	
-	private void iniciateBackBtn(){
-		back = new JButton(
-				PropertiesManager
-						.getProperties(PropertiesManager.CCP_BTN_BACK_NAME));
-		
-		back.addActionListener(new ActionListener(){
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				searchPage.goBack();
-				
-			}
-			
-		});
 	}
 
 	/**
