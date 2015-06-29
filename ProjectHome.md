@@ -1,0 +1,1 @@
+Aplicación para escritorio desarrollada en Java que cataloga cócteles.Los cócteles están almacenados en una base de datos mySQL.
